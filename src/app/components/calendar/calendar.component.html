@@ -1,0 +1,35 @@
+<div class="row justify-content-center">
+    <form>
+    <div class="form-group">
+        <div class="mb-3">
+            <label for="my-input">Event Title</label>
+            <input id="sumary" class="form-control" type="text"
+        [(ngModel)]="event.summary" name="sumary">
+        </div>
+      
+        <div class="mb-3">
+            <label for="my-input">Event From</label>
+            <input id="from" class="form-control" type="datetime-local"
+        [(ngModel)]="fromDate" name="from">
+        </div>
+
+        <div class="mb-3">
+             <label for="my-input">Event to</label>
+            <input id="to" class="form-control" type="datetime-local"
+        [(ngModel)]="toDate" name="to">
+        </div>
+        
+
+       
+
+    </div>
+    <div class="mb-3">
+         <button class="btn btn-primary" 
+        (click)="postEvent()">Agregar Evento</button>
+    </div>
+   
+</form>
+<iframe src="https://calendar.google.com/calendar/embed?src=jn0g4cmsvfdupfh0b9pit67fi8%40group.calendar.google.com&ctz=America%2FArgentina%2FBuenos_Aires" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+</div>
+
+

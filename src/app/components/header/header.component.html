@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg bg-dark text-light">
+    <div class="container-fluid">
+      <a class="navbar-brand">Gathering!</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a  class="nav-link active" aria-current="page" type="button" [routerLink]="'principal'">Inicio </a>
+          </li>
+          <li class="nav-item">
+            <a  class="nav-link" aria-current="page" type="button">Informacion</a>
+          </li>
+          <li class="nav-item">
+            <a  class="nav-link" aria-current="page" type="button">Promociones y costos</a>
+          </li>
+          <li class="nav-item" *ngIf="loginService.userLoggedIn()">
+              <a class="nav-link" [routerLink]="'calendar'">Calendario</a>
+          </li>
+        </ul> 
+        <form class="d-flex">
+          <div *ngIf="loginService.userLoggedIn()">
+            <ngx-avatar size="50" name="{{loginService.userLogged()}}"></ngx-avatar>
+            
+          </div>
+        </form>
+        <form class="d-flex">
+          <h6>{{loginService.userLogged()}}</h6>
+        </form>
+        
+        <form class="d-flex">
+          <button type="button" class="btn btn-primary"  *ngIf="!loginService.userLoggedIn()"  [routerLink]="['login']">Iniciar Sesion </button>
+          <a *ngIf="loginService.userLoggedIn()" [routerLink]="['login']" (click)="logout()">
+             Cerrar Sesion
+            </a>
+        </form>
+       
+            
+      </div>
+    </div>
+  </nav> 
