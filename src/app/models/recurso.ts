@@ -1,12 +1,11 @@
 export class Recurso {
     _id!: string;
     nombre!: string;
-    digital!: string; 
-    reunión!: Reunion;
+    archivoUrl!: string; 
     tipo!: string;
 
     constructor(){
-        
+
     }
 
 }
