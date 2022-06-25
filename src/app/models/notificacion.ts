@@ -2,7 +2,9 @@ import { EstadoNotificacion } from "./estado-notificacion";
 
 export class Notificacion {
     _id!: string;
-    estado!: EstadoNotificacion;
+    titulo!: string;
+    descripcion!: string;
+    estado!: string;
 
     constructor(){
         

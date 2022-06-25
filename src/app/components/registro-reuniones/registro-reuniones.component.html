@@ -1,1 +1,22 @@
-<p>registro-reuniones works!</p>
+<div class="card">
+    <form action="">
+
+        <div class="mb-3">
+            <label for="fecha">Ingrese Fecha:</label>
+            <input type="date" id="fecha" name="fecha" [(ngModel)]="reunion.fecha">
+        </div>
+        <div class="mb-3">
+            <label for="horaInicio">Ingrese Hora Inicio:</label>
+            <input type="time" id="horaInicio" name="horaInicio" [(ngModel)]="reunion.horaReunion">
+        </div>
+        <div>
+            <label for="horaFin">Ingrese Hora Finalizacion: </label>
+            <input type="time" id="horaFin" name="horaFin" [(ngModel)]="reunion.horaFinalizacion">
+        </div>
+        <div>
+            <label for="tipoReunion">Seleccione el Tipo de Reunion:</label>
+            <select name="tipoReunion" id="tipoReunion"></select>
+        </div>
+    </form>
+
+</div>

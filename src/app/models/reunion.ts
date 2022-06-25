@@ -1,6 +1,6 @@
-import { EstadoReunion } from "./estado-reunion";
+import { Empleado } from "./empleado";
+import { Notificacion } from "./notificacion";
 import { Oficina } from "./oficina";
-import { Participante } from "./participante";
 import { Recurso } from "./recurso";
 import { TipoReunion } from "./tipo-reunion";
 
@@ -10,12 +10,18 @@ export class Reunion {
     horaReunion!: string;
     horaFinalizacion!:string;
     tipoReunion!: TipoReunion;
-    estadoReunion!: EstadoReunion;
+    estadoReunion!: string;
     oficina!: Oficina;
-    participantes!: Array <Participante>;
+    participantes!: Array <Empleado>;
     recursos!: Array <Recurso>;
     prioridad!: number;
     codigoQr!:string;
+    notificacion!: Array<Notificacion>;
+
+    constructor(){
+        this.recursos = new Array<Recurso>();
+        this.tipoReunion = new TipoReunion();
+    }
 }
 
 

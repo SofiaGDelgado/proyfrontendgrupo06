@@ -1,3 +1,5 @@
+import { Reunion } from "./reunion";
+
 export class Oficina {
     _id!: string;
     reuniones!: Array<Reunion>;
