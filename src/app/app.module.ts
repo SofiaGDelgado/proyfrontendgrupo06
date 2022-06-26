@@ -20,6 +20,7 @@ import { AudienciasComponent } from './components/audiencias/audiencias.componen
 import { EstadisticaComponent } from './components/estadistica/estadistica.component';
 import { GestionEmpleadosComponent } from './components/gestion-empleados/gestion-empleados.component';
 import { RegistroReunionesComponent } from './components/registro-reuniones/registro-reuniones.component';
+import { FormEmpleadoComponent } from './components/form-empleado/form-empleado.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { RegistroReunionesComponent } from './components/registro-reuniones/regi
     AudienciasComponent,
     EstadisticaComponent,
     GestionEmpleadosComponent,
-    RegistroReunionesComponent
+    RegistroReunionesComponent,
+    FormEmpleadoComponent
   ],
   imports: [
     BrowserModule,

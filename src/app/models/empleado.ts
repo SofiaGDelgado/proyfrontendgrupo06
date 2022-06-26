@@ -11,13 +11,15 @@ export class Empleado {
     username!: string;
     password !: string;
     rol !:string;
-    reuniones!: Array<Reunion>;
-    notificaciones!: Array <Notification> ;
+    //reuniones!: Array<Reunion>;
+    //notificaciones!: Array <Notification> ;
     cantidadReuniones!: number;
     estadoEmpleado!: boolean;
 
     constructor(){
-
+        this.dependencia = new Dependencia();
+        this.cantidadReuniones = 0;
+        this.estadoEmpleado = true;
     }
 
 }

@@ -1,0 +1,42 @@
+<form class="card w-50 m-auto row" action="">
+
+    <div class="col-12">
+        <label for="nombre" class="form-label">Nombre: </label>
+        <input type="text" id="nombre" name="nombre" class="form-control" [(ngModel)]="empleado.nombre">
+    </div>
+    <div class="col-12">
+        <label for="apellido" class="form-label">Apellido: </label>
+        <input type="text" id="apellido" name="apellido" class="form-control" [(ngModel)]="empleado.apellido">
+    </div>
+    <div class="col-12">
+        <label for="email" class="form-label">Email: </label>
+        <input type="email" id="email" name="email" class="form-control" [(ngModel)]="empleado.email">
+    </div>
+    <div class="col-12">
+        <label for="legajo" class="form-label">Legajo: </label>
+        <input type="text" id="legajo" name="legajo" class="form-control" [(ngModel)]="empleado.legajo">
+    </div>
+    <div class="col-12">
+        <label for="username" class="form-label">Username: </label>
+        <input type="text" id="username" name="username" class="form-control" [(ngModel)]="empleado.username">
+    </div>
+    <div class="col-12">
+        <label for="password" class="form-label">Password: </label>
+        <input type="text" id="password" name="password" class="form-control" [(ngModel)]="empleado.password">
+    </div>
+    <div class="col-12">
+        <label for="dependencia" class="form-label">Dependencia: </label>
+        <select name="dependencia" id="dependencia" class="form-select" [(ngModel)]="empleado.dependencia">
+            <option *ngFor="let d of dependencias" [ngValue]="d">{{d.nombre}}</option>
+        </select>
+    </div>
+    <div class="col-12">
+        <label for="rol" class="form-label">Rol: </label>
+        <select name="rol" id="rol" class="form-select" [(ngModel)]="empleado.rol">
+            <option value="administrador">Administrador</option>
+            <option value="participante">Participante</option>
+        </select>
+    </div>
+
+    <button type="button" class="btn btn-dark" (click)="altaEmpleado()">Registrar</button>
+</form>

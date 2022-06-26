@@ -26,6 +26,8 @@ export class RegistroReunionesComponent implements OnInit {
 
   getTipoReunion(){
     this.tiposReunion = new Array<TipoReunion>();
-    this.reunionService
+    this.reunionService.getTiposReunion().subscribe((tR)=> {
+      this.tiposReunion = tR;
+    })
   }
 }
