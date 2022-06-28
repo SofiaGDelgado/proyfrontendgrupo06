@@ -21,6 +21,8 @@ import { EstadisticaComponent } from './components/estadistica/estadistica.compo
 import { GestionEmpleadosComponent } from './components/gestion-empleados/gestion-empleados.component';
 import { RegistroReunionesComponent } from './components/registro-reuniones/registro-reuniones.component';
 
+import { MdbPopoverModule } from 'mdb-angular-ui-kit/popover';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { RegistroReunionesComponent } from './components/registro-reuniones/regi
     AppRoutingModule, 
     HttpClientModule,
     FormsModule,
-    AvatarModule
+    AvatarModule,
+    MdbPopoverModule,
+    BrowserAnimationsModule,
 
   ],
   providers: [ LoginService,
