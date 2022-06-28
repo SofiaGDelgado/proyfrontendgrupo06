@@ -1,48 +1,49 @@
-<body>
-    <!--<div class="col-md-6 col-md-offset-3">
-    <h2>Login</h2>
-    <form name="form">
-    <div class="form-group">
-    <label for="username">Username</label>
-    <input type="text" class="formcontrol" name="username" [(ngModel)]="userform.username" />
-    </div>
-    <div class="form-group">
-    <label for="password">Password</label>
-    <input type="password" class="formcontrol" name="password" [(ngModel)]="userform.password" />
-    </div>
-    <div class="form-group">
-    <button class="btn btn-primary" (click)="login()">Login</button>
-    </div>
-    <div class="alert-danger">{{msglogin}}</div>
-    </form>
-</div>-->
+<div class="row container-fluid">
 
-<div class="login">
-
-    
-    
-    <h1 class="text-center">LOG IN</h1>
-    
-    <form class="needs-validation" name="form">
-        <div class="form-group was-validated">
-            <label class="form-label" for="username">Usuario</label>
-            <input class="form-control" type="" name="username"  [(ngModel)]="userform.username" required/>
-            <div class="invalid-feedback">
-                Ingrese su nombre de usuario
-            </div>
+    <div id="contenedor-form" class="login row">
+        
+        <div class=" col-lg-5 col-md-5 mb-3 ms-md-3">
+            
+            <h1 class="text-center">
+                Welcome
+            </h1>
+            <p>
+             Ingrese con su cuenta: 
+            </p>
+            <form class="needs-validation" name="form">
+                <div class="form-group was-validated">
+                   
+                    <label class="form-label" for="username"> <i class="fa-solid fa-user"></i>  Usuario</label>
+                
+                    <input class="form-control" type="" name="username"  [(ngModel)]="userform.username" required/>   
+                    <div class="invalid-feedback">
+                        Ingrese su nombre de usuario
+                    </div>
+                </div>
+                <div class="form-group was-validated">
+                    
+                    <label class="form-label" for="password"><i class="fa-solid fa-lock"></i>  Contraseña</label>
+                    <input class="form-control" type="password" name="password" [(ngModel)]="userform.password"  required/>
+                    <div class="invalid-feedback">
+                        Ingrese por favor su contraseña
+                    </div>
+                </div>
+                <div id="btns">
+                   
+                    <input class="btn btn-login"  value="LOGIN" (click)="login()">
+                    <div class="alert-danger">{{msglogin}}</div>
+                    
+                </div>
+               
+                
+            </form>
         </div>
-        <div class="form-group was-validated">
-            <label class="form-label" for="password">Contraseña</label>
-            <input class="form-control" type="password" name="password" [(ngModel)]="userform.password"  required/>
-            <div class="invalid-feedback">
-                Ingrese por favor su contraseña
-            </div>
+        <div id="img-login" class="col-lg-5 col-md-5 mb-3 ms-md-3" >
+              <img src="/assets/undraw_Access_account.png" alt="...">
+              <p>Se ha olvidado su contraseña? <a href="">Ingrese aqui</a></p>
+            <!-- <input  class="btn btn-atras"  value="ATRAS" (click)="irAPrincipal()"> -->
         </div>
-          <input class="btn btn-success w-100"  value="Sign in" (click)="login()">
-          <div class="alert-danger">{{msglogin}}</div>
-          <input class="btn btn-primary w-100"  value="Volver" (click)="irAPrincipal()">
-    </form>
+        
+    </div>
 
 </div>
-
-</body>
