@@ -19,3 +19,12 @@
   background-color: #06ffeeb9;
   color: #ffffff;
 }
+.dropdown ngx-avatar{
+  margin-right: 10px;
+  font-family: 'Readex Pro';
+}
+.dropdown strong{
+  font-family: 'Readex Pro', sans-serif;
+  color: #ffffff;
+  font-size: 20px;
+}
