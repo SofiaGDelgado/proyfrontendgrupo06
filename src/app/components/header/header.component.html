@@ -20,20 +20,25 @@
           </li>
         </ul> 
         <form class="d-flex">
-          <div *ngIf="loginService.userLoggedIn()">
-            <ngx-avatar size="50" name="{{loginService.userLogged()}}"></ngx-avatar>
-            
+          <div class="dropdown" *ngIf="loginService.userLoggedIn()">
+            <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+              <ngx-avatar size="50" name="{{loginService.userLogged()}}"></ngx-avatar>
+              <strong>{{loginService.userLogged()}}</strong>
+            </a>
+            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+              <li><a class="dropdown-item" href="#">Perfil</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item"  *ngIf="loginService.userLoggedIn()" [routerLink]="['login']" (click)="logout()">
+             Cerrar Sesion
+            </a></li>
+            </ul>
           </div>
+         
         </form>
-        <form class="d-flex">
-          <h6>{{loginService.userLogged()}}</h6>
-        </form>
-        
+       
         <form class="d-flex">
           <button type="button" class="btn"  *ngIf="!loginService.userLoggedIn()"  [routerLink]="['login']">Iniciar Sesion </button>
-          <a *ngIf="loginService.userLoggedIn()" [routerLink]="['login']" (click)="logout()">
-             Cerrar Sesion
-            </a>
+          
         </form>
        
             
