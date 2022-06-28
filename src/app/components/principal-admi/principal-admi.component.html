@@ -1,55 +1,98 @@
-
-            <!-- Sidebar-->
+<!-- Sidebar-->
+<div class="row container-fluid">
             <div class=" row border-end text-ligth" id="sidebar-wrapper" >
-                <div class="list-group bg-dark text-light border-white col-4" style="height: 800px; color: aliceblue; ">
-                    <a id="item" class="list-group-item list-group-item-action list-group-item-ligth text-light bg-dark p-3" ></a>
-                    <a id="item" class="list-group-item list-group-item-action list-group-item-light text-ligth bg-dark  p-3" (click)="GestionEmpleados()">Gestion empleados</a>
-                    <a id="item" class="list-group-item list-group-item-action list-group-item-light text-ligth bg-dark  p-3" (click)="RegistroReuniones()">Registro reuniones</a>
-                   
-                    <a id="item" class="list-group-item list-group-item-action list-group-item-light text-ligth bg-dark  p-3" href="#!">Busqueda Avanzada</a>
-                   
-                    <a id="item" class="list-group-item list-group-item-action list-group-item-light text-ligth bg-dark  p-3" (click)="Estadistica()">Estadisticas</a>
+                <div class="list-group bg-light text-dark border-white col-4" style="height: auto;  ">
+                    <span class="fs-4">MENU</span>
+                    <hr>
+                    <a id="item" class="list-group-item list-group-item-action list-group-item-light text-ligth bg-light p-3" (click)="GestionEmpleados()">Empleados</a>
+                    <a id="item" class="list-group-item list-group-item-action list-group-item-light text-ligth bg-light p-3" (click)="RegistroReuniones()">Reuniones</a>
+                    <a id="item" class="list-group-item list-group-item-action list-group-item-light text-ligth bg-light p-3" (click)="Estadistica()">Estadisticas</a>
                   
                 </div>
-                <div class="col-7">
-                <div class="row d-flex ">
-                    <div class="card col-6" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                <div class="col-9">
+                    <div id="inicio">
+                        <!-- Background image -->
+                        <div  class="text-center">
+                          
+                            <div class="d-flex justify-content-center align-items-center h-100">
+                              <div class="text-white">
+                                
+                                <h1 class="mb-3"><i class="fa-brands fa-guilded"></i> <br> Inicio Administrador</h1>
+                                <h3 class="mb-3">Plataforma especializada en la organizacion, planificacion y control de reuniones empresariales</h3>
+                              </div>
+                            </div>
+                         
+                        </div>
+                        <div id="flecha">
+                            <i class="fa-solid fa-angle-down"></i>
+                        </div>
+                      
+                        <div id="container-cards" class=" d-flex align-items-start justify-content-center" >
+                            <div class="col">
+                                <div class="card">
+                                    <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                                      <img
+                                        src="/assets/undraw_Team.png"
+                                        class="img-fluid"
+                                      />
+                                      <a href="#!">
+                                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                                      </a>
+                                    </div>
+                                    <div class="card-body">
+                                      <h5 class="card-title">Empleados</h5>
+                                      <p class="card-text">
+                                        Gestion de empleados
+                                      </p>
+                                    </div>
+                                  </div>
+                            </div>
+                            <div class="col">
+                                <div class="card">
+                                    <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                                      <img
+                                        src="/assets/undraw_Meeting.png"
+                                        class="img-fluid"
+                                      />
+                                      <a href="#!">
+                                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                                      </a>
+                                    </div>
+                                    <div class="card-body">
+                                      <h5 class="card-title">Reuniones</h5>
+                                      <p class="card-text">
+                                        Gestion de reuniones
+                                      </p>
+                                      
+                                    </div>
+                                  </div>
+                            </div>
+                            <div class="col">
+                                <div class="card">
+                                    <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                                      <img
+                                        src="/assets/undraw_Statistics.png"
+                                        class="img-fluid"
+                                      />
+                                      <a href="#!">
+                                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                                      </a>
+                                    </div>
+                                    <div class="card-body">
+                                      <h5 class="card-title">Estadisticas</h5>
+                                      <p class="card-text">
+                                        Grafico de torta
+                                        Grafico de barra
+                                      </p>
+                                  
+                                    </div>
+                                  </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card col-6" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="card col-6" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                    <div class="card col-6" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-
+                      
+                    
+            
                 </div>
             </div>
-        </div>
-<p>principal-admi works!</p>
+</div>

@@ -1,6 +1,20 @@
+.row{
+  margin: 0px;
+  padding: 0px;
+  margin-top: 70px;
+}
+.container-fluid{
+  margin: 0px;
+  padding: 0px;
+  background-image: url('/assets/fondo-header.jpg');
+}
+#inicio{
+  padding: 20px;
+  height: auto;
+}
 #item:hover{
     background: white;
-    color: darkblue;
+    color: rgb(94, 49, 230);
     cursor: pointer;
 
 }
@@ -11,6 +25,7 @@
 #sidebar-wrapper {
   min-height: 100vh;
   margin-left: -15rem;
+ 
  
 }
 
@@ -44,4 +59,17 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
   body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     margin-left: -15rem;
   }
+}
+.card{
+  margin: 5px;
+}
+#container-cards{
+  width:fit-content;
+  height: auto;
+}
+#flecha{
+  justify-content: center;
+  color:#ffffff;
+  text-align: center;
+  font-size: 50px;
 }
