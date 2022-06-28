@@ -21,6 +21,7 @@ import { EstadisticaComponent } from './components/estadistica/estadistica.compo
 import { GestionEmpleadosComponent } from './components/gestion-empleados/gestion-empleados.component';
 import { RegistroReunionesComponent } from './components/registro-reuniones/registro-reuniones.component';
 import { FormEmpleadoComponent } from './components/form-empleado/form-empleado.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 @NgModule({
@@ -37,15 +38,16 @@ import { FormEmpleadoComponent } from './components/form-empleado/form-empleado.
     EstadisticaComponent,
     GestionEmpleadosComponent,
     RegistroReunionesComponent,
-    FormEmpleadoComponent
+    FormEmpleadoComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule, 
     HttpClientModule,
     FormsModule,
-    AvatarModule
-
+    AvatarModule,
+  
   ],
   providers: [ LoginService,
  ],
