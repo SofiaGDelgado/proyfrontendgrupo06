@@ -24,6 +24,7 @@ import { FormEmpleadoComponent } from './components/form-empleado/form-empleado.
 import { FooterComponent } from './components/footer/footer.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,8 +47,7 @@ import { FooterComponent } from './components/footer/footer.component';
     AppRoutingModule, 
     HttpClientModule,
     FormsModule,
-    AvatarModule,
-  
+    AvatarModule
   ],
   providers: [ LoginService,
  ],
