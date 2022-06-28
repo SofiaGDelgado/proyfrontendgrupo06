@@ -15,7 +15,9 @@
         </div>
         <div>
             <label for="tipoReunion">Seleccione el Tipo de Reunion:</label>
-            <select name="tipoReunion" id="tipoReunion"></select>
+            <select name="tipoReunion" id="tipoReunion" [(ngModel)]="reunion.tipoReunion">
+                <option *ngFor="let tr of tiposReunion" [ngValue]="tr">{{tr.nombre}}</option>
+            </select>
         </div>
     </form>
 

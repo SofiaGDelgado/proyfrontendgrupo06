@@ -1,19 +1,19 @@
-<nav class="navbar navbar-expand-lg bg-dark text-light">
+<nav class="navbar navbar-expand-lg text-light fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand">Gathering!</a>
+      <a class="navbar-brand"><i class="fa-brands fa-guilded"></i> gathering!</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a  class="nav-link active" aria-current="page" type="button" [routerLink]="'principal'">Inicio </a>
+            <a  class="nav-link active" aria-current="page" type="button" [routerLink]="'principal'"> HOME</a>
           </li>
           <li class="nav-item">
             <a  class="nav-link" aria-current="page" type="button">Informacion</a>
           </li>
           <li class="nav-item">
-            <a  class="nav-link" aria-current="page" type="button">Promociones y costos</a>
+            <a  class="nav-link" aria-current="page" type="button">Ayuda</a>
           </li>
           <li class="nav-item" *ngIf="loginService.userLoggedIn()">
               <a class="nav-link" [routerLink]="'calendar'">Calendario</a>
@@ -30,7 +30,7 @@
         </form>
         
         <form class="d-flex">
-          <button type="button" class="btn btn-primary"  *ngIf="!loginService.userLoggedIn()"  [routerLink]="['login']">Iniciar Sesion </button>
+          <button type="button" class="btn"  *ngIf="!loginService.userLoggedIn()"  [routerLink]="['login']">Iniciar Sesion </button>
           <a *ngIf="loginService.userLoggedIn()" [routerLink]="['login']" (click)="logout()">
              Cerrar Sesion
             </a>
@@ -40,3 +40,4 @@
       </div>
     </div>
   </nav> 
+
