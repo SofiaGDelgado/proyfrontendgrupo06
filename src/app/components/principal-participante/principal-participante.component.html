@@ -1,53 +1,63 @@
-<div class=" row border-end text-ligth" id="sidebar-wrapper" >
-    <div class="list-group bg-dark text-light border-white col-4" style="height: 800px; color: aliceblue; ">
-        <a id="item" class="list-group-item list-group-item-action list-group-item-ligth text-light bg-dark p-3" ></a>
-        <a id="item" class="list-group-item list-group-item-action list-group-item-light text-ligth bg-dark  p-3" (click)="Agenda()">Ver Agenda</a>
-        <a id="item" class="list-group-item list-group-item-action list-group-item-light text-ligth bg-dark  p-3" (click)="Audiencias()">Ver Audiencia</a>
-       
-        <a id="item" class="list-group-item list-group-item-action list-group-item-light text-ligth bg-dark  p-3" href="#!">Busqueda</a>
+<div class="row container-fluid">
+    <div id="inicio">
+      <!-- Background image -->
+      <div  class="text-center">
+        <div class="d-flex justify-content-center align-items-center h-100">
+          <div class="text-white">
+            <h1 class="mb-3"><i class="fa-brands fa-guilded"></i> <br> Inicio Participante</h1>
+            <!-- Breadcrumb -->
+            <nav class="d-flex">
+              <h6 class="mb-0">
+                <a href="" class="text-reset">Home</a>
+                <span>/</span>
+              </h6>
+            </nav>
+            <!-- Breadcrumb -->
+          </div>
+        </div>
+                           
+      </div>
+      <div id="flecha">
+        <i class="fa-solid fa-angle-down"></i>
+      </div>
+                        
+      <div id="container-cards" class=" d-flex" >
+        <div class="col">
+          <div class="card">
+            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+              <img src="/assets/undraw_Events.png" class="img-fluid"/>
+              <a href="#!">
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+              </a>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Agenda</h5>
+              <p class="card-text">Ver agenda por mes, semana o dia.</p>
+              <button class="btn"(click)="Agenda()">Ir</button>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+              <img src="/assets/undraw_Online_calendar.png" class="img-fluid"/>
+              <a href="#!">
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+              </a>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Audiencias</h5>
+              <p class="card-text">
+                Ver en detalle tus reuniones <br>
+                Busqueda de reuniones
+            </p>
+              <button class="btn" (click)="Audiencias()">Ir</button>
+            </div>
+          </div>
+        </div>
         
-        
-        <!-- <a id="item" class="list-group-item list-group-item-action list-group-item-light text-ligth bg-dark  p-3" >Gestion empleados</a> -->
-        <!-- <a id="item" class="list-group-item list-group-item-action list-group-item-light text-ligth bg-dark  p-3" href="#!">Status</a> -->
+      </div>
     </div>
-    <div class="col-7">
-    <div class="row d-flex ">
-        <div class="card col-6" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-        <div class="card col-6" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-
-    </div>
-    <div class="row">
-        <div class="card col-6" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-        <div class="card col-6" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-
-    </div>
-</div>
-</div>
+  </div>
+              
+  
