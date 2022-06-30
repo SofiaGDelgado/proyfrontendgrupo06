@@ -1,35 +1,175 @@
-<div class="row justify-content-center">
-    <form>
-    <div class="form-group">
-        <div class="mb-3">
-            <label for="my-input">Event Title</label>
-            <input id="sumary" class="form-control" type="text"
-        [(ngModel)]="event.summary" name="sumary">
-        </div>
+<div class="container-fluid">
+   <!-- Header -->
+   <div id="header" class="text-center bg-image">
+    <div class="mask">
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="text-white">
       
-        <div class="mb-3">
-            <label for="my-input">Event From</label>
-            <input id="from" class="form-control" type="datetime-local"
-        [(ngModel)]="fromDate" name="from">
+          <h1 class="mb-3">Calendario de reuniones</h1>
+           <!-- Breadcrumb -->
+           <nav class="d-flex">
+            <h6 class="mb-0">
+              <a  [routerLink]="['principal/Administrador']" class="text-reset">Home</a>
+              <span>/</span>
+              <a href=""  [routerLink]="['principal/Administrador/registroReuniones']" class="text-reset">Reuniones</a>
+              <span>/</span>
+              <a href="#" class="text-reset">Calendario</a>
+            </h6>
+          </nav>
+          <!-- Breadcrumb -->
         </div>
-
-        <div class="mb-3">
-             <label for="my-input">Event to</label>
-            <input id="to" class="form-control" type="datetime-local"
-        [(ngModel)]="toDate" name="to">
-        </div>
-        
-
-       
-
+      </div>
     </div>
-    <div class="mb-3">
-         <button class="btn btn-primary" 
-        (click)="postEvent()">Agregar Evento</button>
-    </div>
+  </div>
+ 
+  <div class="row">
    
-</form>
-<iframe src="https://calendar.google.com/calendar/embed?src=jn0g4cmsvfdupfh0b9pit67fi8%40group.calendar.google.com&ctz=America%2FArgentina%2FBuenos_Aires" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+    <div class="col-9">
+          <!-- Calendario -->
+      <div id="contenedor-calendario">
+        <div class="row text-center">
+          <div class="col">
+            <div class="btn-group">
+              <div
+                class="btn btn-primary"
+                mwlCalendarPreviousView
+                [view]="view"
+                [(viewDate)]="viewDate"
+                (viewDateChange)="closeOpenMonthViewDay()"
+              >
+                Anterior
+              </div>
+              <div
+                class="btn btn-outline-secondary"
+                mwlCalendarToday
+                [(viewDate)]="viewDate"
+              >
+                Hoy
+              </div>
+              <div
+                class="btn btn-primary"
+                mwlCalendarNextView
+                [view]="view"
+                [(viewDate)]="viewDate"
+                (viewDateChange)="closeOpenMonthViewDay()"
+              >
+                Siguiente
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <h3 class="tituloMes">{{ viewDate | calendarDate:(view + 'ViewTitle'):'es' }}</h3>
+          </div>
+          <div class="col">
+            <div class="btn-group">
+              <div
+                class="btn btn-primary"
+                (click)="setView(CalendarView.Month)"
+                [class.active]="view === CalendarView.Month"
+              >
+                Mes
+              </div>
+              <div
+                class="btn btn-primary"
+                (click)="setView(CalendarView.Week)"
+                [class.active]="view === CalendarView.Week"
+              >
+                Semana
+              </div>
+              <div
+                class="btn btn-primary"
+                (click)="setView(CalendarView.Day)"
+                [class.active]="view === CalendarView.Day"
+              >
+                Dia
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div [ngSwitch]="view">
+          <mwl-calendar-month-view
+            *ngSwitchCase="CalendarView.Month"
+            [viewDate]="viewDate"
+            [events]="events"
+            [refresh]="refresh"
+            [activeDayIsOpen]="activeDayIsOpen"
+            (dayClicked)="dayClicked($event.day)"
+            (eventClicked)="handleEvent('Clicked', $event.event)"
+            (eventTimesChanged)="eventTimesChanged($event)"
+            [locale]="locale"
+          >
+          </mwl-calendar-month-view>
+          <mwl-calendar-week-view
+            *ngSwitchCase="CalendarView.Week"
+            [viewDate]="viewDate"
+            [events]="events"
+            [refresh]="refresh"
+            (eventClicked)="handleEvent('Clicked', $event.event)"
+            (eventTimesChanged)="eventTimesChanged($event)"
+            [locale]="locale"
+          >
+          </mwl-calendar-week-view>
+          <mwl-calendar-day-view
+            *ngSwitchCase="CalendarView.Day"
+            [viewDate]="viewDate"
+            [events]="events"
+            [refresh]="refresh"
+            (eventClicked)="handleEvent('Clicked', $event.event)"
+            (eventTimesChanged)="eventTimesChanged($event)"
+            [locale]="locale"
+          >
+          </mwl-calendar-day-view>
+        </div>
+
+      </div>
+    </div>
+       <div id="oficina-eventos" class="col-3">
+        <!-- Ocupacion por oficina -->
+        <h3 id="tituloForm">Ver eventos por oficina</h3>
+        <div id="flecha">
+          <i class="fa-solid fa-angle-down"></i>
+        </div>
+        <form>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Oficina</label>
+            <select class="form-select" aria-label="Default select example">
+              <option selected>Oficinas</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+          
+          <button type="submit" class="btn btn-primary">Buscar</button>
+        </form>
+        <div class="reuniones">
+          Eventos/Reuniones de cada oficina
+        </div>
+      </div>
+    
+  </div>
+ 
+  
+  
 </div>
-
-
+ 
+  <ng-template #modalContent let-close="close">
+    <div class="modal-header">
+      <button type="button" class="close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+     
+      <div>
+        Datos de la reunion:
+        <pre>{{ modalData?.event | json }}</pre>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="close()">
+        OK
+      </button>
+    </div> 

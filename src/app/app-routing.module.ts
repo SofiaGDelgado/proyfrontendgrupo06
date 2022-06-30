@@ -26,7 +26,7 @@ const routes: Routes = [
     {path: 'principal/Participante/audiencias', component: AudienciasComponent, pathMatch: 'full' },
     {path: 'principal/Participante/agenda', component: AgendaComponent, pathMatch: 'full' },
 
-  {path: 'calendar', component: CalendarComponent, pathMatch: 'full' },
+  {path: 'principal/Administrador/calendario', component: CalendarComponent, pathMatch: 'full' },
   {path: '**', pathMatch: 'prefix', redirectTo: 'principal',},
 ];
 
