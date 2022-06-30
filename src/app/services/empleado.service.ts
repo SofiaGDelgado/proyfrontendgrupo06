@@ -8,7 +8,7 @@ import { Empleado } from '../models/empleado';
 })
 export class EmpleadoService {
 
-  urlBase= "http://localhost:4000/api/empleado/"
+  urlBase= "http://localhost:4000/api/empleados/"
 
   constructor(private http: HttpClient) { }
 
