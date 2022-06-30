@@ -1,75 +1,194 @@
-import { Component, OnInit } from '@angular/core';
-import { CalendarService } from 'src/app/services/calendar/calendar.service';
-import { ThisReceiver } from '@angular/compiler';
+import {
+  OnInit,
+  Component,
+  ChangeDetectionStrategy,
+  ViewChild,
+  TemplateRef,
+} from '@angular/core';
+import {
+  startOfDay,
+  endOfDay,
+  subDays,
+  addDays,
+  endOfMonth,
+  isSameDay,
+  isSameMonth,
+  addHours,
+} from 'date-fns';
+import { Subject } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {
+  CalendarEvent,
+  CalendarEventAction,
+  CalendarEventTimesChangedEvent,
+  CalendarView,
+} from 'angular-calendar';
+
+const colors: any = {
+  red: {
+    primary: '#ad2121',
+    secondary: '#FAE3E3',
+  },
+  blue: {
+    primary: '#1e90ff',
+    secondary: '#D1E8FF',
+  },
+  yellow: {
+    primary: '#e3bc08',
+    secondary: '#FDF1BA',
+  },
+};
 
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.css']
+  styleUrls: ['./calendar.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent {
+  
+  @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
 
-  fromDate: string="";
-  toDate: string="";
+  view: CalendarView = CalendarView.Month;
 
-  event:any = 
-  {
-    kind: "calendar#event",
-    status: "confirmed",
-    summary: "Reunion de prueba desde angular",
-    creator: {
-        "email": "alfredo.espi@gmail.com"
+  CalendarView = CalendarView;
+
+  viewDate: Date = new Date();
+
+  modalData!: {
+    action: string;
+    event: CalendarEvent;
+  };
+
+  actions: CalendarEventAction[] = [
+    {
+      label: '<i class="fas fa-fw fa-pencil-alt"></i>',
+      a11yLabel: 'Edit',
+      onClick: ({ event }: { event: CalendarEvent }): void => {
+        this.handleEvent('Edited', event);
+      },
     },
-
-    start: {
-        dateTime: "2022-06-24T13:30:00-03:00",
-        timeZone: "America/Argentina/Jujuy"
+    {
+      label: '<i class="fas fa-fw fa-trash-alt"></i>',
+      a11yLabel: 'Delete',
+      onClick: ({ event }: { event: CalendarEvent }): void => {
+        this.events = this.events.filter((iEvent) => iEvent !== event);
+        this.handleEvent('Deleted', event);
+      },
     },
-    end: {
-      dateTime: "2022-06-24T14:30:00-03:00",
-      timeZone: "America/Argentina/Jujuy"
+  ];
+
+  refresh = new Subject<void>();
+
+  events: CalendarEvent[] = [
+    {
+      start: subDays(startOfDay(new Date()), 1),
+      end: addDays(new Date(), 1),
+      title: 'A 3 day event',
+      color: colors.red,
+      actions: this.actions,
+      allDay: true,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true,
+      },
+      draggable: true,
+    },
+    {
+      start: startOfDay(new Date()),
+      title: 'An event with no end date',
+      color: colors.yellow,
+      actions: this.actions,
+    },
+    {
+      start: subDays(endOfMonth(new Date()), 3),
+      end: addDays(endOfMonth(new Date()), 3),
+      title: 'A long event that spans 2 months',
+      color: colors.blue,
+      allDay: true,
+    },
+    {
+      start: addHours(startOfDay(new Date()), 2),
+      end: addHours(new Date(), 2),
+      title: 'A draggable and resizable event',
+      color: colors.yellow,
+      actions: this.actions,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true,
+      },
+      draggable: true,
+    },
+  ];
+
+  activeDayIsOpen: boolean = true;
+
+  constructor(private modal: NgbModal) {}
+
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    if (isSameMonth(date, this.viewDate)) {
+      if (
+        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
+        events.length === 0
+      ) {
+        this.activeDayIsOpen = false;
+      } else {
+        this.activeDayIsOpen = true;
+      }
+      this.viewDate = date;
     }
   }
 
-  constructor(private calendarService: CalendarService) { }
-
-  ngOnInit(): void {
-  }
-
-  postEvent(){
-    console.log(this.event);
-    let fechafrom:Date = new Date(this.fromDate);
-    let fechato:Date = new Date(this.toDate);
-
-    this.event.start.dateTime = this.toIsoString(fechafrom); 
-    this.event.end.dateTime = this.toIsoString(fechato);
-    console.log(new Date(fechato).getTimezoneOffset());
-    this.calendarService.createEvent(this.event).subscribe(
-      result=>{
-        console.log(result);
-      },
-      error=>{
-        console.log(error);
-      }
-    )
-  }
-
-  //METODO interno que se utiliza para obtener el formato
-  //que se requiere en la API de google Calendar. Ej. 2022-06-20T17:04:00-03:00
-  toIsoString(date:Date) {
-    var tzo = -date.getTimezoneOffset(),
-        dif = tzo >= 0 ? '+' : '-',
-        pad = function(num:any) {
-            return (num < 10 ? '0' : '') + num;
+  eventTimesChanged({
+    event,
+    newStart,
+    newEnd,
+  }: CalendarEventTimesChangedEvent): void {
+    this.events = this.events.map((iEvent) => {
+      if (iEvent === event) {
+        return {
+          ...event,
+          start: newStart,
+          end: newEnd,
         };
-  
-    return date.getFullYear() +
-        '-' + pad(date.getMonth() + 1) +
-        '-' + pad(date.getDate()) +
-        'T' + pad(date.getHours()) +
-        ':' + pad(date.getMinutes()) +
-        ':' + pad(date.getSeconds()) +
-        dif + pad(Math.floor(Math.abs(tzo) / 60)) +
-        ':' + pad(Math.abs(tzo) % 60);
+      }
+      return iEvent;
+    });
+    this.handleEvent('Dropped or resized', event);
+  }
+
+  handleEvent(action: string, event: CalendarEvent): void {
+    this.modalData = { event, action };
+    this.modal.open(this.modalContent, { size: 'md' });
+  }
+
+  addEvent(): void {
+    this.events = [
+      ...this.events,
+      {
+        title: 'New event',
+        start: startOfDay(new Date()),
+        end: endOfDay(new Date()),
+        color: colors.red,
+        draggable: true,
+        resizable: {
+          beforeStart: true,
+          afterEnd: true,
+        },
+      },
+    ];
+  }
+
+  deleteEvent(eventToDelete: CalendarEvent) {
+    this.events = this.events.filter((event) => event !== eventToDelete);
+  }
+
+  setView(view: CalendarView) {
+    this.view = view;
+  }
+
+  closeOpenMonthViewDay() {
+    this.activeDayIsOpen = false;
   }
 }

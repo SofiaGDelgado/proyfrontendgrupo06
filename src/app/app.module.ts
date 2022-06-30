@@ -23,8 +23,12 @@ import { RegistroReunionesComponent } from './components/registro-reuniones/regi
 import { FormEmpleadoComponent } from './components/form-empleado/form-empleado.component';
 import { FooterComponent } from './components/footer/footer.component';
 
-
-
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { CommonModule } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,11 +47,20 @@ import { FooterComponent } from './components/footer/footer.component';
     FooterComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule, 
     HttpClientModule,
     FormsModule,
-    AvatarModule
+    AvatarModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
+    BrowserAnimationsModule,
+    NgbModalModule,
+    FlatpickrModule.forRoot(),
+    NgbModule,
   ],
   providers: [ LoginService,
  ],
