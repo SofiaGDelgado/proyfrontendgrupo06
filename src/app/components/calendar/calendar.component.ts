@@ -1,28 +1,8 @@
-import {
-  OnInit,
-  Component,
-  ChangeDetectionStrategy,
-  ViewChild,
-  TemplateRef,
-} from '@angular/core';
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours,
-} from 'date-fns';
+import {OnInit, Component, ChangeDetectionStrategy, ViewChild, TemplateRef,} from '@angular/core';
+import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours,} from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  CalendarEvent,
-  CalendarEventAction,
-  CalendarEventTimesChangedEvent,
-  CalendarView,
-} from 'angular-calendar';
+import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent,CalendarView,} from 'angular-calendar';
 
 const colors: any = {
   red: {
@@ -47,7 +27,9 @@ const colors: any = {
   
 })
 export class CalendarComponent {
-  
+
+  locale: string = "es";
+
   @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;
@@ -57,20 +39,19 @@ export class CalendarComponent {
   viewDate: Date = new Date();
 
   modalData!: {
-    action: string;
     event: CalendarEvent;
   };
 
   actions: CalendarEventAction[] = [
     {
-      label: '<i class="fas fa-fw fa-pencil-alt"></i>',
+      label: '', //<i class="fas fa-fw fa-pencil-alt"></i>
       a11yLabel: 'Edit',
       onClick: ({ event }: { event: CalendarEvent }): void => {
         this.handleEvent('Edited', event);
       },
     },
     {
-      label: '<i class="fas fa-fw fa-trash-alt"></i>',
+      label: '', //<i class="fas fa-fw fa-trash-alt"></i>
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
         this.events = this.events.filter((iEvent) => iEvent !== event);
@@ -81,51 +62,82 @@ export class CalendarComponent {
 
   refresh = new Subject<void>();
 
+  //Aca se agregan los eventos
   events: CalendarEvent[] = [
     {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: colors.red,
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
+      title: 'Reunion equipo A',
+      color: colors.red, 
+      start: addHours(startOfDay(new Date()), 2),// horaReunion!: string;// fecha!: string;
+      end: addHours(new Date(), 2),// horaFinalizacion!:string;
+      meta:{
+        oficina: "oficina 1",// oficina!: Oficina;
+        tipoReunion: "Oficial",// tipoReunion!: TipoReunion;
+        estadoReunion: "Pendiente",// estadoReunion!: string;
+        participante: "Laura Lozano, Pedro Perez, Rolando Diaz",// participantes!: Array <Empleado>;
+        recursos:"Word y PDF",// recursos!: Array <Recurso>;
+        prioridad: "3",// prioridad!: number;
+        codigoQr: "", // codigoQr!:string;
+        notificacion: "Titulo, mensaje"// notificacion!: Array<Notificacion>;
+      }
+      
+     
+      
+      
+    
     },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: colors.yellow,
-      actions: this.actions,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: colors.blue,
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      color: colors.yellow,
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
+    
   ];
+  // fetchEvents(): void {
+  //   const getStart: any = {
+  //     month: startOfMonth,
+  //     week: startOfWeek,
+  //     day: startOfDay,
+  //   }[this.view];
+
+  //   const getEnd: any = {
+  //     month: endOfMonth,
+  //     week: endOfWeek,
+  //     day: endOfDay,
+  //   }[this.view];
+
+  //   const params = new HttpParams()
+  //     .set(
+  //       'primary_release_date.gte',
+  //       format(getStart(this.viewDate), 'yyyy-MM-dd')
+  //     )
+  //     .set(
+  //       'primary_release_date.lte',
+  //       format(getEnd(this.viewDate), 'yyyy-MM-dd')
+  //     )
+  //     .set('api_key', '0ec33936a68018857d727958dca1424f');
+
+  //   this.events$ = this.http
+  //     .get('https://api.themoviedb.org/3/discover/movie', { params })
+  //     .pipe(
+  //       map(({ results }: { results: Film[] }) => {
+  //         return results.map((film: Film) => {
+  //           return {
+  //             title: film.title,
+  //             start: new Date(
+  //               film.release_date + getTimezoneOffsetString(this.viewDate)
+  //             ),
+  //             color: colors.yellow,
+  //             allDay: true,
+  //             meta: {
+  //               film,
+  //             },
+  //           };
+  //         });
+  //       })
+  //     );
+  // }
 
   activeDayIsOpen: boolean = true;
 
   constructor(private modal: NgbModal) {}
-
+  ngOnInit(): void {
+    
+  }
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
@@ -159,7 +171,7 @@ export class CalendarComponent {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
+    this.modalData = {event};
     this.modal.open(this.modalContent, { size: 'md' });
   }
 
@@ -191,4 +203,5 @@ export class CalendarComponent {
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
+  
 }
