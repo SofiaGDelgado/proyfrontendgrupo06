@@ -6,8 +6,6 @@ import { TipoReunion } from "./tipo-reunion";
 
 export class Reunion {
     _id!: string;
-    nombre!: string;
-    descripcion!:string;
     fecha!: string;
     horaReunion!: string;
     horaFinalizacion!:string;
@@ -23,9 +21,6 @@ export class Reunion {
     constructor(){
         this.recursos = new Array<Recurso>();
         this.tipoReunion = new TipoReunion();
-        this.participantes = new Array<Empleado>();
-        this.notificacion = new Array<Notificacion>();
-        this.estadoReunion = "pendiente";
     }
 }
 

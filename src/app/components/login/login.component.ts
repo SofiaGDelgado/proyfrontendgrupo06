@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
 //Es como un router entre paginas web
   irAPrincipal(){
     this.router.navigate(['principal']);
-  }
+ }
 
   irAPricipalAdmi() {
     this.router.navigate(['principal/Administrador']);
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
   irAPricipalParticipante() {
     this.router.navigate(['principal/Participante']);
   }
-
+ 
 
   login() {
     this.loginService.login(this.userform.username, this.userform.password)
@@ -52,12 +52,12 @@ export class LoginComponent implements OnInit {
         console.log(user);
         if(user.perfil == 'administrador'){
           //redirigimos a home o a pagina que llamo
-            this.irAPricipalAdmi();
+             this.irAPricipalAdmi();
         }else{ //en caso contrario ira a principalParticipante
-          this.irAPricipalParticipante(); 
+           this.irAPricipalParticipante(); 
         }
         
-      
+       
       } else {
         //usuario no encontrado muestro mensaje en la vista
         this.msglogin="Credenciales incorrectas..";
@@ -69,4 +69,6 @@ export class LoginComponent implements OnInit {
       console.log(error);
       });
     }
+    
+     
 }
