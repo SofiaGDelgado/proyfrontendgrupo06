@@ -22,8 +22,7 @@ import { GestionEmpleadosComponent } from './components/gestion-empleados/gestio
 import { RegistroReunionesComponent } from './components/registro-reuniones/registro-reuniones.component';
 import { FormEmpleadoComponent } from './components/form-empleado/form-empleado.component';
 import { FooterComponent } from './components/footer/footer.component';
-
-
+import { AlifeFileToBase64Module } from 'alife-file-to-base64';
 
 @NgModule({
   declarations: [
@@ -47,7 +46,8 @@ import { FooterComponent } from './components/footer/footer.component';
     AppRoutingModule, 
     HttpClientModule,
     FormsModule,
-    AvatarModule
+    AvatarModule,
+    AlifeFileToBase64Module,
   ],
   providers: [ LoginService,
  ],
