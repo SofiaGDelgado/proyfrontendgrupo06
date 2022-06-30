@@ -15,8 +15,8 @@ export class FormEmpleadoComponent implements OnInit {
   dependencias!: Array<Dependencia>;
 
   constructor(private empleadoServ: EmpleadoService, private dependenciaServ: DependenciaService) { 
-    this.getDependencias();
     this.empleado = new Empleado();
+    this.getDependencias();
   }
 
   ngOnInit(): void {
@@ -26,6 +26,8 @@ export class FormEmpleadoComponent implements OnInit {
     this.empleadoServ.altaEmpleado(this.empleado).subscribe((emp)=> {
       console.log(emp)
     });
+
+    
   }
 
   getDependencias(){

@@ -22,6 +22,10 @@ import { GestionEmpleadosComponent } from './components/gestion-empleados/gestio
 import { RegistroReunionesComponent } from './components/registro-reuniones/registro-reuniones.component';
 import { FormEmpleadoComponent } from './components/form-empleado/form-empleado.component';
 import { FooterComponent } from './components/footer/footer.component';
+
+import { AlifeFileToBase64Module } from 'alife-file-to-base64';
+
+
 // Dependencias para el calendario
 import { CalendarModule, DateAdapter } from 'angular-calendar'; 
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -34,6 +38,7 @@ import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 registerLocaleData(localeEs);
 //
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,6 +63,7 @@ registerLocaleData(localeEs);
     HttpClientModule,
     FormsModule,
     AvatarModule,
+    AlifeFileToBase64Module,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
@@ -66,6 +72,7 @@ registerLocaleData(localeEs);
     NgbModalModule,
     FlatpickrModule.forRoot(),
     NgbModule,
+
   ],
   providers: [ LoginService,
  ],
