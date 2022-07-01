@@ -1,45 +1,50 @@
 <div class="container-fluid">
-        <form class="card w-50 m-auto row" action="">
-
-        <div class="col-12">
-            <label for="nombre" class="form-label">Nombre: </label>
-            <input type="text" id="nombre" name="nombre" class="form-control" [(ngModel)]="empleado.nombre">
-        </div>
-        <div class="col-12">
-            <label for="apellido" class="form-label">Apellido: </label>
-            <input type="text" id="apellido" name="apellido" class="form-control" [(ngModel)]="empleado.apellido">
-        </div>
-        <div class="col-12">
+    
+        <form class="card w-50 m-auto row mb-5" action=""   id="formulario">
+            <h5 class="mt-4 ">Formulario Empleados</h5>
+            <div class="row mb-2 " id="item">
+                <div class="col-6 ">
+                    <label for="nombre" class="form-label">Nombre: </label>
+                    <input type="text" id="nombre" name="nombre" class="form-control" [(ngModel)]="empleado.nombre">
+                </div>
+                <div class="col-6 ">
+                    <label for="apellido" class="form-label">Apellido: </label>
+                    <input type="text" id="apellido" name="apellido" class="form-control" [(ngModel)]="empleado.apellido">
+                </div>
+            </div>
+        <div class="col-12" id="item">
             <label for="email" class="form-label">Email: </label>
             <input type="email" id="email" name="email" class="form-control" [(ngModel)]="empleado.email">
         </div>
-        <div class="col-12">
+        <div class="col-12" id="item">
             <label for="legajo" class="form-label">Legajo: </label>
             <input type="text" id="legajo" name="legajo" class="form-control" [(ngModel)]="empleado.legajo">
         </div>
-        <div class="col-12">
+        <div class="col-12" id="item">
             <label for="username" class="form-label">Username: </label>
             <input type="text" id="username" name="username" class="form-control" [(ngModel)]="empleado.username">
         </div>
-        <div class="col-12">
+        <div class="col-12" id="item">
             <label for="password" class="form-label">Password: </label>
             <input type="text" id="password" name="password" class="form-control" [(ngModel)]="empleado.password">
         </div>
-        <div class="col-12">
-            <label for="dependencia" class="form-label">Dependencia: </label>
-            <select name="dependencia" id="dependencia" class="form-select" [(ngModel)]="empleado.dependencia">
-                <option *ngFor="let d of dependencias" [ngValue]="d">{{d.nombre}}</option>
-            </select>
-        </div>
-        <div class="col-12">
-            <label for="rol" class="form-label">Rol: </label>
-            <select name="rol" id="rol" class="form-select" [(ngModel)]="empleado.rol">
-                <option value="administrador">Administrador</option>
-                <option value="participante">Participante</option>
-            </select>
+        <div class="row">
+            <div class="col-6" id="item">
+                <label for="dependencia" class="form-label">Dependencia: </label>
+                <select name="dependencia" id="dependencia" class="form-select" [(ngModel)]="empleado.dependencia">
+                    <option *ngFor="let d of dependencias" [ngValue]="d">{{d.nombre}}</option>
+                </select>
+            </div>
+            <div class="col-6 mb-4" id="item">
+                <label for="rol" class="form-label">Rol: </label>
+                <select name="rol" id="rol" class="form-select" [(ngModel)]="empleado.rol">
+                    <option value="administrador">Administrador</option>
+                    <option value="participante">Participante</option>
+                </select>
+            </div>
         </div>
 
-        <button type="button" class="btn btn-dark" (click)="altaEmpleado()">Registrar</button>
+        <button type="button" class="btn " (click)="altaEmpleado()">Registrar</button>
     </form>
 
 </div>
