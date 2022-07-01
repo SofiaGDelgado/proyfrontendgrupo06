@@ -25,6 +25,7 @@ export class Reunion {
         this.tipoReunion = new TipoReunion();
         this.notificacion = new Array<Notificacion>();
         this.participantes = new Array<Empleado>();
+        this.estadoReunion = "pendiente";
     }
 }
 

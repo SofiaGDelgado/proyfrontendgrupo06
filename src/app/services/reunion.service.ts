@@ -72,4 +72,27 @@ export class ReunionService {
 
     return this.http.get(this.urlBase + 'oficina', httpOption);
   }
+
+  modificarReunion(reunion: Reunion): Observable<any>{
+    const httpOption = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    let body = JSON.stringify(reunion);
+
+    return this.http.put(this.urlBaseReunion + reunion._id, body, httpOption);
+
+  }
+
+  getReunion(id: string): Observable<any>{
+    const httpOption = {
+      headers: new HttpHeaders({
+        
+      })
+    }
+
+    return this.http.get(this.urlBaseReunion+id, httpOption);
+  }
 }
