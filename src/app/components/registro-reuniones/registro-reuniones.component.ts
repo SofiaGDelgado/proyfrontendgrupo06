@@ -9,6 +9,9 @@ import { EmpleadoService } from 'src/app/services/empleado.service';
 import { NotificacionService } from 'src/app/services/notificacion.service';
 import { RecursoService } from 'src/app/services/recurso.service';
 import { ReunionService } from 'src/app/services/reunion.service';
+import { PdfMakeWrapper } from 'pdfmake-wrapper';
+import { Router } from '@angular/router';
+import { GeneradorQrService } from 'src/app/services/generador-qr.service';
 
 @Component({
   selector: 'app-registro-reuniones',
@@ -23,7 +26,9 @@ export class RegistroReunionesComponent implements OnInit {
   participantes!: Array<Empleado>;
   recurso!:Recurso;
 
-  constructor(private reunionService: ReunionService, private empleadoServ: EmpleadoService, private recursoServ: RecursoService, private notificacionServ: NotificacionService) { 
+  constructor(private reunionService: ReunionService, private empleadoServ: EmpleadoService,
+                  private recursoServ: RecursoService, private notificacionServ: NotificacionService,
+                  private router: Router, private genQR: GeneradorQrService) { 
     this.reunion = new Reunion();
     this.recurso = new Recurso();
     this.getParticipantes();
@@ -91,7 +96,17 @@ export class RegistroReunionesComponent implements OnInit {
     this.crearNotificacion();
     this.reunionService.addReunion(this.reunion).subscribe((r) => {
       console.log(r);
+      this.reunion = new Reunion();
+      this.generarPDF();
     });
+
+    this.reunionService.getReuniones().subscribe((reu)=>{
+      this.reunion = reu[reu.length - 1];
+    })
+
+    this.generarQR("http://localhost:4200/detalle/reunion/" + this.reunion._id);
+
+    this.router.navigateByUrl("http://localhost:4200/detalle/reunion/"+this.reunion._id);
   }
 
   onFileChanges(files:any){
@@ -111,6 +126,26 @@ export class RegistroReunionesComponent implements OnInit {
       recur = rec[rec.length - 1];
       this.reunion.recursos.push(recur);
     })
+  }
+
+  generarQR(url: string){
+    this.genQR.getQr(url).subscribe((qr)=> {
+      this.reunion.codigoQr = qr.qr;
+
+      this.modificarReunion();
+    })
+  }
+
+  modificarReunion(){
+    this.reunionService.modificarReunion(this.reunion).subscribe((r) => {
+      console.log(r);
+    })
+  }
+
+  generarPDF(){
+    const pdf = new PdfMakeWrapper();
+    
+    pdf.create().open();
   }
 
   

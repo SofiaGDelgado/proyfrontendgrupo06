@@ -22,6 +22,7 @@ import { GestionEmpleadosComponent } from './components/gestion-empleados/gestio
 import { RegistroReunionesComponent } from './components/registro-reuniones/registro-reuniones.component';
 import { FormEmpleadoComponent } from './components/form-empleado/form-empleado.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { DetalleReunionComponent } from './components/detalle-reunion/detalle-reunion.component';
 // Dependencias para el calendario
 import { CalendarModule, DateAdapter } from 'angular-calendar'; 
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -34,9 +35,12 @@ import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 
 import { AlifeFileToBase64Module } from 'alife-file-to-base64';
+import { PdfMakeWrapper } from 'pdfmake-wrapper';
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
 
 
 registerLocaleData(localeEs);
+PdfMakeWrapper.setFonts(pdfFonts);
 //
 @NgModule({
   declarations: [
@@ -53,7 +57,8 @@ registerLocaleData(localeEs);
     GestionEmpleadosComponent,
     RegistroReunionesComponent,
     FormEmpleadoComponent,
-    FooterComponent
+    FooterComponent,
+    DetalleReunionComponent
   ],
   imports: [
     CommonModule,

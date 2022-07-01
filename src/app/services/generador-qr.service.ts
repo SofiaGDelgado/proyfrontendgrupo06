@@ -13,15 +13,14 @@ export class GeneradorQrService {
     const options = {
       method: 'GET',
       params: {
-        text: url
+        targetForQr: url,
       },
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'X-RapidAPI-Host': 'qr-generator-api.p.rapidapi.com',
-        'X-RapidAPI-Key': '19539c6624mshfdb683a7bb06366p11ca8cjsn490d6d5fa9db'
-      })
-    }
+      headers: {
+        'X-RapidAPI-Key': '19539c6624mshfdb683a7bb06366p11ca8cjsn490d6d5fa9db',
+        'X-RapidAPI-Host': 'qr-code-generator27.p.rapidapi.com'
+      }
+    };
 
-    return this.http.get('https://qr-generator-api.p.rapidapi.com/api/qrcode/generate', options);
+    return this.http.get('https://qr-code-generator27.p.rapidapi.com/', options);
   }
 }
