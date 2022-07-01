@@ -8,7 +8,7 @@ import { Recurso } from '../models/recurso';
 })
 export class RecursoService {
 
-  urlBase = "http://localhost:4000/api/recurso/";
+  urlBase = "http://localhost:4000/api/recurso";
 
   constructor(private http: HttpClient) { }
 
