@@ -23,4 +23,14 @@ export class RecursoService {
 
     return this.http.post(this.urlBase, body, httpOption);
   }
+
+  getRecursos(): Observable<any>{
+    const httpOption = {
+      headers: new HttpHeaders({
+        
+      })
+    }
+
+    return this.http.get(this.urlBase, httpOption)
+  }
 }

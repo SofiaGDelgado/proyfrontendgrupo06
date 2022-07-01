@@ -20,7 +20,7 @@ export class ReunionService {
       })
     }
 
-    return this.http.get(this.urlBase + 'tipoReunion/',httpOption);
+    return this.http.get(this.urlBase + 'tipoReunion',httpOption);
   }
 
   getReuniones(): Observable<any>{
@@ -30,7 +30,7 @@ export class ReunionService {
       })
     }
 
-    return this.http.get(this.urlBase+ 'reunion/', httpOption);
+    return this.http.get(this.urlBase+ 'reunion', httpOption);
   }
 
   addReunion(r:Reunion): Observable<any>{
@@ -44,7 +44,7 @@ export class ReunionService {
 
     console.log(body);
 
-    return this.http.post(this.urlBase + 'reunion/', body, httpOption);
+    return this.http.post(this.urlBase + 'reunion', body, httpOption);
   }
 
   getOficinas(): Observable<any>{
@@ -54,7 +54,7 @@ export class ReunionService {
       })
     }
 
-    return this.http.get(this.urlBase + 'oficina/', httpOption);
+    return this.http.get(this.urlBase + 'oficina', httpOption);
   }
 
   

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class DependenciaService {
 
-  urlBase = "http://localhost:4000/api/dependencia/"
+  urlBase = "http://localhost:4000/api/dependencia"
   constructor(private http: HttpClient) { }
 
   getDependencias(): Observable<any>{

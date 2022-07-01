@@ -8,7 +8,7 @@ import { Notificacion } from '../models/notificacion';
 })
 export class NotificacionService {
 
-  urlBase = "http://localhost:4000/api/notificacion/";
+  urlBase = "http://localhost:4000/api/notificacion";
 
   constructor(private http: HttpClient) { }
 
@@ -22,5 +22,15 @@ export class NotificacionService {
     let body = JSON.stringify(n);
 
     return this.http.post(this.urlBase, body, httpOption);
+  }
+
+  getNotificaciones(): Observable<any>{
+    const httpOption = {
+      headers: new HttpHeaders({
+        
+      })
+    }
+
+    return this.http.get(this.urlBase, httpOption);
   }
 }

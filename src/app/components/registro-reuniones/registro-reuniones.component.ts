@@ -74,17 +74,24 @@ export class RegistroReunionesComponent implements OnInit {
 
     this.notificacionServ.addNotificacion(not).subscribe((n) => {
       console.log(n);
-    })
+      not = new Notificacion();
+    });
 
-    this.reunion.notificacion.push(not);
+    this.notificacionServ.getNotificaciones().subscribe((nots) => {
+      var notificacion = new Notificacion();
+      notificacion = nots[nots.length - 1];
+      console.log(notificacion);
+      this.reunion.notificacion.push(notificacion);
 
+      console.log(this.reunion.notificacion);
+    });
   }
 
   registrarReunion(){
     this.crearNotificacion();
     this.reunionService.addReunion(this.reunion).subscribe((r) => {
       console.log(r);
-    })
+    });
   }
 
   onFileChanges(files:any){
@@ -95,8 +102,13 @@ export class RegistroReunionesComponent implements OnInit {
   cargarRecurso(){
     this.recursoServ.addRecurso(this.recurso).subscribe((r) => {
       console.log(r);
-      this.reunion.recursos.push(this.recurso);
       this.recurso = new Recurso();
+    })
+
+    this.recursoServ.getRecursos().subscribe((rec)=> {
+      var recur = new Recurso();
+      recur = rec[rec.length - 1];
+      this.reunion.recursos.push(recur);
     })
   }
 }
