@@ -1,0 +1,22 @@
+
+    input:hover{
+        background: slateblue;
+        color: aliceblue;
+    }
+    
+    select:hover{
+        background: slateblue;
+        color: aliceblue;
+    }
+    #boton{
+        text-align: center;
+        margin-top: 15px;
+        width: 160px;
+        margin-left: 90px;
+    }
+    #botonb{
+        margin-left:250px;
+        text-align: center;
+        margin-top: 15px;
+        width: 160px;
+    }
