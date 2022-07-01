@@ -1,6 +1,6 @@
 import {OnInit, Component, ChangeDetectionStrategy, ViewChild, TemplateRef,} from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { elementAt, map } from 'rxjs/operators';
 import { startOfDay, endOfDay, subDays, addDays,   startOfMonth, endOfMonth, startOfWeek,
   endOfWeek, isSameDay, isSameMonth, addHours, format } from 'date-fns';
 import { Subject } from 'rxjs';
@@ -138,14 +138,9 @@ export class CalendarComponent {
           var unaReunion= new Reunion();
           result.forEach((element:any) => {
             Object.assign(unaReunion, element);
-            this.reunionesOficina.push(unaReunion);
-            unaReunion= new Reunion();
+           this.agregarEvento(unaReunion);
           });
-          console.log(this.reunionesOficina);
-          if(this.reunionesOficina.length == 0){
-            alert('No se han encontrado coincidencias');
-          }
-          
+          console.log(this.events);          
         },
         error=>{
 
@@ -154,6 +149,24 @@ export class CalendarComponent {
   }
   //Metodo cargar select de Oficinas
   cargarOficinas(){
+    this.oficinas=new Array<Oficina>();
+    this.reunionService.getReunionesOficina(this.oficina._id).subscribe(
+      result=> {
+        var unaOficina =new Oficina(); result.forEach((element:any)=>{
+          Object.assign(unaOficina,element);
+          this.oficinas.push(unaOficina);
+          unaOficina = new Oficina();
+        });
+        console.log(this.oficinas);
+        if(this.oficinas.length == 0){
+          alert('No se encontro evidencias');
+        }
+      },
+      error=>{
+
+      }
+
+    );
 
   }
 
