@@ -1,8 +1,16 @@
 import {OnInit, Component, ChangeDetectionStrategy, ViewChild, TemplateRef,} from '@angular/core';
-import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours,} from 'date-fns';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { startOfDay, endOfDay, subDays, addDays,   startOfMonth, endOfMonth, startOfWeek,
+  endOfWeek, isSameDay, isSameMonth, addHours, format } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent,CalendarView,} from 'angular-calendar';
+import { Reunion } from 'src/app/models/reunion';
+import { ReunionService } from 'src/app/services/reunion.service';
+
+
+
 
 const colors: any = {
   red: {
@@ -27,43 +35,30 @@ const colors: any = {
   
 })
 export class CalendarComponent {
-
+    
+  //Variable para que el calendario aparezca en español
   locale: string = "es";
 
+  //Modal
   @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
 
+  modalData!: {
+    event: CalendarEvent;
+  };
+
+  //Variables para la vista
   view: CalendarView = CalendarView.Month;
 
   CalendarView = CalendarView;
 
   viewDate: Date = new Date();
 
-  modalData!: {
-    event: CalendarEvent;
-  };
-
-  actions: CalendarEventAction[] = [
-    {
-      label: '', //<i class="fas fa-fw fa-pencil-alt"></i>
-      a11yLabel: 'Edit',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      },
-    },
-    {
-      label: '', //<i class="fas fa-fw fa-trash-alt"></i>
-      a11yLabel: 'Delete',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      },
-    },
-  ];
-
   refresh = new Subject<void>();
+  
+  activeDayIsOpen: boolean = true;
 
   //Aca se agregan los eventos
-  events: CalendarEvent[] = [
+  events: CalendarEvent[]=[
     {
       title: 'Reunion equipo A',
       color: colors.red, 
@@ -79,65 +74,54 @@ export class CalendarComponent {
         codigoQr: "", // codigoQr!:string;
         notificacion: "Titulo, mensaje"// notificacion!: Array<Notificacion>;
       }
-      
-     
-      
-      
-    
-    },
-    
+    }
   ];
-  // fetchEvents(): void {
-  //   const getStart: any = {
-  //     month: startOfMonth,
-  //     week: startOfWeek,
-  //     day: startOfDay,
-  //   }[this.view];
-
-  //   const getEnd: any = {
-  //     month: endOfMonth,
-  //     week: endOfWeek,
-  //     day: endOfDay,
-  //   }[this.view];
-
-  //   const params = new HttpParams()
-  //     .set(
-  //       'primary_release_date.gte',
-  //       format(getStart(this.viewDate), 'yyyy-MM-dd')
-  //     )
-  //     .set(
-  //       'primary_release_date.lte',
-  //       format(getEnd(this.viewDate), 'yyyy-MM-dd')
-  //     )
-  //     .set('api_key', '0ec33936a68018857d727958dca1424f');
-
-  //   this.events$ = this.http
-  //     .get('https://api.themoviedb.org/3/discover/movie', { params })
-  //     .pipe(
-  //       map(({ results }: { results: Film[] }) => {
-  //         return results.map((film: Film) => {
-  //           return {
-  //             title: film.title,
-  //             start: new Date(
-  //               film.release_date + getTimezoneOffsetString(this.viewDate)
-  //             ),
-  //             color: colors.yellow,
-  //             allDay: true,
-  //             meta: {
-  //               film,
-  //             },
-  //           };
-  //         });
-  //       })
-  //     );
-  // }
-
-  activeDayIsOpen: boolean = true;
-
-  constructor(private modal: NgbModal) {}
-  ngOnInit(): void {
     
+  constructor(private modal: NgbModal, private reunionService: ReunionService) {}
+
+  ngOnInit(): void {
+    this.cargarReuniones();
   }
+  // Cargar reuniones en calendario
+  cargarReuniones(): void{
+    
+    var reunion: Reunion;
+
+    this.reunionService.getReuniones().subscribe(
+      result=>{
+        var reunion= new Reunion();
+        result.forEach((element:any) => {
+          Object.assign(reunion, element);
+          
+          this.agregarEvento(reunion);
+        });
+        console.log(this.events);
+        
+      },
+      error=>{
+
+      }
+    );
+  }
+  //
+  agregarEvento(reunion: Reunion):void{
+    var [day, month, year]= reunion.fecha.split('/');
+    var [hours, minutes, seconds]= reunion.horaReunion.split(':');
+    var [hours1, minutes1, seconds1]= reunion.horaFinalizacion.split(':');
+
+    const eventoAux: CalendarEvent={
+       title: reunion.nombre,
+              start: new Date(+year, +month-1, +day, +hours, +minutes, +seconds),
+              end: new Date(+year, +month-1, +day, +hours1, +minutes1, +seconds1),
+              color:colors.blue,
+              meta:{
+                reunion
+              }
+    };
+    this.events = [...this.events,eventoAux];
+  }
+  //Metodos de angular calendar
+
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
@@ -173,27 +157,6 @@ export class CalendarComponent {
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = {event};
     this.modal.open(this.modalContent, { size: 'md' });
-  }
-
-  addEvent(): void {
-    this.events = [
-      ...this.events,
-      {
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors.red,
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },
-      },
-    ];
-  }
-
-  deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
   }
 
   setView(view: CalendarView) {

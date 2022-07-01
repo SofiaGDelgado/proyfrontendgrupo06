@@ -88,50 +88,7 @@ export class AgendaComponent implements OnInit {
     },
     
   ];
-  // fetchEvents(): void {
-  //   const getStart: any = {
-  //     month: startOfMonth,
-  //     week: startOfWeek,
-  //     day: startOfDay,
-  //   }[this.view];
-
-  //   const getEnd: any = {
-  //     month: endOfMonth,
-  //     week: endOfWeek,
-  //     day: endOfDay,
-  //   }[this.view];
-
-  //   const params = new HttpParams()
-  //     .set(
-  //       'primary_release_date.gte',
-  //       format(getStart(this.viewDate), 'yyyy-MM-dd')
-  //     )
-  //     .set(
-  //       'primary_release_date.lte',
-  //       format(getEnd(this.viewDate), 'yyyy-MM-dd')
-  //     )
-  //     .set('api_key', '0ec33936a68018857d727958dca1424f');
-
-  //   this.events$ = this.http
-  //     .get('https://api.themoviedb.org/3/discover/movie', { params })
-  //     .pipe(
-  //       map(({ results }: { results: Film[] }) => {
-  //         return results.map((film: Film) => {
-  //           return {
-  //             title: film.title,
-  //             start: new Date(
-  //               film.release_date + getTimezoneOffsetString(this.viewDate)
-  //             ),
-  //             color: colors.yellow,
-  //             allDay: true,
-  //             meta: {
-  //               film,
-  //             },
-  //           };
-  //         });
-  //       })
-  //     );
-  // }
+  
 
   activeDayIsOpen: boolean = true;
 

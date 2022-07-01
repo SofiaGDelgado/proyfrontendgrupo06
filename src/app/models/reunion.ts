@@ -6,6 +6,8 @@ import { TipoReunion } from "./tipo-reunion";
 
 export class Reunion {
     _id!: string;
+    nombre!:string;
+    descripcion!:string;
     fecha!: string;
     horaReunion!: string;
     horaFinalizacion!:string;
