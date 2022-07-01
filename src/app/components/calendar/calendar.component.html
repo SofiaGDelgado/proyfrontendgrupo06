@@ -132,19 +132,23 @@
         </div>
         <form>
           <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Oficina</label>
-            <select class="form-select" aria-label="Default select example">
-              <option selected>Oficinas</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+            <label for="oficina" class="form-label">Oficina</label>
+            <select class="form-select" id="oficina">
+              <option *ngFor="let o of oficinas" [ngValue]="o" [(ngModel)]="oficina">{{o.nombre}}</option>
             </select>
           </div>
-          
-          <button type="submit" class="btn btn-primary">Buscar</button>
+          <button type="submit" class="btn btn-primary" (click)="filtroOficinas(oficina)">Buscar</button>
         </form>
         <div class="reuniones">
-          Eventos/Reuniones de cada oficina
+          <div id="container-table" class="table-responsive ">
+            <table class="table table-bordered">
+                <tbody>
+                  <tr *ngFor="let item of reunionesOficina">
+                    <td>{{item}}</td>
+                  </tr>
+                </tbody>
+            </table>
+          </div>
         </div>
       </div>
     

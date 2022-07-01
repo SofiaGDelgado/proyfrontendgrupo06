@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent,CalendarView,} from 'angular-calendar';
 import { Reunion } from 'src/app/models/reunion';
 import { ReunionService } from 'src/app/services/reunion.service';
+import { Oficina } from 'src/app/models/oficina';
 
 
 
@@ -57,11 +58,18 @@ export class CalendarComponent {
   
   activeDayIsOpen: boolean = true;
 
+  reunionesOficina!: Array <Reunion>;
+
+  oficinas!: Array <Oficina>;
+
+  oficina!:Oficina;
+
   //Aca se agregan los eventos
   events: CalendarEvent[]=[
     {
+      //Ejemplo por defecto
       title: 'Reunion equipo A',
-      color: colors.red, 
+      color: colors.blue, 
       start: addHours(startOfDay(new Date()), 2),// horaReunion!: string;// fecha!: string;
       end: addHours(new Date(), 2),// horaFinalizacion!:string;
       meta:{
@@ -105,10 +113,11 @@ export class CalendarComponent {
   }
   //
   agregarEvento(reunion: Reunion):void{
-    var [day, month, year]= reunion.fecha.split('/');
-    var [hours, minutes, seconds]= reunion.horaReunion.split(':');
-    var [hours1, minutes1, seconds1]= reunion.horaFinalizacion.split(':');
-
+    var [year, month, day]= reunion.fecha.split('-');
+    var [hours, minutes]= reunion.horaReunion.split(':');
+    var [hours1, minutes1]= reunion.horaFinalizacion.split(':');
+    var[seconds]='00';
+    var[seconds1]='00';
     const eventoAux: CalendarEvent={
        title: reunion.nombre,
               start: new Date(+year, +month-1, +day, +hours, +minutes, +seconds),
@@ -120,6 +129,34 @@ export class CalendarComponent {
     };
     this.events = [...this.events,eventoAux];
   }
+
+  //Filtro por oficinas
+  filtroOficinas(oficina: Oficina){
+    this.reunionesOficina= new Array <Reunion>();
+      this.reunionService.getReunionesOficina(oficina._id).subscribe(
+        result=>{
+          var unaReunion= new Reunion();
+          result.forEach((element:any) => {
+            Object.assign(unaReunion, element);
+            this.reunionesOficina.push(unaReunion);
+            unaReunion= new Reunion();
+          });
+          console.log(this.reunionesOficina);
+          if(this.reunionesOficina.length == 0){
+            alert('No se han encontrado coincidencias');
+          }
+          
+        },
+        error=>{
+
+        }
+      );
+  }
+  //Metodo cargar select de Oficinas
+  cargarOficinas(){
+
+  }
+
   //Metodos de angular calendar
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
