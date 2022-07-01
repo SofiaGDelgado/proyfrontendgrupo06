@@ -9,7 +9,7 @@ export class ReunionService {
 
   constructor(private http: HttpClient) { }
 
-  urlBase!:string;
+  urlBase="http://localhost:4000/api/reunion/";
 
   getTiposReunion(): Observable<any>{
 
@@ -21,4 +21,17 @@ export class ReunionService {
 
     return this.http.get(this.urlBase,httpOption);
   }
+  getReuniones(): Observable<any>{
+
+    const httpOption = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    return this.http.get(this.urlBase,httpOption);
+  }
+
+  
+  
 }
