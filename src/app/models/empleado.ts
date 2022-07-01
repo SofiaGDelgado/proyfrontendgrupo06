@@ -18,9 +18,7 @@ export class Empleado {
     estadoEmpleado!: boolean;
 
     constructor(){
-        this.dependencia = new Dependencia();
-        this.reuniones = new Array<Reunion>();
-        this.notificaciones = new Array<Notificacion>();
+        
         this.cantidadReuniones = 0;
         this.estadoEmpleado = true;
     }
