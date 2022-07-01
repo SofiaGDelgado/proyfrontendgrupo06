@@ -111,4 +111,6 @@ export class RegistroReunionesComponent implements OnInit {
       this.reunion.recursos.push(recur);
     })
   }
+
+  
 }
