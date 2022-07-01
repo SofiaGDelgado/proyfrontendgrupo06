@@ -32,6 +32,10 @@ import { CommonModule } from '@angular/common'; //Se importa para que no salte e
   //Dependencias para poner en idioma español el calendario
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
+
+import { AlifeFileToBase64Module } from 'alife-file-to-base64';
+
+
 registerLocaleData(localeEs);
 //
 @NgModule({
@@ -66,6 +70,7 @@ registerLocaleData(localeEs);
     NgbModalModule,
     FlatpickrModule.forRoot(),
     NgbModule,
+    AlifeFileToBase64Module,
   ],
   providers: [ LoginService,
  ],

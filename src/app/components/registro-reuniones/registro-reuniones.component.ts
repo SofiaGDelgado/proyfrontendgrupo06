@@ -96,7 +96,8 @@ export class RegistroReunionesComponent implements OnInit {
 
   onFileChanges(files:any){
     console.log("File has changed:", files);
-    this.recurso.archivoUrl = files[0].base64;
+    this.recurso.archivoUrl = btoa(files[0].base64);
+    console.log(this.recurso.archivoUrl);
   }
 
   cargarRecurso(){
