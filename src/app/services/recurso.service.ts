@@ -8,7 +8,7 @@ import { Recurso } from '../models/recurso';
 })
 export class RecursoService {
 
-  urlBase = "http://localhost:4000/api/recurso";
+  urlBase = "http://localhost:4000/api/recurso/";
 
   constructor(private http: HttpClient) { }
 
@@ -32,5 +32,15 @@ export class RecursoService {
     }
 
     return this.http.get(this.urlBase, httpOption)
+  }
+
+  deleteRecurso(r: Recurso): Observable<any>{
+    const httpOption = {
+      headers: new HttpHeaders({
+        
+      })
+    }
+
+    return this.http.delete(this.urlBase+r._id, httpOption)
   }
 }
