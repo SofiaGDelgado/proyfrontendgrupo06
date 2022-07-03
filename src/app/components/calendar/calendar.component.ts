@@ -10,9 +10,7 @@ import { Reunion } from 'src/app/models/reunion';
 import { ReunionService } from 'src/app/services/reunion.service';
 import { Oficina } from 'src/app/models/oficina';
 
-
-
-
+//Colores para los eventos
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -56,7 +54,7 @@ export class CalendarComponent {
 
   refresh = new Subject<void>();
   
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen: boolean = false;
 
   reunionesOficina!: Array <Reunion>;
 
@@ -104,14 +102,14 @@ export class CalendarComponent {
           this.agregarEvento(reunion);
         });
         console.log(this.events);
-        
+        this.refresh.next();
       },
       error=>{
 
       }
     );
   }
-  //
+  //Metodo para agregar los eventos de la BD a events del calendario
   agregarEvento(reunion: Reunion):void{
     var [year, month, day]= reunion.fecha.split('-');
     var [hours, minutes]= reunion.horaReunion.split(':');
