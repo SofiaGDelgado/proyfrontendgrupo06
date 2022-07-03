@@ -1,1 +1,29 @@
-<p>gestion-empleados works!</p>
+<div class="card m-auto w-75">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>N° Legajo</th>
+                <th>Nombre y Apellido</th>
+                <th>Dependencia</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Reuniones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let e of empleados">
+                <th>{{e.legajo}}</th>
+                <th>{{e.nombre}} {{e.apellido}}</th>
+                <th>{{e.dependencia.nombre}}</th>
+                <th>{{e.email}}</th>
+                <th>{{e.rol}}</th>
+                <th>
+                    <ul>
+                        <li *ngFor="let r of e.reuniones">{{r.nombre}}</li>
+                    </ul>
+                </th>
+
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -34,4 +34,17 @@ export class EmpleadoService {
     
     return this.http.post(this.urlBase, body, httpOption)
   }
+
+  modificarEmpleado(empleado: Empleado):Observable<any>{
+    const httpOption = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    let body = JSON.stringify(empleado);
+
+    return this.http.put(this.urlBase+empleado._id, body, httpOption);
+
+  }
 }
