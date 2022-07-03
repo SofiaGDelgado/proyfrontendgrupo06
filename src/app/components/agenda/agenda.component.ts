@@ -3,6 +3,8 @@ import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMo
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent,CalendarView,} from 'angular-calendar';
+import { Reunion } from 'src/app/models/reunion';
+import { ReunionService } from 'src/app/services/reunion.service';
 
 
 const colors: any = {
@@ -92,11 +94,51 @@ export class AgendaComponent implements OnInit {
 
   activeDayIsOpen: boolean = true;
 
-  constructor(private modal: NgbModal) {}
+  constructor(private modal: NgbModal, private reunionService: ReunionService) {}
 
   ngOnInit(): void {
-    
+    this.cargarReuniones();
   }
+
+  cargarReuniones(): void{
+    
+    var reunion: Reunion;
+
+    this.reunionService.getReuniones().subscribe(
+      result=>{
+        var reunion= new Reunion();
+        result.forEach((element:any) => {
+          Object.assign(reunion, element);
+          
+          this.agregarEvento(reunion);
+        });
+        console.log(this.events);
+        
+      },
+      error=>{
+
+      }
+    );
+  }
+  //
+  agregarEvento(reunion: Reunion):void{
+    var [year, month, day]= reunion.fecha.split('-');
+    var [hours, minutes]= reunion.horaReunion.split(':');
+    var [hours1, minutes1]= reunion.horaFinalizacion.split(':');
+    var[seconds]='00';
+    var[seconds1]='00';
+    const eventoAux: CalendarEvent={
+       title: reunion.nombre,
+              start: new Date(+year, +month-1, +day, +hours, +minutes, +seconds),
+              end: new Date(+year, +month-1, +day, +hours1, +minutes1, +seconds1),
+              color:colors.blue,
+              meta:{
+                reunion
+              }
+    };
+    this.events = [...this.events,eventoAux];
+  }
+  
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (

@@ -10,9 +10,7 @@ import { Reunion } from 'src/app/models/reunion';
 import { ReunionService } from 'src/app/services/reunion.service';
 import { Oficina } from 'src/app/models/oficina';
 
-
-
-
+//Colores para los eventos
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -56,7 +54,7 @@ export class CalendarComponent {
 
   refresh = new Subject<void>();
   
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen: boolean = false;
 
   reunionesOficina!: Array <Reunion>;
 
@@ -104,14 +102,14 @@ export class CalendarComponent {
           this.agregarEvento(reunion);
         });
         console.log(this.events);
-        
+        this.refresh.next();
       },
       error=>{
 
       }
     );
   }
-  //
+  //Metodo para agregar los eventos de la BD a events del calendario
   agregarEvento(reunion: Reunion):void{
     var [year, month, day]= reunion.fecha.split('-');
     var [hours, minutes]= reunion.horaReunion.split(':');
@@ -135,16 +133,13 @@ export class CalendarComponent {
     this.reunionesOficina= new Array <Reunion>();
       this.reunionService.getReunionesOficina(oficina._id).subscribe(
         result=>{
-          var unaReunion= new Reunion();
+          var reunion= new Reunion();
           result.forEach((element:any) => {
-            Object.assign(unaReunion, element);
-            this.reunionesOficina.push(unaReunion);
-            unaReunion= new Reunion();
+            Object.assign(reunion, element);
+            
+            this.agregarEvento(reunion);
           });
-          console.log(this.reunionesOficina);
-          if(this.reunionesOficina.length == 0){
-            alert('No se han encontrado coincidencias');
-          }
+          console.log(this.events);
           
         },
         error=>{
@@ -154,7 +149,25 @@ export class CalendarComponent {
   }
   //Metodo cargar select de Oficinas
   cargarOficinas(){
+    this.oficinas= new Array <Oficina>();
+    this.reunionService.getReunionesOficina(this.oficina._id).subscribe(
+      result=>{
+        var unaOficina= new Oficina();
+        result.forEach((element:any) => {
+          Object.assign(unaOficina, element);
+          this.oficinas.push(unaOficina);
+          unaOficina= new Oficina();
+        });
+        console.log(this.oficinas);
+        if(this.oficinas.length == 0){
+          alert('No se han encontrado coincidencias');
+        }
+        
+      },
+      error=>{
 
+      }
+    );
   }
 
   //Metodos de angular calendar
