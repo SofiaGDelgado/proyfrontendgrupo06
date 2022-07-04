@@ -49,6 +49,7 @@ export class RegistroReunionesComponent implements OnInit {
     this.tiposReunion = new Array<TipoReunion>();
     this.reunionService.getTiposReunion().subscribe((tR)=> {
       this.tiposReunion = tR;
+      console.log(tR);
     })
   }
 
