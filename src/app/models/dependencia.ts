@@ -1,6 +1,6 @@
 export class Dependencia {
     _id!: string;
-    nombre !: string;
+    nombre!: string;
     
     constructor(){
         
