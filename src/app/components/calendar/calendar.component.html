@@ -133,12 +133,19 @@
         <form>
           <div class="mb-3">
             <label for="oficina" class="form-label">Oficina</label>
-            <select class="form-select" id="oficina">
-              <option *ngFor="let o of oficinas" [ngValue]="o" [(ngModel)]="oficina">{{o.nombre}}</option>
+            <select class="form-select" id="oficina" name="oficina" [(ngModel)]="oficina" >
+              <option  *ngFor="let item of oficinas" value="{{item._id}}" >{{item.nombre}}</option>
             </select>
           </div>
-          <button type="submit" class="btn btn-primary" (click)="filtroOficinas(oficina)">Buscar</button>
+          <div class="mb-3">
+             <button type="submit" class="btn btn-primary" (click)="filtroOficinas()">Buscar</button>
+          </div>
+         
+          <div class="mb-3">
+            <button type="submit" class="btn btn-primary" (click)="cargarReuniones()">Mostrar todo </button>
+          </div>
         </form>
+       
         
       </div>
     
@@ -149,17 +156,17 @@
 </div>
  
   <ng-template #modalContent let-close="close">
-    <div class="modal-header">
-      <button type="button" class="close" (click)="close()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
+    
     <div class="modal-body">
      
-      <div>
-        Datos de la reunion:
-        <pre>{{ modalData?.event | json }}</pre>
+      <div class="justify-content-center">
         
+        <h2>{{ modalData?.nombre}}</h2>
+        <p>Fecha: {{ modalData?.inicio | date:'shortDate'}}</p>
+        <p>Hora: {{ modalData?.inicio | date:'shortTime'}} - {{ modalData?.fin | date:'shortTime'}}</p>
+        <img src="{{modalData?.codigoQr}}" alt="">
+
+        <!-- <pre>{{modalData?.event | json}}</pre> -->
       </div>
     </div>
     <div class="modal-footer">

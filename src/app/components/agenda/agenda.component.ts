@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent,CalendarView,} from 'angular-calendar';
 import { Reunion } from 'src/app/models/reunion';
 import { ReunionService } from 'src/app/services/reunion.service';
-
+import { LoginService } from 'src/app/services/login.service';
 
 const colors: any = {
   red: {
@@ -43,35 +43,22 @@ export class AgendaComponent implements OnInit {
 
   modalData!: {
     event: CalendarEvent;
+    nombre: string;
+    inicio: Date;
+    fin: any;
+    codigoQr: string;
   };
 
-  actions: CalendarEventAction[] = [
-    {
-      label: '', //<i class="fas fa-fw fa-pencil-alt"></i>
-      a11yLabel: 'Edit',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      },
-    },
-    {
-      label: '', //<i class="fas fa-fw fa-trash-alt"></i>
-      a11yLabel: 'Delete',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      },
-    },
-  ];
-
+ 
   refresh = new Subject<void>();
 
   //Aca se agregan los eventos
-  events: CalendarEvent[] = [
+  events: CalendarEvent[]= [
     {
       title: 'Reunion equipo A',
-      color: colors.red, 
-      start: addHours(startOfDay(new Date()), 2),// horaReunion!: string;// fecha!: string;
-      end: addHours(new Date(), 2),// horaFinalizacion!:string;
+      color: colors.blue, 
+      start: new Date(),// horaReunion!: string;// fecha!: string;
+     // horaFinalizacion!:string;
       meta:{
         oficina: "oficina 1",// oficina!: Oficina;
         tipoReunion: "Oficial",// tipoReunion!: TipoReunion;
@@ -82,29 +69,25 @@ export class AgendaComponent implements OnInit {
         codigoQr: "", // codigoQr!:string;
         notificacion: "Titulo, mensaje"// notificacion!: Array<Notificacion>;
       }
-      
-     
-      
-      
-    
+ 
     },
     
   ];
   
-
   activeDayIsOpen: boolean = true;
 
-  constructor(private modal: NgbModal, private reunionService: ReunionService) {}
+  idEmpleado!: any;
+
+  constructor(private modal: NgbModal, private reunionService: ReunionService, private loginService: LoginService) {}
 
   ngOnInit(): void {
     this.cargarReuniones();
+    this.obtenerId();
   }
 
   cargarReuniones(): void{
-    
-    var reunion: Reunion;
 
-    this.reunionService.getReuniones().subscribe(
+    this.reunionService.getReunionesEmpleado(this.idEmpleado).subscribe(
       result=>{
         var reunion= new Reunion();
         result.forEach((element:any) => {
@@ -113,12 +96,17 @@ export class AgendaComponent implements OnInit {
           this.agregarEvento(reunion);
         });
         console.log(this.events);
-        
+        this.refresh.next();
       },
       error=>{
 
       }
     );
+  }
+
+  obtenerId(){
+    this.idEmpleado= this.loginService.idLogged();
+    console.log(this.idEmpleado);
   }
   //
   agregarEvento(reunion: Reunion):void{
@@ -153,49 +141,19 @@ export class AgendaComponent implements OnInit {
     }
   }
 
-  eventTimesChanged({
-    event,
-    newStart,
-    newEnd,
-  }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map((iEvent) => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd,
-        };
-      }
-      return iEvent;
-    });
-    this.handleEvent('Dropped or resized', event);
-  }
+  
 
   handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = {event};
+    this.modalData = {
+      event: event,
+      nombre: event.title,
+      inicio: event.start,
+      fin: event.end,
+      codigoQr: event.meta.codigoQr
+    };
     this.modal.open(this.modalContent, { size: 'md' });
   }
 
-  addEvent(): void {
-    this.events = [
-      ...this.events,
-      {
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors.red,
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },
-      },
-    ];
-  }
-
-  deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
-  }
 
   setView(view: CalendarView) {
     this.view = view;

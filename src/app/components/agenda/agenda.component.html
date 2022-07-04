@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div  class="container-fluid">
     <!-- Header -->
     <div id="header" class="text-center bg-image">
      <div class="mask">
@@ -21,9 +21,8 @@
    </div>
   
    <div class="row">
-    
      <div>
-           <!-- Calendario -->
+      <!-- Calendario -->
        <div id="contenedor-calendario">
          <div class="row text-center">
            <div class="col">
@@ -94,7 +93,7 @@
              [activeDayIsOpen]="activeDayIsOpen"
              (dayClicked)="dayClicked($event.day)"
              (eventClicked)="handleEvent('Clicked', $event.event)"
-             (eventTimesChanged)="eventTimesChanged($event)"
+             
              [locale]="locale"
            >
            </mwl-calendar-month-view>
@@ -104,7 +103,7 @@
              [events]="events"
              [refresh]="refresh"
              (eventClicked)="handleEvent('Clicked', $event.event)"
-             (eventTimesChanged)="eventTimesChanged($event)"
+            
              [locale]="locale"
            >
            </mwl-calendar-week-view>
@@ -114,7 +113,7 @@
              [events]="events"
              [refresh]="refresh"
              (eventClicked)="handleEvent('Clicked', $event.event)"
-             (eventTimesChanged)="eventTimesChanged($event)"
+           
              [locale]="locale"
            >
            </mwl-calendar-day-view>
@@ -130,18 +129,18 @@
  </div>
   
    <ng-template #modalContent let-close="close">
-     <div class="modal-header">
-       <button type="button" class="close" (click)="close()">
-         <span aria-hidden="true">&times;</span>
-       </button>
-     </div>
-     <div class="modal-body">
-      
-       <div>
-         Datos de la reunion:
-         <pre>{{ modalData?.event | json }}</pre>
-         
-       </div>
+    <div class="modal-body">
+     
+      <div class="justify-content-center">
+        
+        <h2>{{ modalData?.nombre}}</h2>
+        <p>Fecha: {{ modalData?.inicio | date:'shortDate'}}</p>
+        <p>Hora: {{ modalData?.inicio | date:'shortTime'}} - {{ modalData?.fin | date:'shortTime'}}</p>
+        <img src="{{modalData?.codigoQr}}" alt="">
+
+        <!-- <pre>{{modalData?.event | json}}</pre> -->
+      </div>
+    
      </div>
      <div class="modal-footer">
        <button type="button" class="btn btn-outline-secondary" (click)="close()">
