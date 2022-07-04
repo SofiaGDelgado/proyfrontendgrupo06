@@ -12,7 +12,6 @@
           <li class="nav-item">
             <a  class="nav-link" aria-current="page" type="button">Informacion</a>
           </li>
-        
         </ul> 
         <form class="d-flex">
           <div class="dropdown" *ngIf="loginService.userLoggedIn()">
@@ -21,19 +20,13 @@
               <strong>{{loginService.userLogged()}}</strong>
             </a>
             <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-             
-              <li><a class="dropdown-item"  *ngIf="loginService.userLoggedIn()" [routerLink]="['login']" (click)="logout()">
-            Cerrar Sesion
-            </a></li>
+              <li><a class="dropdown-item"  *ngIf="loginService.userLoggedIn()" [routerLink]="['login']" (click)="logout()">Cerrar Sesion</a></li>
             </ul>
           </div>
         </form>
-
         <form class="d-flex">
           <button type="button" class="btn"  *ngIf="!loginService.userLoggedIn()"  [routerLink]="['login']">Iniciar Sesion </button>
         </form>
-       
-            
       </div>
     </div>
   </nav> 

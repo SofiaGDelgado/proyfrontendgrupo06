@@ -1,19 +1,15 @@
-<!-- Header -->
 <div id="header" class="text-center bg-image">
     <div class="mask">
       <div class="d-flex justify-content-center align-items-center h-100">
         <div class="text-white">
-      
           <h1 class="mb-3">Gestion de empleados</h1>
-           <!-- Breadcrumb -->
            <nav class="d-flex">
             <h6 class="mb-0">
-              <a  [routerLink]="['principal/Administrador']" class="text-reset">Home</a>
+              <a routerLink="/principal/Administrador" class="text-reset">Home</a>
               <span>/</span>
-              <a href="#" class="text-reset">Gestion Empleados</a>
+              <a routerLink="/principal/Administrador/gestionEmpleados" class="text-reset">Gestion Empleados</a>
             </h6>
           </nav>
-          <!-- Breadcrumb -->
         </div>
       </div>
     </div>
@@ -21,9 +17,7 @@
 <div class="btns">
   <button class="btn btn-agregar" (click)="altaEmpleado()">AGREGAR <i class="fa-solid fa-circle-plus"></i></button>
 </div>
-
 <div class="card m-auto w-75">
-    
     <table class="table">
         <thead>
             <tr>
@@ -43,16 +37,11 @@
                 <td>{{e.dependencia.nombre}}</td>
                 <td>{{e.email}}</td>
                 <td>{{e.rol}}</td>
-                <td>
-                    <ul>
-                        <li *ngFor="let r of e.reuniones">{{r.nombre}}</li>
-                    </ul>
-                </td>
+                <td><ul><li *ngFor="let r of e.reuniones">{{r.nombre}}</li></ul></td>
                 <td>
                   <button type="button" class="btn btn-borrar" (click)="borrarEmpleado(e)"><i class="fa-solid fa-trash"></i></button>
                   <button type="button" class="btn btn-seleccionar" (click)="modificarEmpleado(e)"><i class="fa-solid fa-pen"></i></button>
                 </td>
-
             </tr>
         </tbody>
     </table>
