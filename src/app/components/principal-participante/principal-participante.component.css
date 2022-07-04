@@ -2,16 +2,12 @@
   margin: 0px;
   padding: 0px;
   margin-top: 70px;
-  justify-content: center;
 }
 .container-fluid{
   margin: 0px;
   padding: 0px;
   background-image: url('/assets/fondo-header.jpg');
   background-size:cover;
-  justify-content: center;
-
-  align-items: center;
 }
 #inicio{
   padding: 20px;
@@ -27,19 +23,9 @@
   text-align: center;
   align-items: center;
 }
-.card img{
-  height: 250px;
-}
-.d-flex{
-  justify-content: center;
-  
-}
 #container-cards{
   width:fit-content;
   height: auto;
- justify-content: center;
-  text-align: center;
-  align-items: center;
 }
 #flecha{
   justify-content: center;
