@@ -52,22 +52,17 @@ export class GestionEmpleadosComponent implements OnInit {
   }
 
   borrarEmpleado(empleado: Empleado){
-    this.empleadoServ.deleteEmpleado(empleado._id).subscribe(
+    var id:string= empleado._id;
+    this.empleadoServ.deleteEmpleado(id).subscribe(
       result=>{
-        
-        if(result.status=="1"){
-          this.toastr.success(result.msg,'Operacion exitosa',{
-            extendedTimeOut:3000
-          });
           this.getEmpleados();
-        }
-       
+          this.toastr.success('Operacion exitosa','Exito',{
+            extendedTimeOut:3000});
+
       },
       error=>{
-        if(error.status=="0"){
-          this.toastr.error(error.msg);
-        }
-        
+       
+          this.toastr.error('Error');        
       }
      );
   }

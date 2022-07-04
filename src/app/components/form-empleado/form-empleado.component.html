@@ -1,6 +1,12 @@
 <div class="container-fluid">
+    
     <form #form="ngForm" class="card w-50 m-auto row mb-5" action="" id="formulario">
+        <div id="btn-cerrar">
+            <button (click)="cerrar()" type="submit" class="btn-close"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        
         <h5 class="mt-4 ">Formulario Empleados</h5>
+        
         <div class="row mb-2 " id="item">
             <div class="col-6 ">
                 <label for="nombre" class="form-label">Nombre: </label>
@@ -60,7 +66,8 @@
                 </select>
             </div>
         </div>
-        <button type="button" class="btn" (click)="altaEmpleado()" [disabled]="form.invalid">Registrar</button>
+        <button type="button" class="btn" (click)="altaEmpleado()"  *ngIf="accion=='new'"  [disabled]="form.invalid">Registrar</button>
+        <button *ngIf="accion=='update'" (click)="actualizarEmpleado()" type="submit" class="btn btn-modificar">ACTUALIZAR</button>
         <button type="button" class="btn" (click)="resetForm(form)">Limpiar</button>
     </form>
 </div>
