@@ -41,6 +41,10 @@ import * as pdfFonts from "pdfmake/build/vfs_fonts";
 //Mensajes
 import { ToastrModule } from 'ngx-toastr';
 
+//Autorizacion (JSONWEBTOKEN)
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import { TokenInterceptorService } from './services/token-interceptor.service';
+
 registerLocaleData(localeEs);
 PdfMakeWrapper.setFonts(pdfFonts);
 //
@@ -80,7 +84,12 @@ PdfMakeWrapper.setFonts(pdfFonts);
     AlifeFileToBase64Module,
     ToastrModule.forRoot(),
   ],
-  providers: [ LoginService],
+  providers: [
+    LoginService,{
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
