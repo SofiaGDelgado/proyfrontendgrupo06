@@ -29,14 +29,6 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['principal']);
   }
 
-  irAPricipalAdmi() {
-    this.router.navigate(['principal/Administrador']);
-  }
-  irAPricipalParticipante() {
-    this.router.navigate(['principal/Participante']);
-  }
- 
-
   login() {
     this.loginService.login(this.userform.username, this.userform.password).subscribe(
     (result) => {
@@ -48,7 +40,7 @@ export class LoginComponent implements OnInit {
         //sessionStorage.setItem("perfil", user.perfil);
         sessionStorage.setItem("rol", user.rol);
         console.log(user);
-        if(user.rol == "administrador"){
+        if(user.rol == "administrador" || user.rol == "Administrador"){
           //redirigimos a home o a pagina que llamo
           this.irAPricipalAdmi();
         }else{ //en caso contrario ira a principalParticipante
@@ -64,5 +56,12 @@ export class LoginComponent implements OnInit {
       console.log("error en conexion");
       console.log(error);
     });
+  }
+
+  irAPricipalAdmi() {
+    this.router.navigate(['principal/Administrador']);
+  }
+  irAPricipalParticipante() {
+    this.router.navigate(['principal/Participante']);
   }
 }
