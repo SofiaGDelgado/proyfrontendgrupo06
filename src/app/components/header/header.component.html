@@ -19,7 +19,6 @@
               <a class="nav-link" [routerLink]="'calendar'">Calendario</a>
           </li>
         </ul> 
-     
         <form class="d-flex">
           <div class="dropdown" *ngIf="loginService.userLoggedIn()">
             <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -30,16 +29,14 @@
               <li><a class="dropdown-item" href="#">Perfil</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item"  *ngIf="loginService.userLoggedIn()" [routerLink]="['login']" (click)="logout()">
-             Cerrar Sesion
+            Cerrar Sesion
             </a></li>
             </ul>
           </div>
-         
         </form>
-       
+
         <form class="d-flex">
           <button type="button" class="btn"  *ngIf="!loginService.userLoggedIn()"  [routerLink]="['login']">Iniciar Sesion </button>
-          
         </form>
        
             
