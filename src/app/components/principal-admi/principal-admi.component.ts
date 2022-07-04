@@ -21,7 +21,7 @@ export class PrincipalAdmiComponent implements OnInit {
     this.router.navigate(['principal/Administrador/estadistica']);
   }
   GestionEmpleados(){
-    this.router.navigate(['principal/Administrador/gestioEmpleados']);
+    this.router.navigate(['principal/Administrador/gestionEmpleados']);
   }
 
 
