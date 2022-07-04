@@ -29,6 +29,10 @@
                     -->
                 </div>
                 <div id="btns">
+                   <button class="btn btn-login"  value="LOGIN" (click)="login()">
+                    LOGIN
+                   </button>
+                   
                     <input class="btn btn-login"  value="LOGIN" (click)="login()" [disabled]="form.invalid">
                     <div class="alert-danger">{{msglogin}}</div>
                 </div>
