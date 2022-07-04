@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Oficina } from '../models/oficina';
 import { Reunion } from '../models/reunion';
 
 @Injectable({
@@ -86,6 +87,19 @@ export class ReunionService {
     }
 
     return this.http.get(this.urlBase + 'oficina', httpOption);
+  }
+
+  modificarOficina(ofi: Oficina): Observable<any>{
+    const httpOption = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    let body = JSON.stringify(ofi);
+
+    return this.http.put(this.urlBase+ "oficina/" + ofi._id, body, httpOption);
+
   }
 
   modificarReunion(reunion: Reunion): Observable<any>{
