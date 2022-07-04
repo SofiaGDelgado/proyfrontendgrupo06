@@ -63,7 +63,7 @@
                 </select>
             </div>
         </div>
-        <button type="button" class="btn" (click)="altaEmpleado()" *ngIf="accion=='new'" [disabled]="form.invalid" routerLink="principal/Administrador/gestionEmpleados">Registrar</button>
+        <button type="button" class="btn" (click)="altaEmpleado()" *ngIf="accion=='new'" [disabled]="form.invalid" routerLink="/principal/Administrador/gestionEmpleados">Registrar</button>
         <button *ngIf="accion=='update'" (click)="actualizarEmpleado()" type="submit" class="btn btn-modificar" [disabled]="form.invalid" routerLink="/principal/Administrador/gestionEmpleados">ACTUALIZAR</button>
         <button type="button" class="btn" (click)="resetForm(form)">Limpiar</button>
     </form>

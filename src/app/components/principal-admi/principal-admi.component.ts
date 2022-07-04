@@ -8,22 +8,19 @@ import { Router } from '@angular/router';
 })
 export class PrincipalAdmiComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  GestionEmpleados(){
+    this.router.navigate(['principal/Administrador/gestionEmpleados']);
   }
 
   RegistroReuniones(){
     this.router.navigate(['principal/Administrador/registroReuniones']);
   }
-  
+
   Estadistica(){
     this.router.navigate(['principal/Administrador/estadistica']);
   }
-  GestionEmpleados(){
-    this.router.navigate(['principal/Administrador/gestionEmpleados']);
-  }
-
-
-
 }
