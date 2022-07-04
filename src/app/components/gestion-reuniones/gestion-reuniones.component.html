@@ -1,0 +1,75 @@
+<!-- Header -->
+<div id="header" class="text-center bg-image">
+    <div class="mask">
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="text-white">
+      
+          <h1 class="mb-3">Gestion de reuniones</h1>
+           <!-- Breadcrumb -->
+           <nav class="d-flex">
+            <h6 class="mb-0">
+              <a  [routerLink]="['principal/Administrador']" class="text-reset">Home</a>
+              <span>/</span>
+              <a href="#" class="text-reset">Gestion Reuniones</a>
+            </h6>
+          </nav>
+          <!-- Breadcrumb -->
+        </div>
+      </div>
+    </div>
+</div>
+<div class="btns">
+  <button class="btn btn-agregar" (click)="altaReunion()">AGREGAR <i class="fa-solid fa-circle-plus"></i></button>
+</div>
+
+<div class="card m-auto w-75">
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Estado</th>
+            <th>Detalle</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of reuniones">
+            <td>{{ r._id }}</td>
+            <td>{{ r.nombre }}</td>
+            <td>{{ r.descripcion }}</td>
+            <td>{{ r.fecha | date:'shortDate' }}</td>
+            <td>{{ r.horaReunion | date:'shortTime'}} - {{r.horaFinalizacion | date:'shortTime'}}</td>
+            <td>{{r.estadoReunion}}</td>
+            <td>
+                <button type="button" class="btn btn-detalle" (click)="verDetalle(r)"><i class="fa-solid fa-eye"></i></button>
+            </td>
+            <td>  
+                <button type="button" class="btn btn-borrar" (click)="borrarReunion(r)"><i class="fa-solid fa-trash"></i></button>
+                <button type="button" class="btn btn-seleccionar" (click)="modificarReunion(r)"><i class="fa-solid fa-pen"></i></button>
+            </td>
+          </tr>
+        </tbody>
+    </table>
+</div>
+<ng-template #modalContent let-close="close">
+    
+    <div class="modal-body">
+     
+      <div class="justify-content-center">
+        
+        
+        <img src="{{modalData?.codigoQr}}" alt="">
+
+        <!-- <pre>{{modalData?.event | json}}</pre> -->
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="close()">
+        OK
+      </button>
+    </div> 
+  </ng-template>

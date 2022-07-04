@@ -1,7 +1,26 @@
 <div class="container-fluid">
-    <h3 class="display-3 text-center">Carga Reuniones</h3>
-    <form #form="ngForm" action="" class="m-auto w-50">
-        <div id="carouselExampleIndicators" class="carousel" >
+    <!-- Background image -->
+    <div id="header" class="text-center">
+        <div class="d-flex justify-content-center align-items-center h-100">
+          <div class="text-white">
+            <h1 class="mb-3">Formulario Reunion</h1>
+            <!-- Breadcrumb -->
+            <nav class="d-flex">
+              <h6 class="mb-0">
+                <a [routerLink]="['principal/Administrador']" class="text-reset">Home</a>
+                <span>/</span>
+                <a [routerLink]="['principal/Administrador/gestionReuniones/']">Gestion Reuniones</a>
+                <span>/</span>
+                <a href="#">Formulario Reunion</a>
+              </h6>
+            </nav>
+            <!-- Breadcrumb -->
+          </div>
+        </div>
+    </div>
+   
+    <form #form="ngForm" action="" class="">
+        <div id="carouselExampleIndicators" class="carousel" data-interval="false" >
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <div class="card">
@@ -121,10 +140,7 @@
                                         accept="image/x-png,image/gif,image/jpeg" />
                                 </div>
                                 <button type="button" id="boton" class="btn btn-dark" (click)="cargarRecurso()" [disabled]="form.invalid">Cargar Recurso</button>
-                            </form>
-                        </div>
-                        <div class="card-footer">
-                            <table class="table">
+                                <table class="table">
                                 <thead>
                                     <tr>
                                         <th scope="col">Nombre Recurso</th>
@@ -140,8 +156,10 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            </form>
                         </div>
-                        <button type="button" id="botonb"(click)="registrarReunion()" class="btn btn-dark mb-3" [disabled]="form.invalid">Registrar Reunion</button>
+                       
+                       
                     </div>
                 </div>
             </div>
@@ -153,6 +171,9 @@
                 <span class="carousel-control-next-icon bg-dark" aria-hidden="true" style="margin-left: 75px;"></span>
                 <span class="visually-hidden">Next</span>
             </button>
+            <div class="div-btn-agregar">
+                <button type="button" id="botonb"(click)="registrarReunion()" class="btn mb-3" [disabled]="form.invalid">REGISTRAR</button> 
+            </div>
         </div>
     </form>
 </div>

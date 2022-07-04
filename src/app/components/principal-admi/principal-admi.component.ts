@@ -14,7 +14,7 @@ export class PrincipalAdmiComponent implements OnInit {
   }
 
   RegistroReuniones(){
-    this.router.navigate(['principal/Administrador/registroReuniones']);
+    this.router.navigate(['principal/Administrador/gestionReuniones']);
   }
   
   Estadistica(){

@@ -1,11 +1,28 @@
 <div class="container-fluid">
-    
+    <!-- Background image -->
+    <div id="header" class="text-center">
+        <div class="d-flex justify-content-center align-items-center h-100">
+          <div class="text-white">
+            <h1 class="mb-3">Formulario Empleado</h1>
+            <!-- Breadcrumb -->
+            <nav class="d-flex">
+              <h6 class="mb-0">
+                <a [routerLink]="['principal/Administrador']" class="text-reset">Home</a>
+                <span>/</span>
+                <a [routerLink]="['principal/Administrador/gestionEmpleados/']">Gestion Empleados</a>
+                <span>/</span>
+                <a href="#">Formulario Empleado</a>
+              </h6>
+            </nav>
+            <!-- Breadcrumb -->
+          </div>
+        </div>
+    </div>
     <form #form="ngForm" class="card w-50 m-auto row mb-5" action="" id="formulario">
         <div id="btn-cerrar">
             <button (click)="cerrar()" type="submit" class="btn-close"><i class="fa-solid fa-xmark"></i></button>
         </div>
         
-        <h5 class="mt-4 ">Formulario Empleados</h5>
         
         <div class="row mb-2 " id="item">
             <div class="col-6 ">

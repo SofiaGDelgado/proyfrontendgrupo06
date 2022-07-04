@@ -40,6 +40,10 @@ import * as pdfFonts from "pdfmake/build/vfs_fonts";
 
 //Mensajes
 import { ToastrModule } from 'ngx-toastr';
+import { GestionReunionesComponent } from './components/gestion-reuniones/gestion-reuniones.component';
+
+//Tabla
+import { DataTablesModule } from "angular-datatables";
 
 registerLocaleData(localeEs);
 PdfMakeWrapper.setFonts(pdfFonts);
@@ -60,7 +64,8 @@ PdfMakeWrapper.setFonts(pdfFonts);
     RegistroReunionesComponent,
     FormEmpleadoComponent,
     FooterComponent,
-    DetalleReunionComponent
+    DetalleReunionComponent,
+    GestionReunionesComponent
   ],
   imports: [
     CommonModule,
@@ -79,6 +84,7 @@ PdfMakeWrapper.setFonts(pdfFonts);
     NgbModule,
     AlifeFileToBase64Module,
     ToastrModule.forRoot(),
+    DataTablesModule
   ],
   providers: [ LoginService],
   bootstrap: [AppComponent]

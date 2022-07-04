@@ -10,9 +10,10 @@ import { NotificacionService } from 'src/app/services/notificacion.service';
 import { RecursoService } from 'src/app/services/recurso.service';
 import { ReunionService } from 'src/app/services/reunion.service';
 import { Img, PdfMakeWrapper, Txt } from 'pdfmake-wrapper';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GeneradorQrService } from 'src/app/services/generador-qr.service';
 import { EnviomailService } from 'src/app/services/enviomail.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-registro-reuniones',
@@ -29,10 +30,12 @@ export class RegistroReunionesComponent implements OnInit {
   notificacion!: Notificacion;
   remitentes!: Array<string>;
 
+  accion: string = "new";
+
   constructor(private reunionService: ReunionService, private empleadoServ: EmpleadoService,
-                  private recursoServ: RecursoService, private notificacionServ: NotificacionService,
-                  private router: Router, private genQR: GeneradorQrService,
-                  private envioMail: EnviomailService) { 
+    private recursoServ: RecursoService, private notificacionServ: NotificacionService,
+    private router: Router, private genQR: GeneradorQrService,
+    private envioMail: EnviomailService, private activatedRoute: ActivatedRoute, private toastr: ToastrService) { 
     this.reunion = new Reunion();
     this.recurso = new Recurso();
     this.notificacion = new Notificacion();
@@ -43,6 +46,16 @@ export class RegistroReunionesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe(params => {
+      if (params['id'] == "0"){
+        this.accion = "new";
+       
+      }else{
+        this.accion = "update";
+        this.cargarReunion(params['id']);
+      
+      }
+    }); 
   }
 
   getTipoReunion(){
@@ -231,6 +244,16 @@ async registrarReunion(){
       })
     }
 
+  }
+
+  cargarReunion(id: string){
+    this.reunionService.getReunion(id).subscribe(
+      result=>{
+        this.reunion= new Reunion();
+        Object.assign(this.reunion, result);
+        // this.empleado.dependencia= this.dependencias.find((item)=>(item._id == this.empleado.dependencia._id ))!;
+      }
+    )
   }
   
 }
