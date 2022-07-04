@@ -12,6 +12,7 @@ import { ReunionService } from 'src/app/services/reunion.service';
 import { Img, PdfMakeWrapper, Txt } from 'pdfmake-wrapper';
 import { Router } from '@angular/router';
 import { GeneradorQrService } from 'src/app/services/generador-qr.service';
+import { EnviomailService } from 'src/app/services/enviomail.service';
 
 @Component({
   selector: 'app-registro-reuniones',
@@ -26,13 +27,16 @@ export class RegistroReunionesComponent implements OnInit {
   participantes!: Array<Empleado>;
   recurso!:Recurso;
   notificacion!: Notificacion;
+  remitentes!: Array<string>;
 
   constructor(private reunionService: ReunionService, private empleadoServ: EmpleadoService,
                   private recursoServ: RecursoService, private notificacionServ: NotificacionService,
-                  private router: Router, private genQR: GeneradorQrService) { 
+                  private router: Router, private genQR: GeneradorQrService,
+                  private envioMail: EnviomailService) { 
     this.reunion = new Reunion();
     this.recurso = new Recurso();
     this.notificacion = new Notificacion();
+    this.remitentes = new Array<string>();
     this.getParticipantes();
     this.getTipoReunion();
     this.getOficinas();
@@ -72,8 +76,19 @@ export class RegistroReunionesComponent implements OnInit {
     console.log(this.reunion.participantes);
   }
 
-  buscarNotificacion(){
-
+  agregarNotificacionEmpleado(){
+    this.notificacionServ.getNotificaciones().subscribe((nots) => {
+      console.log(this.reunion.participantes);
+      for(var i=0; i < this.reunion.participantes.length; i++){
+        console.log(this.reunion.participantes[i].notificaciones);
+        this.remitentes.push(this.reunion.participantes[i].email);
+        this.reunion.participantes[i].notificaciones.push(nots[nots.length - 1]);
+  
+        this.modificarEmpleado(this.reunion.participantes[i]);
+  
+        console.log("array notificaciones empleado:", this.reunion.participantes[i].notificaciones)
+      }
+    });
   }
 
   crearNotificacion(){
@@ -86,6 +101,10 @@ export class RegistroReunionesComponent implements OnInit {
       this.notificacion = new Notificacion();
     });
 
+    this.agregarNotificacionEmpleado();
+  }
+
+  crearNotificacionReunion(){
     this.notificacionServ.getNotificaciones().subscribe((nots) => {
       this.notificacion = nots[nots.length - 1];
       console.log(this.notificacion);
@@ -93,24 +112,37 @@ export class RegistroReunionesComponent implements OnInit {
     });
   }
 
-  registrarReunion(){
-    this.reunionService.addReunion(this.reunion).subscribe((r) => {
-      console.log(r);
-      this.reunion = new Reunion();
-    });
-
+  buscarReunion(){
     this.reunionService.getReuniones().subscribe((reu)=>{
+      for(var i=0; i < this.reunion.participantes.length; i++){
+        this.reunion.participantes[i].reuniones.push(reu[reu.length - 1]);
+
+        this.modificarEmpleado(this.reunion.participantes[i]);
+      }
+
       this.reunion = reu[reu.length - 1];
     });
+  }
+
+async registrarReunion(){
+    this.reunionService.addReunion(this.reunion).subscribe((r) => {
+      console.log(r);
+      //this.reunion = new Reunion();
+    });
+
     this.crearNotificacion();
+
+    this.buscarReunion();
+
+    this.crearNotificacionReunion();
 
     this.generarQR("http://localhost:4200/detalle/reunion/" + this.reunion._id);
 
-    this.generarPDF();
+    //this.generarPDF();
 
-    this.cargarReunionEmpleado();
+    await this.enviarMail();
 
-   // this.router.navigate(['http://localhost:4200/detalle/reunion/' , this.reunion._id]);
+    this.router.navigate(['detalle/reunion/', this.reunion._id]);
 
   }
 
@@ -138,24 +170,29 @@ export class RegistroReunionesComponent implements OnInit {
       this.reunion.codigoQr = qr.qr;
       this.modificarReunion();
     })
+  }
 
-    
+  modificarEmpleado(par: Empleado){
+    this.empleadoServ.modificarEmpleado(par).subscribe((e)=>{
+      console.log(e);
+    });
   }
 
   cargarReunionEmpleado(){
     for(var i=0; i < this.reunion.participantes.length; i++){
       this.reunion.participantes[i].reuniones.push(this.reunion);
-      this.reunion.participantes[i].notificaciones.push(this.reunion.notificacion[0]);
-      this.empleadoServ.modificarEmpleado(this.reunion.participantes[i]).subscribe((e)=>{
-        console.log(e);
-      });
+      this.modificarEmpleado(this.reunion.participantes[i]);
     }
   }
 
   modificarReunion(){
     this.reunionService.modificarReunion(this.reunion).subscribe((r) => {
       console.log(r);
-    })
+      this.reunion = new Reunion();
+      this.reunionService.getReuniones().subscribe((reu)=>{
+        this.reunion = reu[reu.length - 1];
+      });
+    });
   }
 
   generarPDF(){
@@ -181,6 +218,19 @@ export class RegistroReunionesComponent implements OnInit {
     this.recursoServ.deleteRecurso(recurso).subscribe(rec => {
       console.log(rec);
     })
+  }
+
+ async enviarMail(){
+
+    var asunto = "Nueva Reunion";
+    var mensaje = "Se te asigno a la reunion: " + this.reunion.nombre + "A realizarse: " + this.reunion.fecha;
+
+    for(var i=0 ; i < this.remitentes.length; i++){
+      this.envioMail.sendMail(this.remitentes[i], asunto, mensaje, this.reunion.codigoQr).subscribe((r)=> {
+        console.log(r);
+      })
+    }
+
   }
   
 }
