@@ -48,9 +48,9 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem("user", user.username);
         sessionStorage.setItem("userid", user.userid);
         //sessionStorage.setItem("perfil", user.perfil);
-        sessionStorage.setItem("perfil", user.rol);
+        sessionStorage.setItem("rol", user.rol);
         console.log(user);
-        if(user.perfil == 'administrador'){
+        if(user.rol == "administrador"){
           //redirigimos a home o a pagina que llamo
              this.irAPricipalAdmi();
         }else{ //en caso contrario ira a principalParticipante

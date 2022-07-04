@@ -38,7 +38,7 @@ export class ReunionService {
 
     const httpOption = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json'
+       
       }),
       params: new HttpParams({
 
@@ -46,9 +46,24 @@ export class ReunionService {
       .append("id", id)
     }
 
-    return this.http.get(this.urlBaseReunion+id,httpOption);
+    return this.http.get(this.urlBaseReunion+"oficina/"+id,httpOption);
   }
   
+  getReunionesEmpleado(id:string): Observable<any>{
+
+    const httpOption = {
+      headers: new HttpHeaders({
+       
+      }),
+      params: new HttpParams({
+
+      })
+      .append("id", id)
+    }
+
+    return this.http.get(this.urlBaseReunion+"empleado/"+id,httpOption);
+  }
+
   addReunion(r:Reunion): Observable<any>{
     const httpOption = {
       headers: new HttpHeaders({

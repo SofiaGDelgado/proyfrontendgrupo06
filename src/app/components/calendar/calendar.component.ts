@@ -9,6 +9,7 @@ import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent,Cale
 import { Reunion } from 'src/app/models/reunion';
 import { ReunionService } from 'src/app/services/reunion.service';
 import { Oficina } from 'src/app/models/oficina';
+import { ToastrService } from 'ngx-toastr';
 
 //Colores para los eventos
 const colors: any = {
@@ -43,6 +44,10 @@ export class CalendarComponent {
 
   modalData!: {
     event: CalendarEvent;
+    nombre: string;
+    inicio: Date;
+    fin: any;
+    codigoQr: string;
   };
 
   //Variables para la vista
@@ -56,37 +61,23 @@ export class CalendarComponent {
   
   activeDayIsOpen: boolean = false;
 
-  reunionesOficina!: Array <Reunion>;
 
   oficinas!: Array <Oficina>;
 
-  oficina!:Oficina;
+  oficina!:string;
 
   //Aca se agregan los eventos
-  events: CalendarEvent[]=[
-    {
-      //Ejemplo por defecto
-      title: 'Reunion equipo A',
-      color: colors.blue, 
-      start: addHours(startOfDay(new Date()), 2),// horaReunion!: string;// fecha!: string;
-      end: addHours(new Date(), 2),// horaFinalizacion!:string;
-      meta:{
-        oficina: "oficina 1",// oficina!: Oficina;
-        tipoReunion: "Oficial",// tipoReunion!: TipoReunion;
-        estadoReunion: "Pendiente",// estadoReunion!: string;
-        participante: "Laura Lozano, Pedro Perez, Rolando Diaz",// participantes!: Array <Empleado>;
-        recursos:"Word y PDF",// recursos!: Array <Recurso>;
-        prioridad: "3",// prioridad!: number;
-        codigoQr: "", // codigoQr!:string;
-        notificacion: "Titulo, mensaje"// notificacion!: Array<Notificacion>;
-      }
-    }
-  ];
+  events!: CalendarEvent[];
     
-  constructor(private modal: NgbModal, private reunionService: ReunionService) {}
+  constructor(private modal: NgbModal, private reunionService: ReunionService, private toastr: ToastrService) {
+   
+  }
 
   ngOnInit(): void {
     this.cargarReuniones();
+    
+    this.cargarOficinas();
+
   }
   // Cargar reuniones en calendario
   cargarReuniones(): void{
@@ -96,6 +87,7 @@ export class CalendarComponent {
     this.reunionService.getReuniones().subscribe(
       result=>{
         var reunion= new Reunion();
+        this.events=[];
         result.forEach((element:any) => {
           Object.assign(reunion, element);
           
@@ -129,28 +121,35 @@ export class CalendarComponent {
   }
 
   //Filtro por oficinas
-  filtroOficinas(oficina: Oficina){
-    this.reunionesOficina= new Array <Reunion>();
-      this.reunionService.getReunionesOficina(oficina._id).subscribe(
-        result=>{
-          var reunion= new Reunion();
-          result.forEach((element:any) => {
-            Object.assign(reunion, element);
-            
-            this.agregarEvento(reunion);
-          });
-          console.log(this.events);
-          
-        },
-        error=>{
-
+  filtroOficinas(){
+  
+    this.reunionService.getReunionesOficina(this.oficina).subscribe(
+      result=>{
+        console.log(result);
+        this.events=[];
+        var reunion= new Reunion();
+        result.forEach((element:any) => {
+          Object.assign(reunion, element);
+          this.agregarEvento(reunion);
+        });
+        
+        this.refresh.next();
+        if(this.events.length == 0 ){
+          this.toastr.info('No se encontraron coincidencias');
         }
-      );
+      },
+      error=>{
+
+      }
+    );
   }
+aux(){
+  console.log(this.oficina);
+}
   //Metodo cargar select de Oficinas
   cargarOficinas(){
     this.oficinas= new Array <Oficina>();
-    this.reunionService.getReunionesOficina(this.oficina._id).subscribe(
+    this.reunionService.getOficinas().subscribe(
       result=>{
         var unaOficina= new Oficina();
         result.forEach((element:any) => {
@@ -159,10 +158,7 @@ export class CalendarComponent {
           unaOficina= new Oficina();
         });
         console.log(this.oficinas);
-        if(this.oficinas.length == 0){
-          alert('No se han encontrado coincidencias');
-        }
-        
+      
       },
       error=>{
 
@@ -205,7 +201,13 @@ export class CalendarComponent {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = {event};
+    this.modalData = {
+      event: event,
+      nombre: event.title,
+      inicio: event.start,
+      fin: event.end,
+      codigoQr: event.meta.codigoQr
+    };
     this.modal.open(this.modalContent, { size: 'md' });
   }
 

@@ -38,6 +38,8 @@ import { AlifeFileToBase64Module } from 'alife-file-to-base64';
 import { PdfMakeWrapper } from 'pdfmake-wrapper';
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 
+//Mensajes
+import { ToastrModule } from 'ngx-toastr';
 
 registerLocaleData(localeEs);
 PdfMakeWrapper.setFonts(pdfFonts);
@@ -76,9 +78,9 @@ PdfMakeWrapper.setFonts(pdfFonts);
     FlatpickrModule.forRoot(),
     NgbModule,
     AlifeFileToBase64Module,
+    ToastrModule.forRoot(),
   ],
-  providers: [ LoginService,
- ],
+  providers: [ LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

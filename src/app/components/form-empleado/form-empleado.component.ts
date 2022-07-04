@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Dependencia } from 'src/app/models/dependencia';
 import { Empleado } from 'src/app/models/empleado';
 import { DependenciaService } from 'src/app/services/dependencia.service';
@@ -22,16 +23,20 @@ export class FormEmpleadoComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  getDependencias(){
+    this.dependencias = new Array<Dependencia>();
+    this.dependenciaServ.getDependencias().subscribe((dep) =>{
+      this.dependencias = dep;
+    })
+  }
+
   altaEmpleado(){
     this.empleadoServ.altaEmpleado(this.empleado).subscribe((emp)=> {
       console.log(emp)
     });
   }
 
-  getDependencias(){
-    this.dependencias = new Array<Dependencia>();
-    this.dependenciaServ.getDependencias().subscribe((dep) =>{
-      this.dependencias = dep;
-    })
+  resetForm(form: NgForm){
+    form.reset();
   }
 }

@@ -77,6 +77,7 @@ p{
 }
 .btn{
     font-family: 'Readex Pro', sans-serif;
+ 
 }
 .btn-primary{
     background-color: #8764f7;
@@ -91,7 +92,11 @@ p{
 #oficina-eventos{
     padding: 10px;
     margin-top: 40px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
+
 .reuniones{
     margin-top: 20px;
     padding: 5px;
@@ -101,4 +106,20 @@ p{
     color:#8957f5;
     text-align: center;   
     font-family: 'Readex Pro', sans-serif;
+}
+.modal-body h2{
+    color:#8957f5;
+    text-align: center;   
+    font-family: 'Readex Pro', sans-serif;
+    font-size: 20px;
+}
+.modal-body p{
+    font-family: 'Readex Pro', sans-serif;
+    font-size: 15px;
+    text-align: center;
+}
+form{
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
