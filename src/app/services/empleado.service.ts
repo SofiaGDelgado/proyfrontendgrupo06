@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { StringMapWithRename } from '@angular/compiler/src/compiler_facade_interface';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -48,7 +48,21 @@ export class EmpleadoService {
     return this.http.put(this.urlBase+empleado._id, body, httpOption);
 
   }
-  deleteEmpleado(id: string):Observable<any>{
+  public deleteEmpleado(id: string):Observable<any>{
+    const httpOption = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      params: new HttpParams({
+
+      })
+      .append("id",id)
+    };
+    return this.http.delete(this.urlBase+id,httpOption);
+
+  }
+
+  getEmpleado(id: string):Observable<any>{
     const httpOption = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -57,7 +71,7 @@ export class EmpleadoService {
 
    
 
-    return this.http.put(this.urlBase+id,httpOption);
+    return this.http.get(this.urlBase+id,httpOption);
 
   }
 }

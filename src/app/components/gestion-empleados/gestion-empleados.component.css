@@ -56,6 +56,13 @@ p{
     text-align: right;
     justify-content: right;
 }
+.btns{
+    justify-content: right;
+    margin: 0px;  
+    padding: 5px;
+    text-align: right;
+
+}
 .btn-agregar:hover{
     background-color: rgb(31, 215, 31);
 }
@@ -78,4 +85,5 @@ table{
 table th{
     font-family: 'Readex Pro';
     color: rgb(66, 79, 196);
+    border-bottom:rgb(66, 79, 196) 2px solid;
 }

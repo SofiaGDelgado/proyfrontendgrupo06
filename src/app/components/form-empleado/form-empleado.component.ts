@@ -27,16 +27,13 @@ export class FormEmpleadoComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       if (params['id'] == "0"){
         this.accion = "new";
-        // this.pasaje= new Pasaje();
-        // this.cargarPasajeros();
-        // this.mostrarPrecio=false;
-        // this.pasaje.fechaCompra= new Date().toLocaleString();
-        // this.obtenerPrecios();
+        this.empleado= new Empleado();
+         this.getDependencias();
       }else{
         this.accion = "update";
-        // this.cargarPasajeros();
-        // this.cargarPasaje(params['id']);
-        // this.obtenerPrecios();
+        this.getDependencias();
+        this.cargarEmpleado(params['id']);
+      
       }
     });  
   }
@@ -49,12 +46,49 @@ export class FormEmpleadoComponent implements OnInit {
   }
 
   altaEmpleado(){
-    this.empleadoServ.altaEmpleado(this.empleado).subscribe((emp)=> {
-      console.log(emp)
-    });
+    this.empleadoServ.altaEmpleado(this.empleado).subscribe(
+      result=> {
+        this.toastr.success('Operacion exitosa');
+    },
+    error=>{
+    
+     this.toastr.error('Operacion invalida');
+    
+    }
+    );
   }
 
+  cargarEmpleado(id: string){
+    this.empleadoServ.getEmpleado(id).subscribe(
+      result=>{
+        this.empleado= new Empleado();
+        Object.assign(this.empleado, result);
+        this.empleado.dependencia= this.dependencias.find((item)=>(item._id == this.empleado.dependencia._id ))!;
+        
+      },
+      error=>{
+
+      }
+    )
+  }
   resetForm(form: NgForm){
     form.reset();
+  }
+  cerrar(){
+    this.router.navigate(['principal/Administrador/gestionEmpleados']);
+  }
+  actualizarEmpleado(){
+    this.empleadoServ.modificarEmpleado(this.empleado).subscribe(
+      result=>{
+        console.log(result);
+        this.toastr.success('Operacion exitosa');
+       
+      },
+      error=>{
+        this.toastr.error('Operacion invalida');
+        
+        
+      }
+    )
   }
 }
