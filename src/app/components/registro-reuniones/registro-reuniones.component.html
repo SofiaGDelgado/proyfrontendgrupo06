@@ -28,14 +28,14 @@
                                 </div>
                             </div>
                             <div class="col-5 m-auto mb-3" id="item">
-                                <label for="horaInicio" class="form-label">Ingrese Hora Inicio:</label>
+                                <label for="horaReunion" class="form-label">Ingrese Hora Inicio:</label>
                                 <input type="time" id="horaReunion" name="horaReunion" class="form-control" [(ngModel)]="reunion.horaReunion" required #horaReunion="ngModel">
                                 <div *ngIf="horaReunion.invalid && (horaReunion.touched || horaReunion.dirty)" class="alert alert-danger">
                                     <div *ngIf="horaReunion.errors?.['required']">La hora de inicio es requerida.</div>
                                 </div>
                             </div>
                             <div class="col-5 m-auto mb-3" id="item">
-                                <label for="horaFin" class="form-label">Ingrese Hora Finalizacion: </label>
+                                <label for="horaFinalizacion" class="form-label">Ingrese Hora Finalizacion: </label>
                                 <input type="time" id="horaFinalizacion" name="horaFinalizacion" class="form-control" [(ngModel)]="reunion.horaFinalizacion" required #horaFinalizacion="ngModel">
                                 <div *ngIf="horaFinalizacion.invalid && (horaFinalizacion.touched || horaFinalizacion.dirty)" class="alert alert-danger">
                                     <div *ngIf="horaFinalizacion.errors?.['required']">La hora de finalizacion es requerida.</div>
@@ -50,7 +50,7 @@
                             <div class="col-11 m-auto mb-3 " id="item">
                                 <label for="tipoReunion" class="form-label">Seleccione el Tipo de Reunion:</label>
                                 <select name="tipoReunion" id="tipoReunion" class="form-select" [(ngModel)]="reunion.tipoReunion" required #tipoReunion="ngModel">
-                                    <option *ngFor="let tr of tiposReunion" [ngValue]="tr">{{tr.estado}}</option>
+                                    <option *ngFor="let tr of tiposReunion" [ngValue]="tr">{{tr.nombre}}</option>
                                 </select>
                             </div>
                             <div class="col-11 m-auto mb-3">
