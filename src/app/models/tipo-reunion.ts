@@ -1,10 +1,7 @@
 export class TipoReunion {
     _id!: string;
-    nombre!: string;
+    estado!: string;
     descripcion!: string;
     
-    constructor(){
-        
-    }
-
+    constructor(){}
 }

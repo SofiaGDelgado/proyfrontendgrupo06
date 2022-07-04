@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Empleado } from 'src/app/models/empleado';
+import { Reunion } from 'src/app/models/reunion';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { ReunionService } from 'src/app/services/reunion.service';
 
 @Component({
   selector: 'app-gestion-empleados',
@@ -14,7 +16,7 @@ export class GestionEmpleadosComponent implements OnInit {
   empleados!: Array<Empleado>;
   empleado!: Empleado;
 
-  constructor(private empleadoServ: EmpleadoService,private router: Router, private toastr: ToastrService) { 
+  constructor(private empleadoServ: EmpleadoService,private router: Router, private toastr: ToastrService, private reunionServ: ReunionService) { 
     
   }
 
@@ -28,7 +30,21 @@ export class GestionEmpleadosComponent implements OnInit {
 
     this.empleadoServ.getEmpleados().subscribe((e) => {
       this.empleados = e;
-    })
+
+      console.log(this.empleados[1].reuniones);
+      for(var i=0; i < e.length; i++){
+        const reus = new Array<Reunion>();
+        for(var r=0; r < e[i].reuniones.length; r++){
+          this.reunionServ.getReunion(e[i].reuniones[r]).subscribe((enc) => {
+            var reunion = new Reunion();
+            reunion  = enc;
+            reus.push(reunion);
+          });
+        }
+        this.empleados[i].reuniones = reus;
+        console.log("lista reuniones de " + this.empleados[i].nombre, this.empleados[i].reuniones);
+      }
+    });
   }
   
   altaEmpleado(){

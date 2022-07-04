@@ -1,50 +1,66 @@
 <div class="container-fluid">
-    
-        <form class="card w-50 m-auto row mb-5" action=""   id="formulario">
-            <h5 class="mt-4 ">Formulario Empleados</h5>
-            <div class="row mb-2 " id="item">
-                <div class="col-6 ">
-                    <label for="nombre" class="form-label">Nombre: </label>
-                    <input type="text" id="nombre" name="nombre" class="form-control" [(ngModel)]="empleado.nombre">
-                </div>
-                <div class="col-6 ">
-                    <label for="apellido" class="form-label">Apellido: </label>
-                    <input type="text" id="apellido" name="apellido" class="form-control" [(ngModel)]="empleado.apellido">
+    <form #form="ngForm" class="card w-50 m-auto row mb-5" action="" id="formulario">
+        <h5 class="mt-4 ">Formulario Empleados</h5>
+        <div class="row mb-2 " id="item">
+            <div class="col-6 ">
+                <label for="nombre" class="form-label">Nombre: </label>
+                <input type="text" id="nombre" name="nombre" class="form-control" [(ngModel)]="empleado.nombre" required #nombre="ngModel">
+                <div *ngIf="nombre.invalid && (nombre.touched || nombre.dirty)" class="alert alert-danger">
+                    <div *ngIf="nombre.errors?.['required']">El nombre es requerido.</div>
                 </div>
             </div>
+            <div class="col-6 ">
+                <label for="apellido" class="form-label">Apellido: </label>
+                <input type="text" id="apellido" name="apellido" class="form-control" [(ngModel)]="empleado.apellido" required #apellido="ngModel">
+                <div *ngIf="apellido.invalid && (apellido.touched || apellido.dirty)" class="alert alert-danger">
+                    <div *ngIf="apellido.errors?.['required']">El apellido es requerido.</div>
+                </div>
+            </div>
+        </div>
         <div class="col-12" id="item">
             <label for="email" class="form-label">Email: </label>
-            <input type="email" id="email" name="email" class="form-control" [(ngModel)]="empleado.email">
+            <input type="email" id="email" name="email" class="form-control" [(ngModel)]="empleado.email" required #email="ngModel">
+            <div *ngIf="email.invalid && (email.touched || email.dirty)" class="alert alert-danger">
+                <div *ngIf="email.errors?.['required']">El email es requerido.</div>
+            </div>
         </div>
         <div class="col-12" id="item">
             <label for="legajo" class="form-label">Legajo: </label>
-            <input type="text" id="legajo" name="legajo" class="form-control" [(ngModel)]="empleado.legajo">
+            <input type="text" id="legajo" name="legajo" class="form-control" [(ngModel)]="empleado.legajo" required #legajo="ngModel">
+            <div *ngIf="legajo.invalid && (legajo.touched || legajo.dirty)" class="alert alert-danger">
+                <div *ngIf="legajo.errors?.['required']">El legajo es requerido.</div>
+            </div>
         </div>
         <div class="col-12" id="item">
             <label for="username" class="form-label">Username: </label>
-            <input type="text" id="username" name="username" class="form-control" [(ngModel)]="empleado.username">
+            <input type="text" id="username" name="username" class="form-control" [(ngModel)]="empleado.username" required #username="ngModel">
+            <div *ngIf="username.invalid && (username.touched || username.dirty)" class="alert alert-danger">
+                <div *ngIf="username.errors?.['required']">El username es requerido.</div>
+            </div>
         </div>
         <div class="col-12" id="item">
             <label for="password" class="form-label">Password: </label>
-            <input type="text" id="password" name="password" class="form-control" [(ngModel)]="empleado.password">
+            <input type="text" id="password" name="password" class="form-control" [(ngModel)]="empleado.password" required #password="ngModel">
+            <div *ngIf="password.invalid && (password.touched || password.dirty)" class="alert alert-danger">
+                <div *ngIf="password.errors?.['required']">La contraseña es requerida.</div>
+            </div>
         </div>
         <div class="row">
             <div class="col-6" id="item">
                 <label for="dependencia" class="form-label">Dependencia: </label>
-                <select name="dependencia" id="dependencia" class="form-select" [(ngModel)]="empleado.dependencia">
+                <select name="dependencia" id="dependencia" class="form-select" [(ngModel)]="empleado.dependencia" required #dependencia="ngModel">
                     <option *ngFor="let d of dependencias" [ngValue]="d">{{d.nombre}}</option>
                 </select>
             </div>
             <div class="col-6 mb-4" id="item">
                 <label for="rol" class="form-label">Rol: </label>
-                <select name="rol" id="rol" class="form-select" [(ngModel)]="empleado.rol">
+                <select name="rol" id="rol" class="form-select" [(ngModel)]="empleado.rol" required #rol="ngModel">
                     <option value="administrador">Administrador</option>
                     <option value="participante">Participante</option>
                 </select>
             </div>
         </div>
-
-        <button type="button" class="btn " (click)="altaEmpleado()">Registrar</button>
+        <button type="button" class="btn" (click)="altaEmpleado()" [disabled]="form.invalid">Registrar</button>
+        <button type="button" class="btn" (click)="resetForm(form)">Limpiar</button>
     </form>
-
 </div>

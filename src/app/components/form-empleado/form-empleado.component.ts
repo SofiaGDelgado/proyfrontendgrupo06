@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Dependencia } from 'src/app/models/dependencia';
 import { Empleado } from 'src/app/models/empleado';
@@ -40,16 +41,20 @@ export class FormEmpleadoComponent implements OnInit {
     });  
   }
 
+  getDependencias(){
+    this.dependencias = new Array<Dependencia>();
+    this.dependenciaServ.getDependencias().subscribe((dep) =>{
+      this.dependencias = dep;
+    })
+  }
+
   altaEmpleado(){
     this.empleadoServ.altaEmpleado(this.empleado).subscribe((emp)=> {
       console.log(emp)
     });
   }
 
-  getDependencias(){
-    this.dependencias = new Array<Dependencia>();
-    this.dependenciaServ.getDependencias().subscribe((dep) =>{
-      this.dependencias = dep;
-    })
+  resetForm(form: NgForm){
+    form.reset();
   }
 }
