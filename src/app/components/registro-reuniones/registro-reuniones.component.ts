@@ -202,11 +202,12 @@ export class RegistroReunionesComponent implements OnInit {
     this.genQR.getQr(url).subscribe((qr)=> {
       this.reunion.codigoQr = qr.qr;
       this.modificarReunion();
+      this.enviarMail();
 
       console.log("reunion luego de modificar: ", this.reunion);
 
-      this.enviarMail();
-      
+
+      //this.irDetalle(this.reunion._id);
     });
   }
 
