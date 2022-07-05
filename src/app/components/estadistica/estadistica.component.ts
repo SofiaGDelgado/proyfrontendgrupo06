@@ -8,12 +8,14 @@ import { ReunionService } from 'src/app/services/reunion.service';
 import Chart from 'chart.js/auto';
 import { TipoReunion } from 'src/app/models/tipo-reunion';
 
+
 @Component({
   selector: 'app-estadistica',
   templateUrl: './estadistica.component.html',
   styleUrls: ['./estadistica.component.css']
 })
 export class EstadisticaComponent implements OnInit {
+
   barras!: Chart;
   torta!: Chart;
   oficina!: Oficina;
@@ -32,21 +34,25 @@ export class EstadisticaComponent implements OnInit {
   tipo!:TipoReunion;
   tipos!: Array <TipoReunion>;
   tiposReu!: Array <TipoReunion>;
-
+  entrada!:string;
+  salida!:string;
   constructor(private reunionService: ReunionService, private participanteService: EmpleadoService) { 
+   // this.fechasGrafica();
     this.getOficinas();
     this.getReuniones();
-    this.getParticipantes();
+   
     this.getOficinasReu();
     this.getEmpleados();
     this.getTiposReu();
     this.mesArray();
-    this.getTipos();
+    this.getTipos();    
     this.añoArray();
     this.meses= new Array<string>();
     this.años= new Array<string>();
     this.tiposReu= Array <TipoReunion>();
   this.tipos = new Array<TipoReunion>();
+  
+  
  
   }
   ngOnInit(): void {
@@ -89,7 +95,9 @@ getEmpleados(){
 getReuniones(){
   this.reuniones = new Array<Reunion>();
   this.reunionService.getReuniones().subscribe((reu)=>{
-      this.reuniones.push(reu);
+    for(var i=0; i < reu.length; i++) {
+      this.reuniones.push(reu[i]);
+     }
   });
   console.log(this.reuniones);
 }
@@ -167,7 +175,7 @@ graficaBarra(datos:Array<number>,mostrar:Array<string>){
     data: {
         labels: mostrar,
         datasets: [{
-            label: 'participo en reuniones',
+            label: 'reuniones',
             data: datos,
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
@@ -185,7 +193,8 @@ graficaBarra(datos:Array<number>,mostrar:Array<string>){
               'rgba(153, 102, 255, 1)',
               'rgba(255, 159, 64, 1)'
           ],
-          borderWidth: 1
+          borderWidth: 1,
+          
         }]
     }
 });
@@ -247,7 +256,8 @@ mesArray(){
    for(var i=0; i<res.length; i++){
           var f = res[i].fecha.split("-");
           //console.log(f);
-          this.meses[i]=f[1];
+          if(f[0]=="2022"){
+          this.meses[i]=f[1];}
      }
  
   });
@@ -307,16 +317,22 @@ participanteGrafica()
         this.infoReuniones[b]="Participante: "+e.nombre+" "+e.apellido;
         b++;
    });
-      this.participantes.forEach((par)=>{
-      this.empleados.forEach((emp)=>{
-        console.log("partipante"+ emp._id);
-        console.log( "empleado"+ par._id);
-        if(emp._id==par._id){
-              c++;
-              this.cantReuniones[i]=this.cantReuniones[i]+c;
-        }
-        i++;
-      });
+      this.reuniones.forEach((par)=>{
+        par.participantes.forEach((e)=>{
+          console.log(e.legajo)
+          this.empleados.forEach((emp)=>{
+            console.log(  emp._id);
+                if(emp._id==e._id){
+                  c++;
+                  console.log(c);
+                  this.cantReuniones[i]=this.cantReuniones[i]+c;
+            }
+            i++;
+          });
+
+        })
+
+      
   c=0;i=0;
   });
  console.log(this.cantReuniones,this.infoReuniones);
@@ -326,17 +342,23 @@ participanteGrafica()
 }
 
 tipoGrafica(){
-  this.getTiposReu();
-  this.getTipos();
+
+  var i=0;
+  var j=0;
+ 
   //console.log(this.tipos);
   this.infoReuniones= new Array<string>();
   this.cantReuniones= new Array<number>();
   //console.log(this.tipos.length);
-  for(var i=0;i<this.tipos.length;i++){
-  this.infoReuniones[i]=this.tipos[i].nombre;
-  for (var j=0;j<this.infoReuniones.length;j++){
-    this.cantReuniones[j]=0;
-  }
+
+        for(i;i<this.tipos.length;i++){
+          
+        this.infoReuniones[i]=this.tipos[i].nombre;
+        
+        for (j;j<this.tipos.length;j++){
+          this.cantReuniones[j]=0;
+        }
+  
   
   var x=0;
   var c=0;
@@ -364,12 +386,82 @@ tipoGrafica(){
 
 
 
+fechasGrafica(){
 
+  console.log(this.reuniones.length);
+  console.log(this.salida,this.entrada); 
+  var mes:Array<string>;
+  var mes2:Array<string>;
+  var anio:Array<string>;
+  var dias:Array<string>;
+  var posicionE:Array<number>;
+  posicionE=[0,0,0]
+  var posicionS:Array<number>;
+  posicionS=[0,0,0]
+  mes=["01","02","03","04","05","06","07","08","09","10","11","12"];
+  mes2=["Enero: ","Febrero: ","Marzo: ","Abril: ","Mayo: ","Junio: ","Julio: ","Agosto: ","Septiembre: ","Octubre: ","Noviembre: ","Diciembre: "];
+  dias=["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"];
+  anio=["2021","2022","2023","2024","2025"]   
+  this.cantReuniones=[0,0,0,0,0,0,0,0,0,0,0,0];
+  this.infoReuniones=["","","","","","","","","","","",""];
+   //console.log(this.meses);
+   var f = this.entrada.split("-");
+   //console.log(f);
+   var eAño=f[0];
+   var eMes=f[1];
+   var eDia=f[2];
+   var t = this.salida.split("-");
+   //console.log(f);
+   var sAño=t[0];
+   var sMes=t[1];
+   var sDia=t[2];
+    
+   for(var i=0; i<anio.length; i++){
+    if(eAño==anio[i]){
+      for(var j=0; j<mes.length; j++){
+        if(eMes==mes[j]){
+          for(var k=0; k<dias.length; k++) {
+            if(eDia==dias[k]){
+                posicionE[0]=i;
+                posicionE[1]=j;
+                posicionE[2]=k;
+            }
+          }
+      }
+    }
 
+    }
+   }
+   for(var i=0; i<anio.length; i++){
+    if(sAño==anio[i]){
+      for(var j=0; j<mes.length; j++){
+        if(sMes==mes[j]){
+          for(var k=0; k<dias.length; k++) {
+            if(sDia==dias[k]){
+                posicionS[0]=i;
+                posicionS[1]=j;
+                posicionS[2]=k;
+            }
+          }
+      }
+    }
+
+    }
+   }   
+      
+  console.log(posicionE,posicionS); 
+   
+   console.log(eAño, eMes, eDia, sAño,sMes,sDia );
+
+  // for(var s=posicionE[0];s<posicionS[0];s++){
+   
+  console.log(this.cantReuniones);
+ this.graficaBarra(this.cantReuniones,this.infoReuniones);
+ this.graficaTorta(this.cantReuniones,this.infoReuniones);
+}
 
 
 }
-
 
 
 
