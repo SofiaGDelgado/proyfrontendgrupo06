@@ -17,25 +17,26 @@
 <br>
 <div class="col-8">
   <h5><strong>BUSQUEDAS AVANZADAS</strong></h5>
-  <form #oficinasForm="ngForm" (click)="busquedaPorOficina()">
+  <form #oficinasForm="ngForm" >
     <div>
       <div class="form-group">
         <label for="exampleInputOrigen"><strong>Por oficinas:</strong></label>
         <select name="oficinaSelected" id="oficinaSelected" [(ngModel)]="oficinaSelected" class="form-select" aria-label="Default select example">
-          <option *ngFor="let item of oficinas" [value]="item._id" selected>{{item.nombre}}</option>
+          <option *ngFor="let item of oficinas" [value]="item._id" (click)="busquedaPorOficina()" >{{item.nombre}}</option>
         </select>
       </div>
     </div>
   </form>
-  <form #participantesForm="ngForm" (click)="busquedaPorParticipantes()">
+  <form #participantesForm="ngForm" >
     <div>
       <div class="form-group">
         <label for="exampleInputOrigen"><strong>Por participantes:</strong></label>
         <select name="participanteSelected" id="participanteSelected" [(ngModel)]="participanteSelected" class="form-select" aria-label="Default select example">
-          <option *ngFor="let item of participantes" [value]="item._id" selected>{{item.nombre}} {{item.apellido}} - {{item.dependencia.nombre}}</option>
+          <option *ngFor="let item of participantes" [value]="item._id"  selected>{{item.nombre}} {{item.apellido}} - {{item.dependencia.nombre}}</option>
         </select>
       </div>
     </div>
+    <button class="btn btn-seleccionar" (click)="busquedaPorParticipantes()">buscar</button>
   </form>
 </div>
 <div class="col">
