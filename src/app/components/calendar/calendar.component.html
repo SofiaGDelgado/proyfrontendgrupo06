@@ -165,7 +165,8 @@
         <p>Fecha: {{ modalData?.inicio | date:'shortDate'}}</p>
         <p>Hora: {{ modalData?.inicio | date:'shortTime'}} - {{ modalData?.fin | date:'shortTime'}}</p>
         <img src="{{modalData?.codigoQr}}" alt="">
-
+        <br>
+        <button class="btn btn-primary" (click)="verDetalle()">VER MAS >></button>
         <!-- <pre>{{modalData?.event | json}}</pre> -->
       </div>
     </div>

@@ -10,6 +10,7 @@ import { Reunion } from 'src/app/models/reunion';
 import { ReunionService } from 'src/app/services/reunion.service';
 import { Oficina } from 'src/app/models/oficina';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 //Colores para los eventos
 const colors: any = {
@@ -48,6 +49,7 @@ export class CalendarComponent {
     inicio: Date;
     fin: any;
     codigoQr: string;
+    id:string;
   };
 
   //Variables para la vista
@@ -68,8 +70,9 @@ export class CalendarComponent {
 
   //Aca se agregan los eventos
   events!: CalendarEvent[];
-    
-  constructor(private modal: NgbModal, private reunionService: ReunionService, private toastr: ToastrService) {
+  idReunion!: string;
+
+  constructor(private modal: NgbModal, private reunionService: ReunionService, private toastr: ToastrService, private router: Router) {
    
   }
 
@@ -206,8 +209,10 @@ aux(){
       nombre: event.title,
       inicio: event.start,
       fin: event.end,
-      codigoQr: event.meta.codigoQr
+      codigoQr: event.meta.reunion.codigoQr,
+      id: event.meta.reunion._id
     };
+    this.idReunion= this.modalData.id;
     this.modal.open(this.modalContent, { size: 'md' });
   }
 
@@ -219,4 +224,8 @@ aux(){
     this.activeDayIsOpen = false;
   }
   
+  verDetalle(){
+    
+    this.router.navigate(['detalle/reunion', this.idReunion]);
+  }
 }

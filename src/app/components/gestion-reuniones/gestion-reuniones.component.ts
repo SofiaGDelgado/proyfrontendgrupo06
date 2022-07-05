@@ -29,18 +29,7 @@ export class GestionReunionesComponent implements OnInit {
     {value: '62c19fb981890552faac3850', nombre: 'Juan Perez'},
     {value: '62c1b83a81890552faac3869', nombre: 'Enzo Castillo'},
   ] 
-  // //Modal
-  // @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
-
-  // modalData!: {
-  //   tipoReunion: string;
-  //   oficina: Oficina;
-  //   participantes:  Array <Empleado>;
-  //   recursos: Array <Recurso>;
-  //   prioridad: number;
-  //   codigoQr: string;
-  //   notificacion: Array<Notificacion>;
-  // };
+  
   
   constructor(private reunionService: ReunionService, private modal: NgbModal, private router: Router, private toastr: ToastrService) { }
 
