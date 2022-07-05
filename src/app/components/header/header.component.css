@@ -14,7 +14,7 @@
 .navbar{
   background-color: #6761e2ab;
 }
-.btn{
+.t{
   font-family: 'Readex Pro', sans-serif;
   background-color: #06ffeeb9;
   color: #ffffff;
@@ -31,7 +31,7 @@
 
 .area{
   width: 300px;
-  height: 500px;
+  max-height: 500px;
   font-size: 10px;
   overflow: scroll;
 }
@@ -39,6 +39,23 @@
 .lead{
   font-size: 15px;
 }
+<<<<<<< HEAD
+
+.ic{
+  font-size: 30px;
+  color: gold;
+}
+
+.ic span{
+  font-size: 12px;
+}
+
+.b{
+  border-radius: 80%;
+  width: max-content;
+}
+=======
 .dropdown i{
   margin-right: 5px;
 }
+>>>>>>> 08863b8938a5651a8e89de31ad59a5bcf58b400b
