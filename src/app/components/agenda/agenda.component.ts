@@ -6,6 +6,7 @@ import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent,Cale
 import { Reunion } from 'src/app/models/reunion';
 import { ReunionService } from 'src/app/services/reunion.service';
 import { LoginService } from 'src/app/services/login.service';
+import { Router } from '@angular/router';
 
 const colors: any = {
   red: {
@@ -47,53 +48,38 @@ export class AgendaComponent implements OnInit {
     inicio: Date;
     fin: any;
     codigoQr: string;
+    id: string;
   };
 
  
   refresh = new Subject<void>();
 
   //Aca se agregan los eventos
-  events: CalendarEvent[]= [
-    {
-      title: 'Reunion equipo A',
-      color: colors.blue, 
-      start: new Date(),// horaReunion!: string;// fecha!: string;
-     // horaFinalizacion!:string;
-      meta:{
-        oficina: "oficina 1",// oficina!: Oficina;
-        tipoReunion: "Oficial",// tipoReunion!: TipoReunion;
-        estadoReunion: "Pendiente",// estadoReunion!: string;
-        participante: "Laura Lozano, Pedro Perez, Rolando Diaz",// participantes!: Array <Empleado>;
-        recursos:"Word y PDF",// recursos!: Array <Recurso>;
-        prioridad: "3",// prioridad!: number;
-        codigoQr: "", // codigoQr!:string;
-        notificacion: "Titulo, mensaje"// notificacion!: Array<Notificacion>;
-      }
- 
-    },
-    
-  ];
+  events!: CalendarEvent[];
   
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen: boolean = false;
 
   idEmpleado!: any;
 
-  constructor(private modal: NgbModal, private reunionService: ReunionService, private loginService: LoginService) {}
+  idReunion!:string;
+
+  constructor(private modal: NgbModal, private reunionService: ReunionService, private loginService: LoginService, private router: Router) {}
 
   ngOnInit(): void {
     this.cargarReuniones();
-    this.obtenerId();
+   
   }
 
   cargarReuniones(): void{
-
+    this.obtenerId();
     this.reunionService.getReunionesEmpleado(this.idEmpleado).subscribe(
       result=>{
         var reunion= new Reunion();
+        this.events=[];
         result.forEach((element:any) => {
           Object.assign(reunion, element);
-          
           this.agregarEvento(reunion);
+          reunion= new Reunion();
         });
         console.log(this.events);
         this.refresh.next();
@@ -149,8 +135,11 @@ export class AgendaComponent implements OnInit {
       nombre: event.title,
       inicio: event.start,
       fin: event.end,
-      codigoQr: event.meta.codigoQr
+      codigoQr: event.meta.reunion.codigoQr,
+      id:event.meta.reunion._id
     };
+    console.log(this.modalData);
+    this.idReunion= this.modalData.id;
     this.modal.open(this.modalContent, { size: 'md' });
   }
 
@@ -163,4 +152,8 @@ export class AgendaComponent implements OnInit {
     this.activeDayIsOpen = false;
   }
   
+  verDetalle(){
+    
+    this.router.navigate(['detalle/reunion', this.idReunion]);
+  }
 }

@@ -29,7 +29,6 @@
         <div class="dropdown" *ngIf="loginService.userLoggedIn()">
           <button class="position-relative btn b" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-bell-fill ic"><span class="badge bg-secondary position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{notificacionesActivas.length}}</span></i>
-            
           </button>
           <ul class="dropdown-menu area dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
               <li *ngIf="!notificacionesActivas.length"><p class="lead text-center">No tienes Notificaciones </p></li>

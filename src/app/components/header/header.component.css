@@ -39,6 +39,7 @@
 .lead{
   font-size: 15px;
 }
+<<<<<<< HEAD
 
 .ic{
   font-size: 30px;
@@ -53,3 +54,8 @@
   border-radius: 80%;
   width: max-content;
 }
+=======
+.dropdown i{
+  margin-right: 5px;
+}
+>>>>>>> 08863b8938a5651a8e89de31ad59a5bcf58b400b
