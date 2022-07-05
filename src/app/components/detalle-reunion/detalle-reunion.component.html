@@ -48,16 +48,21 @@
         </div>
         <div class="row justify-content-center">
             <h2>Participantes:</h2>
-            <ul *ngFor="let item of reunion.participantes">
-                <li>{{item.apellido}} {{item.nombre}} | {{item.dependencia.nombre}} - {{item.email}}</li>
-            </ul>
+            <div class="lista">
+                <ul *ngFor="let item of reunion.participantes">
+                    <li>{{item.apellido}} {{item.nombre}} | {{item.dependencia.nombre}} - {{item.email}}</li>
+                </ul>
+            </div>
+            
         </div>
         <div class="justify-content-center">
             <h2>Recursos</h2>
+            <div class="lista">
+                <ul *ngFor="let item of reunion.recursos">
+                    <li>Nombre: {{item.nombre}} | Tipo: {{item.tipo}} | <a href="{{item.archivoUrl}}"> Link</a> </li>
+                </ul>
+            </div>
             
-            <ul *ngFor="let item of reunion.recursos">
-                <li>Nombre: {{item.nombre}} | Tipo: {{item.tipo}} | </li>
-            </ul>
         </div>
         <div class="justify-content-center">
             <h2>Codigo QR:</h2>

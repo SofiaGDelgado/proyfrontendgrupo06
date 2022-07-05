@@ -135,9 +135,10 @@
                                 </div>
                                 <div class="col-11 m-auto mb-3">
                                     <label for="selecrecurso" class="form-label">Cargar Archivo: </label>
-                                    <input type="file" class="form-control" name="selecrecurso" id="selecrecurso" alife-file-to-base64 multiple
+                                    <!-- <input type="file" class="form-control" name="selecrecurso" id="selecrecurso" alife-file-to-base64 multiple
                                         (onFileChanged)="onFileChanges($event)"
-                                        accept="image/x-png,image/gif,image/jpeg" />
+                                        accept="image/x-png,image/gif,image/jpeg" /> -->
+                                    <input type="text" class="form-control" name="selecrecurso" id="selecrecurso" [(ngModel)]="recurso.archivoUrl" >
                                 </div>
                                 <button type="button" id="boton" class="btn btn-dark" (click)="cargarRecurso()" [disabled]="form.invalid">Cargar Recurso</button>
                                 <table class="table">
