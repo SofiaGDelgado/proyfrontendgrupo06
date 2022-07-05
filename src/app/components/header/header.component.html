@@ -24,6 +24,25 @@
             </ul>
           </div>
         </form>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Notificaciones
+            <span class="badge bg-secondary">{{notificacionesActivas.length}}</span>
+          </button>
+          <ul class="dropdown-menu area dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+            <li *ngFor="let n of notificacionesActivas">
+              <div class="card">
+                <div class="card-header">
+                  {{n.titulo}}
+                </div>
+                <div class="card-body">
+                  <p class="lead">{{n.descripcion}}</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        
         <form class="d-flex">
           <button type="button" class="btn"  *ngIf="!loginService.userLoggedIn()"  [routerLink]="['login']">Iniciar Sesion </button>
         </form>

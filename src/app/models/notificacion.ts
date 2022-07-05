@@ -4,6 +4,8 @@ export class Notificacion {
     titulo!: string;
     descripcion!: string;
     estado!: string;
+    fecha!:string;
+    fechaVencimiento!:string;
 
     constructor(){
         

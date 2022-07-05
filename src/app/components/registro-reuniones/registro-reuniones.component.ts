@@ -98,23 +98,25 @@ export class RegistroReunionesComponent implements OnInit {
 
   agregarNotificacionEmpleado(){
     this.notificacionServ.getNotificaciones().subscribe((nots) => {
-      console.log(this.reunion.participantes);
       for(var i=0; i < this.reunion.participantes.length; i++){
-        console.log(this.reunion.participantes[i].notificaciones);
         this.remitentes.push(this.reunion.participantes[i].email);
         this.reunion.participantes[i].notificaciones.push(nots[nots.length - 1]);
   
         this.modificarEmpleado(this.reunion.participantes[i]);
   
-        console.log("array notificaciones empleado:", this.reunion.participantes[i].notificaciones)
+        console.log("array notificaciones empleado:", this.reunion.participantes[i].notificaciones);
       }
     });
   }
 
   crearNotificacion(){
+    //var date = new Date();
     this.notificacion.titulo = this.reunion.nombre;
     this.notificacion.descripcion = this.reunion.descripcion;
     this.notificacion.estado = "activa";
+    this.notificacion.fecha = "2022-12-05";
+    //this.notificacion.fecha = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
+    this.notificacion.fechaVencimiento = this.reunion.fecha;
 
     this.notificacionServ.addNotificacion(this.notificacion).subscribe((n) => {
       console.log(n);
@@ -128,7 +130,7 @@ export class RegistroReunionesComponent implements OnInit {
     this.notificacionServ.getNotificaciones().subscribe((nots) => {
       this.notificacion = nots[nots.length - 1];
       console.log(this.notificacion);
-      this.reunion.notificacion.push(this.notificacion);
+      this.reunion.notificacion.push(nots[nots.length - 1]);
     });
   }
 
