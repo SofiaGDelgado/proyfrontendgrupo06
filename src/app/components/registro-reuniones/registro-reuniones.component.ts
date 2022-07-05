@@ -164,8 +164,9 @@ async registrarReunion(){
     this.buscarReunion();
 
     this.crearNotificacionReunion();
+    var url:string="http://localhost:4200/detalle/reunion/" + this.reunion._id;
 
-    this.generarQR("http://localhost:4200/detalle/reunion/" + this.reunion._id);
+    this.generarQR(url);
     
     //this.generarPDF();
     console.log("reunion luego de modificar: ", this.reunion);

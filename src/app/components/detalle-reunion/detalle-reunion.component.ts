@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Reunion } from 'src/app/models/reunion';
 import { ReunionService } from 'src/app/services/reunion.service';
-
+import { Img, PdfMakeWrapper, Txt } from 'pdfmake-wrapper';
 @Component({
   selector: 'app-detalle-reunion',
   templateUrl: './detalle-reunion.component.html',
@@ -38,9 +38,23 @@ export class DetalleReunionComponent implements OnInit {
 obtenerReunion(id: string){
   this.reunionService.getReunion(id).subscribe((r)=> {
     this.reunion = r;
+    console.log(this.reunion);
   })
 }
 
+  async generarPDF(){
+  const pdf = new PdfMakeWrapper();
+  pdf.pageMargins([40,60,40,60]);
+  pdf.pageSize('A4');
+  pdf.add(new Txt('Nombre: '+this.reunion.nombre).end) ;
+  pdf.add(new Txt('Descripcion: '+ this.reunion.descripcion).end) ;
+  pdf.add(new Txt('Fecha de la reunion: '+this.reunion.fecha).end) ;
+  pdf.add(new Txt('Horario: ' + this.reunion.horaReunion +' - '+this.reunion.horaFinalizacion).end) ;
+  pdf.add(new Txt('Codigo QR:').end) ;
 
+  pdf.add(await new Img(this.reunion.codigoQr).build());
+
+  pdf.create().open();
+}
 
 }
