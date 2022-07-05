@@ -46,6 +46,7 @@ import { GestionReunionesComponent } from './components/gestion-reuniones/gestio
 //Autorizacion (JSONWEBTOKEN)
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import { TokenInterceptorService } from './services/token-interceptor.service';
+import { VerificarCaracterEspecial, VerificarPrimeraLetra } from './directivas/validacion.directive';
 
 registerLocaleData(localeEs);
 PdfMakeWrapper.setFonts(pdfFonts);
@@ -67,7 +68,9 @@ PdfMakeWrapper.setFonts(pdfFonts);
     FormEmpleadoComponent,
     FooterComponent,
     DetalleReunionComponent,
-    GestionReunionesComponent
+    GestionReunionesComponent,
+    VerificarCaracterEspecial,
+    VerificarPrimeraLetra
   ],
   imports: [
     CommonModule,
