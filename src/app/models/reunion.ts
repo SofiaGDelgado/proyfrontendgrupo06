@@ -23,6 +23,9 @@ export class Reunion {
     constructor(){
         this.recursos = new Array<Recurso>();
         this.tipoReunion = new TipoReunion();
+        this.notificacion = new Array<Notificacion>();
+        this.participantes = new Array<Empleado>();
+        this.estadoReunion = "pendiente";
     }
 }
 

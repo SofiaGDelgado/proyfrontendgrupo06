@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http'
 import { FormsModule } from '@angular/forms';
 import { LoginService } from './services/login.service';
-import { AlifeFileToBase64Module } from 'alife-file-to-base64';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +23,7 @@ import { GestionEmpleadosComponent } from './components/gestion-empleados/gestio
 import { RegistroReunionesComponent } from './components/registro-reuniones/registro-reuniones.component';
 import { FormEmpleadoComponent } from './components/form-empleado/form-empleado.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { DetalleReunionComponent } from './components/detalle-reunion/detalle-reunion.component';
 // Dependencias para el calendario
 import { CalendarModule, DateAdapter } from 'angular-calendar'; 
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -33,7 +34,20 @@ import { CommonModule } from '@angular/common'; //Se importa para que no salte e
   //Dependencias para poner en idioma español el calendario
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
+
+import { AlifeFileToBase64Module } from 'alife-file-to-base64';
+import { PdfMakeWrapper } from 'pdfmake-wrapper';
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
+
+//Mensajes
+import { ToastrModule } from 'ngx-toastr';
+
+//Autorizacion (JSONWEBTOKEN)
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import { TokenInterceptorService } from './services/token-interceptor.service';
+
 registerLocaleData(localeEs);
+PdfMakeWrapper.setFonts(pdfFonts);
 //
 @NgModule({
   declarations: [
@@ -50,7 +64,8 @@ registerLocaleData(localeEs);
     GestionEmpleadosComponent,
     RegistroReunionesComponent,
     FormEmpleadoComponent,
-    FooterComponent
+    FooterComponent,
+    DetalleReunionComponent
   ],
   imports: [
     CommonModule,
@@ -67,10 +82,15 @@ registerLocaleData(localeEs);
     NgbModalModule,
     FlatpickrModule.forRoot(),
     NgbModule,
-    AlifeFileToBase64Module
+    AlifeFileToBase64Module,
+    ToastrModule.forRoot(),
   ],
-  providers: [ LoginService,
- ],
+  providers: [
+    LoginService,{
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

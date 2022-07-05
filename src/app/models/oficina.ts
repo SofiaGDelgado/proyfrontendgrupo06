@@ -13,7 +13,7 @@ export class Oficina {
     cantidadReuniones!: number;
 
     constructor(){
-        
+        this.reuniones = new Array<Reunion>();
     }
 
 }

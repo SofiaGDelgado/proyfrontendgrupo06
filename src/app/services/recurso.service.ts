@@ -33,4 +33,14 @@ export class RecursoService {
 
     return this.http.get(this.urlBase, httpOption)
   }
+
+  deleteRecurso(r: Recurso): Observable<any>{
+    const httpOption = {
+      headers: new HttpHeaders({
+        
+      })
+    }
+
+    return this.http.delete(this.urlBase+r._id, httpOption)
+  }
 }

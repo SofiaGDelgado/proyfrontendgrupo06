@@ -12,21 +12,23 @@ import { GestionEmpleadosComponent } from './components/gestion-empleados/gestio
 import { AgendaComponent } from './components/agenda/agenda.component';
 import { AudienciasComponent } from './components/audiencias/audiencias.component';
 import { FormEmpleadoComponent } from './components/form-empleado/form-empleado.component';
+import { DetalleReunionComponent } from './components/detalle-reunion/detalle-reunion.component';
 
 const routes: Routes = [
     {path: 'login', component: LoginComponent, pathMatch: 'full' },
     {path: 'principal', component: PrincipalComponent, pathMatch: 'full' },
-  
+    {path: 'detalle/reunion/:id', component: DetalleReunionComponent, pathMatch: 'full'},
     {path: 'principal/Administrador', component: PrincipalAdmiComponent, pathMatch: 'full' },
     {path: 'principal/Administrador/registroReuniones', component: RegistroReunionesComponent, pathMatch: 'full' },
     {path: 'principal/Administrador/estadistica', component: EstadisticaComponent, pathMatch: 'full' },
-    {path: 'principal/Administrador/gestioEmpleados', component: GestionEmpleadosComponent, pathMatch: 'full' },
-    {path: 'principal/Administrador/gestioEmpleados/altaEmpleado', component: FormEmpleadoComponent, pathMatch:'full'},
+    {path: 'principal/Administrador/gestionEmpleados', component: GestionEmpleadosComponent, pathMatch: 'full' },
+    {path: 'principal/Administrador/gestionEmpleados/formEmpleado/:id', component: FormEmpleadoComponent, pathMatch:'full'},
+    {path: 'principal/Administrador/calendario', component: CalendarComponent, pathMatch: 'full' },
     {path: 'principal/Participante', component: PrincipalParticipanteComponent, pathMatch: 'full' },
     {path: 'principal/Participante/audiencias', component: AudienciasComponent, pathMatch: 'full' },
     {path: 'principal/Participante/agenda', component: AgendaComponent, pathMatch: 'full' },
 
-  {path: 'principal/Administrador/calendario', component: CalendarComponent, pathMatch: 'full' },
+  
   {path: '**', pathMatch: 'prefix', redirectTo: 'principal',},
 ];
 
