@@ -1,5 +1,4 @@
 <div class="container-fluid">
-<<<<<<< HEAD
     <!-- Background image -->
     <div id="header" class="text-center">
         <div class="d-flex justify-content-center align-items-center h-100">
@@ -19,32 +18,33 @@
           </div>
         </div>
     </div>
-=======
->>>>>>> ae829b3511a7a9996af6159b457c27c10150bc15
     <form #form="ngForm" class="card w-50 m-auto row mb-5" action="" id="formulario">
         <div id="btn-cerrar">
             <button (click)="cerrar()" type="submit" class="btn-close"><i class="fa-solid fa-xmark"></i></button>
         </div>
-<<<<<<< HEAD
         
         
-=======
-        <h5 class="mt-4 ">Formulario Empleados</h5>
->>>>>>> ae829b3511a7a9996af6159b457c27c10150bc15
         <div class="row mb-2 " id="item">
             <div class="col-6 ">
                 <label for="nombre" class="form-label">Nombre: </label>
-                <input type="text" id="nombre" name="nombre" class="form-control" [(ngModel)]="empleado.nombre" required #nombre="ngModel">
+                <input type="text" id="nombre" name="nombre" class="form-control" [(ngModel)]="empleado.nombre" 
+                    required #nombre="ngModel" verificar-caracter-especial verificar-primera-letra>
                 <div *ngIf="nombre.invalid && (nombre.touched || nombre.dirty)" class="alert alert-danger">
                     <div *ngIf="nombre.errors?.['required']">El nombre es requerido.</div>
+                    <div *ngIf="nombre.errors?.['verificarCaracterEspecial']">No se permiten caracteres especiales.</div>
+                    <div *ngIf="nombre.errors?.['verificarPrimeraLetra']">La primera letra tiene que estar en mayuscula.</div>
                 </div>
             </div>
             <div class="col-6 ">
                 <label for="apellido" class="form-label">Apellido: </label>
-                <input type="text" id="apellido" name="apellido" class="form-control" [(ngModel)]="empleado.apellido" required #apellido="ngModel">
+                <input type="text" id="apellido" name="apellido" class="form-control" [(ngModel)]="empleado.apellido" 
+                    required #apellido="ngModel" verificar-caracter-especial verificar-primera-letra>
                 <div *ngIf="apellido.invalid && (apellido.touched || apellido.dirty)" class="alert alert-danger">
                     <div *ngIf="apellido.errors?.['required']">El apellido es requerido.</div>
+                    <div *ngIf="apellido.errors?.['verificarCaracterEspecial']">No se permiten caracteres especiales.</div>
+                    <div *ngIf="apellido.errors?.['verificarPrimeraLetra']">La primera letra tiene que estar en mayuscula.</div>
                 </div>
+
             </div>
         </div>
         <div class="col-12" id="item">
