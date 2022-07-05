@@ -24,22 +24,23 @@
             </ul>
           </div>
         </form>
-        <div class="dropdown">
+        <div class="dropdown" *ngIf="loginService.userLoggedIn()">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
             Notificaciones
             <span class="badge bg-secondary">{{notificacionesActivas.length}}</span>
           </button>
           <ul class="dropdown-menu area dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-            <li *ngFor="let n of notificacionesActivas">
-              <div class="card">
-                <div class="card-header">
-                  {{n.titulo}}
+              <li *ngIf="!notificacionesActivas.length"><p class="lead text-center">No tienes Notificaciones </p></li>
+              <li *ngFor="let n of notificacionesActivas">
+                <div class="card">
+                  <div class="card-header">
+                    <h6>{{n.titulo}}</h6>
+                  </div>
+                  <div class="card-body">
+                    <p class="lead">{{n.descripcion}}</p>
+                  </div>
                 </div>
-                <div class="card-body">
-                  <p class="lead">{{n.descripcion}}</p>
-                </div>
-              </div>
-            </li>
+              </li>
           </ul>
         </div>
         
