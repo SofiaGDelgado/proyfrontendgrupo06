@@ -26,7 +26,7 @@
                 <th>Dependencia</th>
                 <th>Email</th>
                 <th>Rol</th>
-                <th>Reuniones</th>
+               
                 <th></th>
             </tr>
         </thead>
@@ -37,7 +37,7 @@
                 <td>{{e.dependencia.nombre}}</td>
                 <td>{{e.email}}</td>
                 <td>{{e.rol}}</td>
-                <td><ul><li *ngFor="let r of e.reuniones">{{r.nombre}}</li></ul></td>
+                
                 <td>
                   <button type="button" class="btn btn-borrar" (click)="borrarEmpleado(e)"><i class="fa-solid fa-trash"></i></button>
                   <button type="button" class="btn btn-seleccionar" (click)="modificarEmpleado(e)"><i class="fa-solid fa-pen"></i></button>

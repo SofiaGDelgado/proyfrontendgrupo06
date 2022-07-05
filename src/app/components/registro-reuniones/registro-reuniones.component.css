@@ -104,3 +104,9 @@ form{
     align-content: center;
     width: auto;
 }
+.btn-modificar{
+    text-align: center;
+    margin-top: 15px;
+    width: 160px;
+     background-color: rgb(94, 68, 223);
+}
