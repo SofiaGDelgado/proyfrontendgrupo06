@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Oficina } from 'src/app/models/oficina';
 import { Reunion } from 'src/app/models/reunion';
+import { LoginService } from 'src/app/services/login.service';
 import { ReunionService } from 'src/app/services/reunion.service';
 
 @Component({
@@ -13,13 +14,19 @@ import { ReunionService } from 'src/app/services/reunion.service';
 export class AudienciasComponent implements OnInit {
 
   reuniones!: Array <Reunion>;
+  reunionesAux!: Array <Reunion>;
   oficinaSelected!: string;
   oficinas!:Array <Oficina>;
-  constructor(private reunionService: ReunionService, private router: Router, private toastr: ToastrService) { }
+  mostrar!: boolean;
+  idEmpleado!: any;
+
+  constructor(private reunionService: ReunionService, private router: Router, private toastr: ToastrService, private loginService: LoginService) { }
 
   ngOnInit(): void {
     this.cargarReuniones();
     this.getOficinas();
+    this.obtenerId();
+    this.cargarReunionesAux();
   }
   busquedaPorOficina(){
     this.reunionService.getReunionesOficina(this.oficinaSelected).subscribe(
@@ -55,7 +62,38 @@ export class AudienciasComponent implements OnInit {
     );
   }
 
+  cargarReunionesAux(){
+    this.reunionService.getReunionesEmpleado(this.idEmpleado).subscribe(
+      result=>{
+        console.log(result);
+        var reunion= new Reunion();
+        this.reunionesAux=new Array <Reunion>();
+        result.forEach((element:any) => {
+          Object.assign(reunion, element);
+          console.log(reunion);
+          this.reunionesAux.push(reunion);
+          reunion= new Reunion();
+        });
+        console.log(this.reunionesAux);
+        // this.dtTrigger.next();
+      },
+      error=>{
+      }
+    );
+  }
+  obtenerId(){
+    this.idEmpleado= this.loginService.idLogged();
+    console.log(this.idEmpleado);
+  }
+
   verDetalle(r: Reunion){
-    this.router.navigate(['detalle/reunion', r._id]);
+    let array = this.reunionesAux.filter(element => element._id == r._id);
+    if( array.length == 0){
+      this.toastr.info('No eres participante', 'Error mostrar detalle');
+    }
+    else{
+       this.router.navigate(['detalle/reunion', r._id]);
+    }
+   
   }
 }
