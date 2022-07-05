@@ -14,12 +14,8 @@ export class LoginComponent implements OnInit {
   returnUrl!: string;
   msglogin!: string; // mensaje que indica si no paso el loguin
   empleado!: Empleado;
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private loginService:LoginService) { 
 
-  }
+  constructor(private route: ActivatedRoute, private router: Router, private loginService:LoginService) {}
 
   ngOnInit(): void {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
@@ -35,9 +31,9 @@ export class LoginComponent implements OnInit {
       var user = result;
       if (user.status == 1){
         //guardamos el user en cookies en el cliente
+        sessionStorage.setItem("token", user.token);
         sessionStorage.setItem("user", user.username);
         sessionStorage.setItem("userid", user.userid);
-        //sessionStorage.setItem("perfil", user.perfil);
         sessionStorage.setItem("rol", user.rol);
         console.log(user);
         if(user.rol == "administrador" || user.rol == "Administrador"){

@@ -9,14 +9,14 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private router: Router, public loginService: LoginService) { }
+  constructor(private router: Router, public loginService: LoginService) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
 
-  }
   Sesion():void{
     this.router.navigate(['login']);
   }
+
   logout(){
     this.loginService.logout();
   }

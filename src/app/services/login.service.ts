@@ -20,7 +20,6 @@ export class LoginService {
       })
     }
     let body = JSON.stringify({ username: username, password: password });
-    console.log(body);
     return this._http.post(this.hostBase + 'login', body, httpOption);
   }
   
@@ -29,6 +28,7 @@ export class LoginService {
     sessionStorage.removeItem("user");
     sessionStorage.removeItem("rol");
     sessionStorage.removeItem("userid");
+    sessionStorage.removeItem("token");
   } 
 
   public userLoggedIn(){
@@ -48,5 +48,13 @@ export class LoginService {
   public idLogged(){
     var id = sessionStorage.getItem("userid");
     return id;
+  }
+
+  getToken(): string{
+    if (sessionStorage.getItem("token")!= null){
+      return sessionStorage.getItem("token")!;
+    }else{
+      return "";
+    }
   }
 }

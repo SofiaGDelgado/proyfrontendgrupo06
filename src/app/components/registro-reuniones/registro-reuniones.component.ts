@@ -89,6 +89,13 @@ export class RegistroReunionesComponent implements OnInit {
     console.log(this.reunion.participantes);
   }
 
+  cargarReunionOficina(){
+    this.reunion.oficina.reuniones.push(this.reunion);
+    this.reunionService.modificarOficina(this.reunion.oficina).subscribe((of) =>{
+      console.log(of);
+    });
+  }
+
   agregarNotificacionEmpleado(){
     this.notificacionServ.getNotificaciones().subscribe((nots) => {
       console.log(this.reunion.participantes);
@@ -133,6 +140,12 @@ export class RegistroReunionesComponent implements OnInit {
         this.modificarEmpleado(this.reunion.participantes[i]);
       }
 
+      console.log(this.reunion.oficina);
+      this.reunion.oficina.reuniones.push(reu[reu.length - 1]);
+      this.reunionService.modificarOficina(this.reunion.oficina).subscribe((of) =>{
+        console.log(of);
+      });
+
       this.reunion = reu[reu.length - 1];
     });
   }
@@ -151,11 +164,18 @@ async registrarReunion(){
 
     this.generarQR("http://localhost:4200/detalle/reunion/" + this.reunion._id);
 
+<<<<<<< HEAD
     this.generarPDF();
 
     //await this.enviarMail();
 
     this.reunion= new Reunion();
+=======
+    //this.generarPDF();
+    console.log("reunion luego de modificar: ", this.reunion);
+
+    //await this.enviarMail();
+>>>>>>> ae829b3511a7a9996af6159b457c27c10150bc15
 
     this.router.navigate(['detalle/reunion/', this.reunion._id]);
 

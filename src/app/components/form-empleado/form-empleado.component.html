@@ -1,4 +1,5 @@
 <div class="container-fluid">
+<<<<<<< HEAD
     <!-- Background image -->
     <div id="header" class="text-center">
         <div class="d-flex justify-content-center align-items-center h-100">
@@ -18,12 +19,18 @@
           </div>
         </div>
     </div>
+=======
+>>>>>>> ae829b3511a7a9996af6159b457c27c10150bc15
     <form #form="ngForm" class="card w-50 m-auto row mb-5" action="" id="formulario">
         <div id="btn-cerrar">
             <button (click)="cerrar()" type="submit" class="btn-close"><i class="fa-solid fa-xmark"></i></button>
         </div>
+<<<<<<< HEAD
         
         
+=======
+        <h5 class="mt-4 ">Formulario Empleados</h5>
+>>>>>>> ae829b3511a7a9996af6159b457c27c10150bc15
         <div class="row mb-2 " id="item">
             <div class="col-6 ">
                 <label for="nombre" class="form-label">Nombre: </label>
@@ -83,8 +90,8 @@
                 </select>
             </div>
         </div>
-        <button type="button" class="btn" (click)="altaEmpleado()"  *ngIf="accion=='new'"  [disabled]="form.invalid">Registrar</button>
-        <button *ngIf="accion=='update'" (click)="actualizarEmpleado()" type="submit" class="btn btn-modificar">ACTUALIZAR</button>
+        <button type="button" class="btn" (click)="altaEmpleado()" *ngIf="accion=='new'" [disabled]="form.invalid" routerLink="/principal/Administrador/gestionEmpleados">Registrar</button>
+        <button *ngIf="accion=='update'" (click)="actualizarEmpleado()" type="submit" class="btn btn-modificar" [disabled]="form.invalid" routerLink="/principal/Administrador/gestionEmpleados">ACTUALIZAR</button>
         <button type="button" class="btn" (click)="resetForm(form)">Limpiar</button>
     </form>
 </div>

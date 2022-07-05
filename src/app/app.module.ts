@@ -45,6 +45,10 @@ import { GestionReunionesComponent } from './components/gestion-reuniones/gestio
 //Tabla
 import { DataTablesModule } from "angular-datatables";
 
+//Autorizacion (JSONWEBTOKEN)
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import { TokenInterceptorService } from './services/token-interceptor.service';
+
 registerLocaleData(localeEs);
 PdfMakeWrapper.setFonts(pdfFonts);
 //
@@ -86,7 +90,12 @@ PdfMakeWrapper.setFonts(pdfFonts);
     ToastrModule.forRoot(),
     DataTablesModule
   ],
-  providers: [ LoginService],
+  providers: [
+    LoginService,{
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
