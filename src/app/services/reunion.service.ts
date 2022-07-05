@@ -124,4 +124,17 @@ export class ReunionService {
 
     return this.http.get(this.urlBaseReunion+id, httpOption);
   }
+  public deleteReunion(id: string):Observable<any>{
+    const httpOption = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      params: new HttpParams({
+
+      })
+      .append("id",id)
+    };
+    return this.http.delete(this.urlBase+id,httpOption);
+
+  }
 }

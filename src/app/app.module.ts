@@ -40,6 +40,8 @@ import * as pdfFonts from "pdfmake/build/vfs_fonts";
 
 //Mensajes
 import { ToastrModule } from 'ngx-toastr';
+import { GestionReunionesComponent } from './components/gestion-reuniones/gestion-reuniones.component';
+
 
 //Autorizacion (JSONWEBTOKEN)
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
@@ -64,7 +66,8 @@ PdfMakeWrapper.setFonts(pdfFonts);
     RegistroReunionesComponent,
     FormEmpleadoComponent,
     FooterComponent,
-    DetalleReunionComponent
+    DetalleReunionComponent,
+    GestionReunionesComponent
   ],
   imports: [
     CommonModule,
