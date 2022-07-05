@@ -54,7 +54,10 @@ export class HeaderComponent implements OnInit {
     this.notificacionesActivas = new Array<Notificacion>();
     console.log(this.empleadoSesion.notificaciones);
     for(var i=0; i < this.empleadoSesion.notificaciones.length; i++){
+      
       var fechaNotificacion = this.empleadoSesion.notificaciones[i].fecha.split("-");
+
+
       var fechaV = this.empleadoSesion.notificaciones[i].fechaVencimiento.split("-");
       var fechaCompar = new Date(parseInt(fechaNotificacion[0]), parseInt(fechaNotificacion[1]), parseInt(fechaNotificacion[2]));
       var fechaComparV = new Date(parseInt(fechaV[0]), parseInt(fechaV[1]), parseInt(fechaV[2]));
