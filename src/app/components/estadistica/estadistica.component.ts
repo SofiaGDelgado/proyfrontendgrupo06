@@ -1,4 +1,11 @@
+
 import { Component, OnInit } from '@angular/core';
+import { Empleado } from 'src/app/models/empleado';
+import { Oficina } from 'src/app/models/oficina';
+import { Reunion } from 'src/app/models/reunion';
+import { EmpleadoService } from 'src/app/services/empleado.service';
+import { ReunionService } from 'src/app/services/reunion.service';
+import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-estadistica',
@@ -6,10 +13,295 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./estadistica.component.css']
 })
 export class EstadisticaComponent implements OnInit {
+  barras!: Chart;
+  torta!: Chart;
+  oficina!: Oficina;
+  reunion!: Reunion;
+  reuniones !: Array<Reunion>;
+  oficinasReu !: Array <Oficina>;
+  oficinas!:Array<Oficina>;
+  participantes!: Array <Empleado>;
+  cantReuniones!: Array <number>;
+  infoReuniones!: Array <string>;
+  empleado!: Empleado;
+  empleados!: Array <Empleado>;
+  meses !: Array <string>;
+  años !: Array <string>;
+  date!:string;
 
-  constructor() { }
-
+  constructor(private reunionService: ReunionService, private participanteService: EmpleadoService) { 
+    this.getOficinas();
+    this.getReuniones();
+    this.getParticipantes();
+    this.getOficinasReu();
+    this.getEmpleados();
+    this.mesArray();
+    this.añoArray();
+    this.meses= new Array<string>();
+    this.años= new Array<string>();
+  }
   ngOnInit(): void {
   }
 
+  
+
+getOficinasReu(){
+  this.oficinasReu = new Array<Oficina>();
+  this.reunionService.getReuniones().subscribe((o) => {
+   for(var i=0; i < o.length; i++) {
+    this.oficinasReu.push(o[i].oficina);
+   }
+  });
+  console.log(this.oficinasReu)
 }
+
+getOficinas(){
+  this.oficinas = new Array<Oficina>();
+  this.reunionService.getOficinas().subscribe((o) => {
+   for(var i=0; i < o.length; i++) {
+    this.oficinas.push(o[i]);
+   }
+  });
+  console.log(this.oficinas)
+}
+
+
+
+getEmpleados(){
+  this.empleados = new Array<Empleado>();
+  this.participanteService.getEmpleados().subscribe((e) => {
+    for(var i=0; i < e.length; i++) {
+      this.empleados.push(e[i]);
+     }
+  });
+  console.log(this.empleados)
+}
+
+getReuniones(){
+  this.reuniones = new Array<Reunion>();
+  this.reunionService.getReuniones().subscribe((reu)=>{
+      this.reuniones.push(reu);
+  });
+  console.log(this.reuniones);
+}
+
+getParticipantes(){
+  this.participantes = new Array<Empleado>();
+  this.reunionService.getReuniones().subscribe((par) => {
+    for(var i=0; i < par.length; i++) {
+      this.participantes.push(par[i].participantes);
+     }
+   });
+   console.log(this.participantes)
+ }
+
+
+
+graficaTorta(datos:Array<number>,mostrar:Array<string>){
+  if (this.torta) {
+    this.torta.destroy();
+  }
+  this.torta= new Chart("chartPie", {
+    type:'pie',
+    data: {
+        labels: mostrar,
+        datasets: [{
+            label: 'participo en reuniones',
+            data: datos,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1,
+            hoverOffset: 4
+        }]
+    }
+});
+
+}
+graficaBarra(datos:Array<number>,mostrar:Array<string>){
+  if (this.barras) {
+    this.barras.destroy();
+  }
+  this.barras= new Chart("bar", {
+    type:'bar',
+    data: {
+        labels: mostrar,
+        datasets: [{
+            label: 'participo en reuniones',
+            data: datos,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+        }]
+    }
+});
+
+}
+
+
+oficinasGrafica(){
+  this.cantReuniones= new Array<number>();
+  this.infoReuniones= new Array<string>();
+   var i=0,c=0, b=0;
+  this.oficinas.forEach((o)=>{
+        this.cantReuniones[b]=0;
+        this.infoReuniones[b]="Oficina Nro. : "+o.numero;
+        b++;
+   });
+  this.oficinasReu.forEach((oReu)=>{
+      this.oficinas.forEach((ofi)=>{
+        if(oReu._id==ofi._id){
+              c++;
+              this.cantReuniones[i]=this.cantReuniones[i]+c;
+        }
+        i++;
+      });
+  c=0;i=0;
+  });
+ console.log(this.cantReuniones,this.infoReuniones);
+ this.graficaTorta(this.cantReuniones,this.infoReuniones);
+ this.graficaBarra(this.cantReuniones,this.infoReuniones);
+ 
+}
+
+//Se captan los datos para grafica por mes
+mesGrafica(){
+     this.mesArray();
+     console.log(this.meses.length);
+     var mes:Array<string>;
+     mes=["01","02","03","04","05","06","07","08","09","10","11","12"];
+     this.cantReuniones=[0,0,0,0,0,0,0,0,0,0,0,0];
+     this.infoReuniones=["Enero: ","Febrero: ","Marzo: ","Abril: ","Mayo: ","Junio: ","Julio: ","Agosto: ","Septiembre: ","Octubre: ","Noviembre: ","Diciembre: "];
+      //console.log(this.meses);
+    for (var i = 0; i < this.meses.length; i++) {
+      var j=0;
+      for (var j = 0; j < mes.length; j++) {
+            if(this.meses[i]==mes[j]) {
+                this.cantReuniones[j] = this.cantReuniones[j]+1;
+            }
+      }
+    } 
+     // console.log(this.cantReuniones);
+    this.graficaBarra(this.cantReuniones,this.infoReuniones);
+    this.graficaTorta(this.cantReuniones,this.infoReuniones);
+  }
+
+  //Aqui se saca el mes de reunion.fecha
+mesArray(){
+   this.reunionService.getReuniones().subscribe(res =>{
+    
+   for(var i=0; i<res.length; i++){
+          var f = res[i].fecha.split("-");
+          //console.log(f);
+          this.meses[i]=f[1];
+     }
+ 
+  });
+  
+  console.log(this.meses);
+   
+}
+
+anioGrafica(){
+  this.añoArray();
+  var año: Array<string>;
+  año=["2021", "2022", "2023","2024"];
+  console.log(this.años);
+  this.infoReuniones=["2021", "2022","2023","2024"];
+  this.cantReuniones=[0,0,0,0]
+
+      for (var i = 0; i < this.años.length; i++) {
+        var j=0;
+        for (var j = 0; j < año.length; j++) {
+              if(this.años[i]==año[j]) {
+                  this.cantReuniones[j] = this.cantReuniones[j]+1;
+              }
+        }
+      } 
+
+  this.graficaBarra(this.cantReuniones,this.infoReuniones);
+    this.graficaTorta(this.cantReuniones,this.infoReuniones);
+}
+
+
+añoArray(){
+  this.reunionService.getReuniones().subscribe(res =>{
+   
+  for(var i=0; i<res.length; i++){
+         var f = res[i].fecha.split("-");
+         //console.log(f);
+         this.años[i]=f[0];
+    }
+
+ });
+ 
+ console.log(this.años);
+  
+}
+
+
+
+participanteGrafica(){
+  this.cantReuniones= new Array<number>();
+  this.infoReuniones= new Array<string>();
+  console.log(this.participantes);
+  console.log(this.empleados);
+   var i=0,c=0, b=0;
+  this.empleados.forEach((e)=>{
+        this.cantReuniones[b]=0;
+        this.infoReuniones[b]="Participante: "+e.nombre+" "+e.apellido;
+        b++;
+   });
+      this.empleados.forEach((par)=>{
+      this.participantes.forEach((emp)=>{
+        if(emp._id==par._id){
+              c++;
+              this.cantReuniones[i]=this.cantReuniones[i]+c;
+        }
+        i++;
+      });
+  c=0;i=0;
+  });
+ console.log(this.cantReuniones,this.infoReuniones);
+ this.graficaTorta(this.cantReuniones,this.infoReuniones);
+ this.graficaBarra(this.cantReuniones,this.infoReuniones);
+
+}
+
+
+
+
+
+
+}
+
+
+
+
