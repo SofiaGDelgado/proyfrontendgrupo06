@@ -405,10 +405,11 @@ fechasGrafica(){
   this.cantReuniones=[0,0,0,0,0,0,0,0,0,0,0,0];
   this.infoReuniones=["","","","","","","","","","","",""];
    //console.log(this.meses);
+    //console.log(this.meses);
    var f = this.entrada.split("-");
    //console.log(f);
    var eAño=f[0];
-   var eMes=f[1];
+   var eMes=f[1];     
    var eDia=f[2];
    var t = this.salida.split("-");
    //console.log(f);
