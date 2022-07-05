@@ -18,46 +18,42 @@ import { ReunionService } from 'src/app/services/reunion.service';
 export class GestionReunionesComponent implements OnInit {
 
   reuniones!: Array <Reunion>;
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject<any>();
-  
-  //Modal
-  @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
+ 
+  // //Modal
+  // @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
 
-  modalData!: {
-    tipoReunion: string;
-    oficina: Oficina;
-    participantes:  Array <Empleado>;
-    recursos: Array <Recurso>;
-    prioridad: number;
-    codigoQr: string;
-    notificacion: Array<Notificacion>;
-  };
+  // modalData!: {
+  //   tipoReunion: string;
+  //   oficina: Oficina;
+  //   participantes:  Array <Empleado>;
+  //   recursos: Array <Recurso>;
+  //   prioridad: number;
+  //   codigoQr: string;
+  //   notificacion: Array<Notificacion>;
+  // };
   
   constructor(private reunionService: ReunionService, private modal: NgbModal, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      pageLength: 5
-    };
+   
     this.cargarReuniones();
   }
 
-  ngOnDestroy(): void {
-    // Do not forget to unsubscribe the event
-    this.dtTrigger.unsubscribe();
-  }
+  
 
   cargarReuniones(){
     this.reunionService.getReuniones().subscribe(
       result=>{
+        console.log(result);
         var reunion= new Reunion();
         this.reuniones=new Array <Reunion>();
         result.forEach((element:any) => {
           Object.assign(reunion, element);
+          console.log(reunion);
           this.reuniones.push(reunion);
+          reunion= new Reunion();
         });
+        console.log(this.reuniones);
         // this.dtTrigger.next();
       },
       error=>{
@@ -88,18 +84,18 @@ export class GestionReunionesComponent implements OnInit {
       }
      );
   }
-  verDetalle(r: Reunion){
-    this.modalData = {
-      tipoReunion: r.tipoReunion.nombre,
-      oficina: r.oficina,
-      participantes:  r.participantes,
-      recursos: r.recursos,
-      prioridad: r.prioridad,
-      codigoQr: r.codigoQr,
-      notificacion: r.notificacion
-    };
-    this.modal.open(this.modalContent, { size: 'md' });
-  }
+  // verDetalle(r: Reunion){
+  //   this.modalData = {
+  //     tipoReunion: r.tipoReunion.nombre,
+  //     oficina: r.oficina,
+  //     participantes:  r.participantes,
+  //     recursos: r.recursos,
+  //     prioridad: r.prioridad,
+  //     codigoQr: r.codigoQr,
+  //     notificacion: r.notificacion
+  //   };
+  //   this.modal.open(this.modalContent, { size: 'md' });
+  // }
   
 
 }

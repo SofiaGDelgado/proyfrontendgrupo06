@@ -151,9 +151,11 @@ async registrarReunion(){
 
     this.generarQR("http://localhost:4200/detalle/reunion/" + this.reunion._id);
 
-    //this.generarPDF();
+    this.generarPDF();
 
-    await this.enviarMail();
+    //await this.enviarMail();
+
+    this.reunion= new Reunion();
 
     this.router.navigate(['detalle/reunion/', this.reunion._id]);
 
@@ -251,7 +253,8 @@ async registrarReunion(){
       result=>{
         this.reunion= new Reunion();
         Object.assign(this.reunion, result);
-        // this.empleado.dependencia= this.dependencias.find((item)=>(item._id == this.empleado.dependencia._id ))!;
+        this.reunion.tipoReunion= this.tiposReunion.find((item)=>(item._id == this.reunion.tipoReunion._id ))!;
+        this.reunion.oficina= this.oficinas.find((item)=>(item._id == this.reunion.oficina._id ))!;
       }
     )
   }

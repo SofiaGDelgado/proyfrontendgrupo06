@@ -13,6 +13,9 @@
     height: 400px;
     margin: 0px;
 }
+.card{
+    padding: 10px;
+}
 h1{
     font-family: 'Readex Pro', sans-serif;
     color:#ffffffed;
@@ -81,6 +84,7 @@ p{
 table{
     border: #9e80f1 1px solid;
     border-radius: 10px;
+    margin-bottom: 20px;
 }
 table th{
     font-family: 'Readex Pro';

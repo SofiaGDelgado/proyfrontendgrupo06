@@ -22,8 +22,8 @@
   <button class="btn btn-agregar" (click)="altaReunion()">AGREGAR <i class="fa-solid fa-circle-plus"></i></button>
 </div>
 
-<div class="card m-auto w-75">
-    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+<div class="card">
+    <table class="row-border hover">
         <thead>
           <tr>
             <th>ID</th>
@@ -42,10 +42,10 @@
             <td>{{ r.nombre }}</td>
             <td>{{ r.descripcion }}</td>
             <td>{{ r.fecha | date:'shortDate' }}</td>
-            <td>{{ r.horaReunion | date:'shortTime'}} - {{r.horaFinalizacion | date:'shortTime'}}</td>
+            <td>{{ r.horaReunion}} - {{r.horaFinalizacion}}</td>
             <td>{{r.estadoReunion}}</td>
             <td>
-                <button type="button" class="btn btn-detalle" (click)="verDetalle(r)"><i class="fa-solid fa-eye"></i></button>
+                <button type="button" class="btn btn-seleccionar" ><i class="fa-solid fa-eye"></i></button>
             </td>
             <td>  
                 <button type="button" class="btn btn-borrar" (click)="borrarReunion(r)"><i class="fa-solid fa-trash"></i></button>
@@ -55,7 +55,7 @@
         </tbody>
     </table>
 </div>
-<ng-template #modalContent let-close="close">
+<!-- <ng-template #modalContent let-close="close">
     
     <div class="modal-body">
      
@@ -64,12 +64,12 @@
         
         <img src="{{modalData?.codigoQr}}" alt="">
 
-        <!-- <pre>{{modalData?.event | json}}</pre> -->
-      </div>
+        <pre>{{modalData?.event | json}}</pre> -->
+      <!-- </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-secondary" (click)="close()">
         OK
       </button>
     </div> 
-  </ng-template>
+  </ng-template> -->

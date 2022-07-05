@@ -16,7 +16,7 @@ export class GeneradorQrService {
         targetForQr: url,
       },
       headers: {
-        'X-RapidAPI-Key': '19539c6624mshfdb683a7bb06366p11ca8cjsn490d6d5fa9db',
+        'X-RapidAPI-Key': '2ba1522730msh0d4de2f8814d6f2p1b77e8jsn4b0d284ba4a2',
         'X-RapidAPI-Host': 'qr-code-generator27.p.rapidapi.com'
       }
     };

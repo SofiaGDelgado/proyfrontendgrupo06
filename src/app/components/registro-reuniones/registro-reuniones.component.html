@@ -75,7 +75,7 @@
                             <div class="col-11 m-auto mb-3">
                                 <label for="oficina" class="form-label">Seleccione Oficina donde se celebrara la Reunion: </label>
                                 <select name="oficina" id="oficina" class="form-select" [(ngModel)]="reunion.oficina" required #oficina="ngModel">
-                                    <option *ngFor="let o of oficinas" [ngValue]="o">Edificio: {{o.edificio}} Piso: {{o.piso}} Numero: {{o.numero}}</option>
+                                    <option *ngFor="let o of oficinas" [ngValue]="o">{{o.nombre}} Edificio: {{o.edificio}} Piso: {{o.piso}} Numero: {{o.numero}}</option>
                                 </select>
                             </div>
                             <div class="col-11 m-auto mb-3">
@@ -172,7 +172,8 @@
                 <span class="visually-hidden">Next</span>
             </button>
             <div class="div-btn-agregar">
-                <button type="button" id="botonb"(click)="registrarReunion()" class="btn mb-3" [disabled]="form.invalid">REGISTRAR</button> 
+                <button  *ngIf="accion=='new'" type="button" id="botonb"(click)="registrarReunion()" class="btn mb-3" [disabled]="form.invalid">REGISTRAR</button> 
+                <button  *ngIf="accion=='update'" type="button" (click)="modificarReunion()" class="btn mb-3" [disabled]="form.invalid">MODIFICAR</button> 
             </div>
         </div>
     </form>
