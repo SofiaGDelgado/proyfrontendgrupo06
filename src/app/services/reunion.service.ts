@@ -120,7 +120,7 @@ export class ReunionService {
       })
       .append("id",id)
     };
-    return this.http.delete(this.urlBase+id,httpOption);
+    return this.http.delete(this.urlBaseReunion+id,httpOption);
 
   }
 }

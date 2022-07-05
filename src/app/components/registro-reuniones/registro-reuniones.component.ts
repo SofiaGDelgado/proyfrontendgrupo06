@@ -46,7 +46,7 @@ export class RegistroReunionesComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
-      if (params['id'] === "0"){
+      if (params['id'] == "0"){
         this.accion = "new";
       
       }else{
@@ -231,7 +231,9 @@ export class RegistroReunionesComponent implements OnInit {
       this.reunion = new Reunion();
       this.reunionService.getReuniones().subscribe((reu)=>{
         this.reunion = reu[reu.length - 1];
-      })
+        this.toastr.success('Se ha modificado con exito');
+      });
+
     })
   }
 
@@ -273,12 +275,15 @@ export class RegistroReunionesComponent implements OnInit {
   }
 
   cargarReunion(id: string){
+    this.reunion.recursos= [];
+    this.reunion.participantes=[];
     this.reunionService.getReunion(id).subscribe(
       result=>{
         this.reunion= new Reunion();
         Object.assign(this.reunion, result);
         this.reunion.tipoReunion= this.tiposReunion.find((item)=>(item._id == this.reunion.tipoReunion._id ))!;
         this.reunion.oficina= this.oficinas.find((item)=>(item._id == this.reunion.oficina._id ))!;
+        console.log(this.reunion);
       }
     )
   }

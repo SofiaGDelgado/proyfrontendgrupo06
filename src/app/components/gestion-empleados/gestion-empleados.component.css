@@ -87,3 +87,7 @@ table th{
     color: rgb(66, 79, 196);
     border-bottom:rgb(66, 79, 196) 2px solid;
 }
+table td {
+    text-decoration: none;
+    color: black;
+}

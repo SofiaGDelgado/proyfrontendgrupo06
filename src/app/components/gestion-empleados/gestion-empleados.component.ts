@@ -53,6 +53,7 @@ export class GestionEmpleadosComponent implements OnInit {
 
   borrarEmpleado(empleado: Empleado){
     var id:string= empleado._id;
+    
     this.empleadoServ.deleteEmpleado(id).subscribe(
       result=>{
           this.getEmpleados();
