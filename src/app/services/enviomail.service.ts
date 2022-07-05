@@ -11,7 +11,7 @@ export class EnviomailService {
 
   constructor(private http: HttpClient) { }
 
-  sendMail(email: string, asunto: string, m: string, img :string): Observable<any>{
+  sendMail(e: string, a: string, m: string, i :string): Observable<any>{
 
     const httpOptions = {
       headers : new HttpHeaders({
@@ -19,8 +19,13 @@ export class EnviomailService {
       }),
     }
 
-    let body = JSON.stringify({email : email, asunto: asunto, message: m, img: img});
-
-    return this.http.post(this.urlBase, body, httpOptions);
+    let params = {
+      email: e,
+      asunto: a,
+      message: m,
+      img: i
+    }
+    
+    return this.http.post(this.urlBase, params);
   }
 }

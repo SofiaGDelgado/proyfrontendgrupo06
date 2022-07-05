@@ -19,6 +19,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(private router: Router, public loginService: LoginService, private empService: EmpleadoService) {
     this.empleadoSesion = new Empleado();
+    this.notificacionesActivas = new Array<Notificacion>();
     this.empleadoEnSesion();
     
   }
@@ -44,23 +45,14 @@ export class HeaderComponent implements OnInit {
       }
       console.log("en sesion: ", this.empleadoSesion);
 
-      this.cargarNotificacionesRecientes();
-    });
-
-    console.log(this.empleadoSesion.notificaciones);
-  }
-  
-  cargarNotificacionesRecientes(){
-    this.notificacionesActivas = new Array<Notificacion>();
-    console.log(this.empleadoSesion.notificaciones);
+      this.notificacionesActivas = new Array<Notificacion>();
     for(var i=0; i < this.empleadoSesion.notificaciones.length; i++){
+      
       var fechaNotificacion = this.empleadoSesion.notificaciones[i].fecha.split("-");
       var fechaV = this.empleadoSesion.notificaciones[i].fechaVencimiento.split("-");
       var fechaCompar = new Date(parseInt(fechaNotificacion[0]), parseInt(fechaNotificacion[1]), parseInt(fechaNotificacion[2]));
       var fechaComparV = new Date(parseInt(fechaV[0]), parseInt(fechaV[1]), parseInt(fechaV[2]));
-      console.log(fechaCompar);
       var hoy = new Date;
-      console.log(hoy);
       if(fechaCompar.getMonth() === hoy.getMonth() && fechaCompar.getFullYear() === hoy.getFullYear()){
           this.notificacionesActivas.push(this.empleadoSesion.notificaciones[i]);
       }
@@ -72,7 +64,9 @@ export class HeaderComponent implements OnInit {
       
       console.log(this.notificacionesActivas);
     }
+
+      //this.cargarNotificacionesRecientes();
+    });
   }
-
-
+  
 }
