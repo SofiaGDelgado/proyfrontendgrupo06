@@ -42,8 +42,6 @@ import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { ToastrModule } from 'ngx-toastr';
 import { GestionReunionesComponent } from './components/gestion-reuniones/gestion-reuniones.component';
 
-//Tabla
-import { DataTablesModule } from "angular-datatables";
 
 //Autorizacion (JSONWEBTOKEN)
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
@@ -88,7 +86,6 @@ PdfMakeWrapper.setFonts(pdfFonts);
     NgbModule,
     AlifeFileToBase64Module,
     ToastrModule.forRoot(),
-    DataTablesModule
   ],
   providers: [
     LoginService,{
