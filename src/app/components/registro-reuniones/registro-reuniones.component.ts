@@ -179,12 +179,6 @@ export class RegistroReunionesComponent implements OnInit {
     this.router.navigate(['detalle/reunion', id]);
   }
 
-  onFileChanges(files:any){
-    console.log("File has changed:", files);
-    this.recurso.archivoUrl = btoa(files[0].base64);
-    console.log(this.recurso.archivoUrl);
-  }
-
   cargarRecurso(){
     this.recursoServ.addRecurso(this.recurso).subscribe((r) => {
       console.log(r);
@@ -232,19 +226,10 @@ export class RegistroReunionesComponent implements OnInit {
       this.reunionService.getReuniones().subscribe((reu)=>{
         this.reunion = reu[reu.length - 1];
         this.toastr.success('Se ha modificado con exito');
+
+        this.router.navigate(['principal/Administrador/gestionReuniones']);
       });
-
     })
-  }
-
-  generarPDF(){
-    const pdf = new PdfMakeWrapper();
-    
-    pdf.add(new Txt(this.reunion.nombre).end) ;
-
-    pdf.add(new Img(this.reunion.codigoQr).end);
-
-    pdf.create().open();
   }
 
   eliminarParticipante(participante: Empleado){

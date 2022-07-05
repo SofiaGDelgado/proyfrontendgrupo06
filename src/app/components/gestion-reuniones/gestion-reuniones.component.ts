@@ -31,6 +31,7 @@ export class GestionReunionesComponent implements OnInit {
     this.cargarReuniones();
     this.getOficinas();
     this.getParticipantes();
+    this.participanteSelected="0";
   }
 
   cargarReuniones(){
@@ -101,9 +102,13 @@ export class GestionReunionesComponent implements OnInit {
   getOficinas(){
     this.oficinas = new Array<Oficina>();
     this.reunionService.getOficinas().subscribe((o) => {
-      this.oficinas = o;
+      //this.oficinas = o;
+      console.log(o);
+      Object.assign(this.oficinas, o);
     })
+    console.log(this.oficinas);
   }
+
   getParticipantes(){
     this.participantes = new Array<Empleado>();
     this.empleadoServ.getEmpleados().subscribe((p) => {
