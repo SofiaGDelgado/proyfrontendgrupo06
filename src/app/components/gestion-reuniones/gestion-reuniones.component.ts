@@ -84,18 +84,9 @@ export class GestionReunionesComponent implements OnInit {
       }
      );
   }
-  // verDetalle(r: Reunion){
-  //   this.modalData = {
-  //     tipoReunion: r.tipoReunion.nombre,
-  //     oficina: r.oficina,
-  //     participantes:  r.participantes,
-  //     recursos: r.recursos,
-  //     prioridad: r.prioridad,
-  //     codigoQr: r.codigoQr,
-  //     notificacion: r.notificacion
-  //   };
-  //   this.modal.open(this.modalContent, { size: 'md' });
-  // }
+  verDetalle(r: Reunion){
+    this.router.navigate(['detalle/reunion', r._id]);
+  }
   
 
 }

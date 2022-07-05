@@ -45,7 +45,7 @@
             <td>{{ r.horaReunion}} - {{r.horaFinalizacion}}</td>
             <td>{{r.estadoReunion}}</td>
             <td>
-                <button type="button" class="btn btn-seleccionar" ><i class="fa-solid fa-eye"></i></button>
+                <button type="button" class="btn btn-seleccionar" (click)="verDetalle(r)" _blanck><i class="fa-solid fa-eye"></i></button>
             </td>
             <td>  
                 <button type="button" class="btn btn-borrar" (click)="borrarReunion(r)"><i class="fa-solid fa-trash"></i></button>
@@ -55,21 +55,3 @@
         </tbody>
     </table>
 </div>
-<!-- <ng-template #modalContent let-close="close">
-    
-    <div class="modal-body">
-     
-      <div class="justify-content-center">
-        
-        
-        <img src="{{modalData?.codigoQr}}" alt="">
-
-        <pre>{{modalData?.event | json}}</pre> -->
-      <!-- </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="close()">
-        OK
-      </button>
-    </div> 
-  </ng-template> -->
