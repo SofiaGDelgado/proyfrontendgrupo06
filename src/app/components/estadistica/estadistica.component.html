@@ -3,23 +3,30 @@
     <div class="container-xl">
         <div class="row justify-content-center">
             <div class="col-12 col-md-12">
-                <h3>Graficos Por: </h3>
-                <button class="btn btn-secondary m-1" (click)="oficinasGrafica()">Por Oficina</button>
-                <button class="btn btn-primary m-1" (click)="mesGrafica()">Por mes</button>
-                <button class="btn btn-danger m-1" (click)="anioGrafica()">Por Año</button>
-                <button class="btn btn-dark m-1" (click)="participanteGrafica()">Por Participante</button>
+                <h4>Graficos Por: </h4>
+                <button class="btn " (click)="oficinasGrafica()"> Oficina</button>
+                <button class="btn " (click)="mesGrafica()">Mes</button>
+                <button class="btn " (click)="anioGrafica()">Año</button>
+                <button class="btn " (click)="participanteGrafica()">Participante</button>
+                <button class="btn " (click)="tipoGrafica()">Tipo reunion</button>
+                <div class="mt-4" style="justify-content:center">
+                <label for="entrada">Desde: </label>
+                <input type="date" id="entrada" name="entrada" [(ngModel)]="entrada">
+                <label for="salida">Hasta:</label>
+                <input type="date" id="salida" name="salida" [(ngModel)]="salida">   
+                <button class="btn " (click)="fechasGrafica()">Por Periodo de Tiempo</button>
+
+                </div>                         
             </div>
 
-        </div>
         
-        </div>
 
         <div class="row">
 
        
             <div class="col-6 col-md-6 mb-5">
 
-                    <h3>Grafico de Torta</h3>
+                    <h5>Grafico de Torta</h5>
                     <div style="height:150px;width:70%">
                         <canvas id="chartPie"></canvas>
                     </div>
@@ -28,7 +35,7 @@
         
             <div class="col-6 col-md-6  mb-5">
 
-                    <h3>Grafico de Barras</h3>
+                    <h5>Grafico de Barras</h5>
                     <div style="height:100%;width:100%">
                         <canvas id="bar"></canvas>
                     </div>
