@@ -19,12 +19,16 @@ export class GestionReunionesComponent implements OnInit {
 
   reuniones!: Array <Reunion>;
   oficinaSelected!: string;
+  oficinas!: Array<Oficina>;
+  participanteSelected!: string;
+  participantes!: Array<Empleado>;
+
+  /*
   oficinas: any[] = [
     {value: '62bb40ddfde8bd3ec266c924', nombre: 'Oficina 1'},
     {value: '62c21b70993a0e1b6211b69c', nombre: 'Oficina 2'},
     {value: '62c21b5e993a0e1b6211b69a', nombre: 'Oficina 3'},
   ] 
-  participanteSelected!: string;
   participantes: any[] = [
     {value: '62c19fb981890552faac3850', nombre: 'Juan Perez'},
     {value: '62c1b83a81890552faac3869', nombre: 'Enzo Castillo'},
@@ -41,8 +45,11 @@ export class GestionReunionesComponent implements OnInit {
   //   codigoQr: string;
   //   notificacion: Array<Notificacion>;
   // };
-  
-  constructor(private reunionService: ReunionService, private modal: NgbModal, private router: Router, private toastr: ToastrService) { }
+  */
+  constructor(private reunionService: ReunionService, private modal: NgbModal, private router: Router, private toastr: ToastrService) { 
+    this.oficinas = new Array<Oficina>();
+    this.getOficinas();
+  }
 
   ngOnInit(): void {
     this.cargarReuniones();
@@ -111,5 +118,11 @@ export class GestionReunionesComponent implements OnInit {
         console.log();
       }
     )
+  }
+
+  getOficinas(){
+    this.reunionService.getOficinas().subscribe((o) => {
+      this.oficinas = o; 
+    });
   }
 }
