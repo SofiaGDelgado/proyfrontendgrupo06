@@ -22,7 +22,7 @@
       <div class="form-group">
         <label for="exampleInputOrigen"><strong>Por oficinas:</strong></label>
         <select name="oficinaSelected" id="oficinaSelected" [(ngModel)]="oficinaSelected" class="form-select" aria-label="Default select example">
-          <option *ngFor="let item of oficinas" [value]="item.value" selected>{{item.nombre}}</option>
+          <option *ngFor="let item of oficinas" [value]="item._id" selected>{{item.nombre}}</option>
         </select>
       </div>
     </div>
@@ -32,7 +32,7 @@
       <div class="form-group">
         <label for="exampleInputOrigen"><strong>Por participantes:</strong></label>
         <select name="participanteSelected" id="participanteSelected" [(ngModel)]="participanteSelected" class="form-select" aria-label="Default select example">
-          <option *ngFor="let item of participantes" [value]="item.value" selected>{{item.nombre}}</option>
+          <option *ngFor="let item of participantes" [value]="item._id" selected>{{item.nombre}}</option>
         </select>
       </div>
     </div>

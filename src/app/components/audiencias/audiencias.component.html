@@ -2,13 +2,9 @@
     <div class="mask">
       <div class="d-flex justify-content-center align-items-center h-100">
         <div class="text-white">
-          <h1 class="mb-3">Gestion de reuniones</h1>
+          <h1 class="mb-3">Audiencias</h1>
           <nav class="d-flex">
-          <h6 class="mb-0">
-            <a routerLink="/principal/Administrador" class="text-reset">Home</a>
-              <span>/</span>
-            <a routerLink="/principal/Administrador/gestionReuniones" class="text-reset">Gestion Reuniones</a>
-          </h6>
+          
           </nav>
         </div>
       </div>
@@ -16,14 +12,15 @@
   </div>
   <br>
   <div class="col-8">
-    <h5><strong>BUSQUEDAS AVANZADAS</strong></h5>
-    <form #oficinasForm="ngForm" (click)="busquedaPorOficina()">
+    <h5><strong>BUSQUEDAS</strong></h5>
+    <form #oficinasForm="ngForm">
       <div>
         <div class="form-group">
           <label for="exampleInputOrigen"><strong>Por oficinas:</strong></label>
           <select name="oficinaSelected" id="oficinaSelected" [(ngModel)]="oficinaSelected" class="form-select" aria-label="Default select example">
             <option *ngFor="let item of oficinas" [value]="item._id" selected>{{item.nombre}}</option>
           </select>
+          <button (click)="busquedaPorOficina()" class="btn btn-seleccionar">BUSCAR</button>
         </div>
       </div>
     </form>
@@ -31,8 +28,8 @@
   </div>
   <div class="col">
     <div class="btns">
-      
-      <button (click)="cargarReuniones()" type="button" class="btn btn-warning">MOSTRAR TODAS</button>
+     
+      <button (click)="cargarReuniones()" type="button" class="btn btn-seleccionar">MOSTRAR TODAS</button>
     </div>
   </div>
   

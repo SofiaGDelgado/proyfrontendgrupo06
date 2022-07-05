@@ -8,6 +8,7 @@ import { Notificacion } from 'src/app/models/notificacion';
 import { Oficina } from 'src/app/models/oficina';
 import { Recurso } from 'src/app/models/recurso';
 import { Reunion } from 'src/app/models/reunion';
+import { EmpleadoService } from 'src/app/services/empleado.service';
 import { ReunionService } from 'src/app/services/reunion.service';
 
 @Component({
@@ -19,22 +20,17 @@ export class GestionReunionesComponent implements OnInit {
 
   reuniones!: Array <Reunion>;
   oficinaSelected!: string;
-  oficinas: any[] = [
-    {value: '62bb40ddfde8bd3ec266c924', nombre: 'Oficina 1'},
-    {value: '62c21b70993a0e1b6211b69c', nombre: 'Oficina 2'},
-    {value: '62c21b5e993a0e1b6211b69a', nombre: 'Oficina 3'},
-  ] 
+  oficinas!: Array <Oficina>;
   participanteSelected!: string;
-  participantes: any[] = [
-    {value: '62c19fb981890552faac3850', nombre: 'Juan Perez'},
-    {value: '62c1b83a81890552faac3869', nombre: 'Enzo Castillo'},
-  ] 
+  participantes!: Array <Empleado>;
   
   
-  constructor(private reunionService: ReunionService, private modal: NgbModal, private router: Router, private toastr: ToastrService) { }
+  constructor(private reunionService: ReunionService, private modal: NgbModal, private router: Router, private toastr: ToastrService, private empleadoServ: EmpleadoService) { }
 
   ngOnInit(): void {
     this.cargarReuniones();
+    this.getOficinas();
+    this.getParticipantes();
   }
 
   cargarReuniones(){
@@ -100,5 +96,22 @@ export class GestionReunionesComponent implements OnInit {
         console.log();
       }
     )
+  }
+
+  getOficinas(){
+    this.oficinas = new Array<Oficina>();
+    this.reunionService.getOficinas().subscribe((o) => {
+      this.oficinas = o;
+    })
+  }
+  getParticipantes(){
+    this.participantes = new Array<Empleado>();
+    this.empleadoServ.getEmpleados().subscribe((p) => {
+      for(var i=0; i<p.length; i++){
+        if(p[i].rol === 'participante'){
+          this.participantes.push(p[i]);
+        }
+      }
+    })
   }
 }
