@@ -165,8 +165,11 @@ export class RegistroReunionesComponent implements OnInit {
     this.buscarReunion();
 
     this.crearNotificacionReunion();
-
-    this.generarQR("http://localhost:4200/detalle/reunion/" + this.reunion._id);
+    var url:string="http://localhost:4200/detalle/reunion/" + this.reunion._id;
+    this.generarQR(url);
+    
+    //this.generarPDF();
+    console.log("reunion luego de modificar: ", this.reunion);
 
     this.router.navigate(['principal/Administrador/gestionReuniones']);
 
