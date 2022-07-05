@@ -36,16 +36,16 @@ export class GestionReunionesComponent implements OnInit {
   cargarReuniones(){
     this.reunionService.getReuniones().subscribe(
       result=>{
-        console.log(result);
+        //console.log(result);
         var reunion= new Reunion();
         this.reuniones=new Array <Reunion>();
         result.forEach((element:any) => {
           Object.assign(reunion, element);
-          console.log(reunion);
+          //console.log(reunion);
           this.reuniones.push(reunion);
           reunion= new Reunion();
         });
-        console.log(this.reuniones);
+        //console.log(this.reuniones);
         // this.dtTrigger.next();
       },
       error=>{
