@@ -15,54 +15,40 @@ export class ReunionService {
   urlBase="http://localhost:4000/api/";
 
   getTiposReunion(): Observable<any>{
-
     const httpOption = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     }
-
     return this.http.get(this.urlBase + 'tipoReunion',httpOption);
   }
-  getReuniones(): Observable<any>{
 
+  getReuniones(): Observable<any>{
     const httpOption = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     }
-
     return this.http.get(this.urlBaseReunion,httpOption);
   }
 
-  getReunionesOficina(id:string): Observable<any>{
 
+  getReunionesOficina(oficinaSelected:string): Observable<any>{
     const httpOption = {
-      headers: new HttpHeaders({
-       
-      }),
-      params: new HttpParams({
-
-      })
-      .append("id", id)
+      headers: new HttpHeaders({}),
+      params: new HttpParams({})
+      .append("id", oficinaSelected)
     }
-
-    return this.http.get(this.urlBaseReunion+"oficina/"+id,httpOption);
+    return this.http.get(this.urlBaseReunion+"oficina/"+oficinaSelected,httpOption);
   }
   
-  getReunionesEmpleado(id:string): Observable<any>{
-
+  getReunionesEmpleado(participanteSelected:string): Observable<any>{
     const httpOption = {
-      headers: new HttpHeaders({
-       
-      }),
-      params: new HttpParams({
-
-      })
-      .append("id", id)
+      headers: new HttpHeaders({}),
+      params: new HttpParams({})
+      .append("id", participanteSelected)
     }
-
-    return this.http.get(this.urlBaseReunion+"empleado/"+id,httpOption);
+    return this.http.get(this.urlBaseReunion+"empleado/"+participanteSelected,httpOption);
   }
 
   addReunion(r:Reunion): Observable<any>{

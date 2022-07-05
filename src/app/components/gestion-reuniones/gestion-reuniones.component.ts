@@ -18,7 +18,17 @@ import { ReunionService } from 'src/app/services/reunion.service';
 export class GestionReunionesComponent implements OnInit {
 
   reuniones!: Array <Reunion>;
- 
+  oficinaSelected!: string;
+  oficinas: any[] = [
+    {value: '62bb40ddfde8bd3ec266c924', nombre: 'Oficina 1'},
+    {value: '62c21b70993a0e1b6211b69c', nombre: 'Oficina 2'},
+    {value: '62c21b5e993a0e1b6211b69a', nombre: 'Oficina 3'},
+  ] 
+  participanteSelected!: string;
+  participantes: any[] = [
+    {value: '62c19fb981890552faac3850', nombre: 'Juan Perez'},
+    {value: '62c1b83a81890552faac3869', nombre: 'Enzo Castillo'},
+  ] 
   // //Modal
   // @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
 
@@ -35,11 +45,8 @@ export class GestionReunionesComponent implements OnInit {
   constructor(private reunionService: ReunionService, private modal: NgbModal, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void {
-   
     this.cargarReuniones();
   }
-
-  
 
   cargarReuniones(){
     this.reunionService.getReuniones().subscribe(
@@ -57,10 +64,10 @@ export class GestionReunionesComponent implements OnInit {
         // this.dtTrigger.next();
       },
       error=>{
-
       }
     );
   }
+
   altaReunion(){
     this.router.navigate(['principal/Administrador/gestionReuniones/formReunion', 0]);
   }
@@ -97,5 +104,21 @@ export class GestionReunionesComponent implements OnInit {
   //   this.modal.open(this.modalContent, { size: 'md' });
   // }
   
+  busquedaPorOficina(){
+    this.reunionService.getReunionesOficina(this.oficinaSelected).subscribe(
+      (result)=>{
+        this.reuniones = result;
+        console.log();
+      }
+    )
+  }
 
+  busquedaPorParticipantes(){
+    this.reunionService.getReunionesEmpleado(this.participanteSelected).subscribe(
+      (result)=>{
+        this.reuniones = result;
+        console.log();
+      }
+    )
+  }
 }
