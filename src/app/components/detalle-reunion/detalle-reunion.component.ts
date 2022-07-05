@@ -13,11 +13,12 @@ export class DetalleReunionComponent implements OnInit {
   action!: boolean;
   reunion!: Reunion;
   constructor(private router: Router ,private rout: ActivatedRoute, private reunionService: ReunionService) { 
-    this.reunion = new Reunion();
-    this.recibirDato();
+    
   }
 
   ngOnInit(): void {
+    this.reunion = new Reunion();
+    this.recibirDato();
   }
 
   recibirDato(){

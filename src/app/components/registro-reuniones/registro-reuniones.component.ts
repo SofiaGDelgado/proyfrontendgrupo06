@@ -154,6 +154,7 @@ async registrarReunion(){
     this.reunionService.addReunion(this.reunion).subscribe((r) => {
       console.log(r);
       //this.reunion = new Reunion();
+      this.toastr.success('Reunion creada exitosamente');
     });
 
     this.crearNotificacion();
@@ -163,24 +164,20 @@ async registrarReunion(){
     this.crearNotificacionReunion();
 
     this.generarQR("http://localhost:4200/detalle/reunion/" + this.reunion._id);
-
-<<<<<<< HEAD
-    this.generarPDF();
-
-    //await this.enviarMail();
-
-    this.reunion= new Reunion();
-=======
+    
     //this.generarPDF();
     console.log("reunion luego de modificar: ", this.reunion);
 
     //await this.enviarMail();
->>>>>>> ae829b3511a7a9996af6159b457c27c10150bc15
-
-    this.router.navigate(['detalle/reunion/', this.reunion._id]);
+    console.log(this.reunion._id)
+    
+    //this.router.navigate(['detalle/reunion/', this.reunion._id]);
 
   }
 
+  irDetalle(id: string){
+    this.router.navigate(['detalle/reunion', id]);
+  }
   onFileChanges(files:any){
     console.log("File has changed:", files);
     this.recurso.archivoUrl = btoa(files[0].base64);
@@ -204,6 +201,7 @@ async registrarReunion(){
     this.genQR.getQr(url).subscribe((qr)=> {
       this.reunion.codigoQr = qr.qr;
       this.modificarReunion();
+      this.irDetalle(this.reunion._id);
     })
   }
 
