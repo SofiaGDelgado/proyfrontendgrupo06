@@ -1,4 +1,3 @@
-
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http'
@@ -23,27 +22,27 @@ import { RegistroReunionesComponent } from './components/registro-reuniones/regi
 import { FormEmpleadoComponent } from './components/form-empleado/form-empleado.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { DetalleReunionComponent } from './components/detalle-reunion/detalle-reunion.component';
-// Dependencias para el calendario
+// Modulos para el calendario
 import { CalendarModule, DateAdapter } from 'angular-calendar'; 
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CommonModule } from '@angular/common'; //Se importa para que no salte errores con [view]
-  //Dependencias para poner en idioma español el calendario
+// Modulos para poner en idioma español el calendario
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 
+// Modulos para el pdf
 import { AlifeFileToBase64Module } from 'alife-file-to-base64';
 import { PdfMakeWrapper } from 'pdfmake-wrapper';
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 
-//Mensajes
+// Modulos de mensajes
 import { ToastrModule } from 'ngx-toastr';
 import { GestionReunionesComponent } from './components/gestion-reuniones/gestion-reuniones.component';
 
-
-//Autorizacion (JSONWEBTOKEN)
+// Modulos para autorizacion (JSONWEBTOKEN)
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { VerificarCaracterEspecial, VerificarPrimeraLetra } from './directivas/validacion.directive';

@@ -29,9 +29,7 @@ const routes: Routes = [
     {path: 'principal/Participante', component: PrincipalParticipanteComponent, pathMatch: 'full' },
     {path: 'principal/Participante/audiencias', component: AudienciasComponent, pathMatch: 'full' },
     {path: 'principal/Participante/agenda', component: AgendaComponent, pathMatch: 'full' },
-
-  
-  {path: '**', pathMatch: 'prefix', redirectTo: 'principal',},
+    {path: '**', pathMatch: 'prefix', redirectTo: 'principal',},
 ];
 
 @NgModule({
