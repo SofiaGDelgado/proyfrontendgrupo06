@@ -227,7 +227,7 @@ export class RegistroReunionesComponent implements OnInit {
         this.reunion = reu[reu.length - 1];
         this.toastr.success('Se ha modificado con exito');
 
-        this.router.navigate(['principal/Administrador/gestionReuniones']);
+        //this.router.navigate(['principal/Administrador/gestionReuniones']);
       });
     })
   }
