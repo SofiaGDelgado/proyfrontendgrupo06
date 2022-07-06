@@ -6,6 +6,7 @@ import { Reunion } from 'src/app/models/reunion';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 import { ReunionService } from 'src/app/services/reunion.service';
 import Chart from 'chart.js/auto';
+import { TipoReunion } from 'src/app/models/tipo-reunion';
 
 @Component({
   selector: 'app-estadistica',
@@ -28,6 +29,9 @@ export class EstadisticaComponent implements OnInit {
   meses !: Array <string>;
   años !: Array <string>;
   date!:string;
+  tipo!:TipoReunion;
+  tipos!: Array <TipoReunion>;
+  tiposReu!: Array <TipoReunion>;
 
   constructor(private reunionService: ReunionService, private participanteService: EmpleadoService) { 
     this.getOficinas();
@@ -35,10 +39,15 @@ export class EstadisticaComponent implements OnInit {
     this.getParticipantes();
     this.getOficinasReu();
     this.getEmpleados();
+    this.getTiposReu();
     this.mesArray();
+    this.getTipos();
     this.añoArray();
     this.meses= new Array<string>();
     this.años= new Array<string>();
+    this.tiposReu= Array <TipoReunion>();
+  this.tipos = new Array<TipoReunion>();
+ 
   }
   ngOnInit(): void {
   }
@@ -83,6 +92,24 @@ getReuniones(){
       this.reuniones.push(reu);
   });
   console.log(this.reuniones);
+}
+getTipos(){
+  this.reunionService.getTiposReunion().subscribe((tip)=>{
+    for(var i=0; i < tip.length; i++) {
+      this.tipos.push(tip[i]);
+     }
+  });
+  console.log(this.tipos);
+
+}
+getTiposReu(){
+  this.reunionService.getReuniones().subscribe((tipR)=>{
+    for(var i=0; i < tipR.length; i++) {
+      this.tiposReu.push(tipR[i].tipoReunion);
+     }
+  });
+  console.log(this.tipos);
+
 }
 
 getParticipantes(){
@@ -268,7 +295,8 @@ añoArray(){
 
 
 
-participanteGrafica(){
+participanteGrafica()
+{this.getParticipantes();
   this.cantReuniones= new Array<number>();
   this.infoReuniones= new Array<string>();
   console.log(this.participantes);
@@ -279,8 +307,10 @@ participanteGrafica(){
         this.infoReuniones[b]="Participante: "+e.nombre+" "+e.apellido;
         b++;
    });
-      this.empleados.forEach((par)=>{
-      this.participantes.forEach((emp)=>{
+      this.participantes.forEach((par)=>{
+      this.empleados.forEach((emp)=>{
+        console.log("partipante"+ emp._id);
+        console.log( "empleado"+ par._id);
         if(emp._id==par._id){
               c++;
               this.cantReuniones[i]=this.cantReuniones[i]+c;
@@ -294,6 +324,44 @@ participanteGrafica(){
  this.graficaBarra(this.cantReuniones,this.infoReuniones);
 
 }
+
+tipoGrafica(){
+  this.getTiposReu();
+  this.getTipos();
+  //console.log(this.tipos);
+  this.infoReuniones= new Array<string>();
+  this.cantReuniones= new Array<number>();
+  //console.log(this.tipos.length);
+  for(var i=0;i<this.tipos.length;i++){
+  this.infoReuniones[i]=this.tipos[i].nombre;
+  for (var j=0;j<this.infoReuniones.length;j++){
+    this.cantReuniones[j]=0;
+  }
+  
+  var x=0;
+  var c=0;
+  this.tiposReu.forEach((tipR)=>{
+    this.tipos.forEach((tip)=>{
+      if(tipR._id==tip._id){
+        c++
+        this.cantReuniones[x]=this.cantReuniones[x]+c;
+      }
+      x++;
+    })     
+    c=0;
+    x=0;
+  });
+
+
+
+  }
+  console.log(this.cantReuniones,this.infoReuniones);
+ this.graficaTorta(this.cantReuniones,this.infoReuniones);
+ this.graficaBarra(this.cantReuniones,this.infoReuniones);
+
+  
+}
+
 
 
 
