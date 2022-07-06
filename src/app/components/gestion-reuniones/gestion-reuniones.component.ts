@@ -90,7 +90,7 @@ export class GestionReunionesComponent implements OnInit {
     )
   }
 
-  busquedaPorParticipantes(){
+busquedaPorParticipantes(){
     this.reunionService.getReunionesEmpleado(this.participanteSelected).subscribe(
       (result)=>{
         this.reuniones = result;
@@ -99,6 +99,9 @@ export class GestionReunionesComponent implements OnInit {
     )
   }
 
+  irCalendario(){
+    this.router.navigate(['principal/Administrador/calendario']);
+  }
   getOficinas(){
     this.oficinas = new Array<Oficina>();
     this.reunionService.getOficinas().subscribe((o) => {

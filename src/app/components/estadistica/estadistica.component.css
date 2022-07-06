@@ -46,11 +46,11 @@ p{
     font-size: 20px;
     color:rgb(56, 56, 56) ;
 }
+
 .btn{
-    height: fit-content;
-    width: fit-content;
     font-family: 'Readex Pro';
-    color: rgb(254, 254, 254);
+    background-color: rgb(153, 74, 255);
+    color: rgb(255, 255, 255);
     margin: 5px;
 }
 

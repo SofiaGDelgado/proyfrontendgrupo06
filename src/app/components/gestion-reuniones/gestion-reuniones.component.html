@@ -26,6 +26,7 @@
         </select>
       </div>
     </div>
+    <button class="btn btn-seleccionar" (click)="busquedaPorParticipantes()">buscar</button>
   </form>
   <form #participantesForm="ngForm" >
     <div>
@@ -41,6 +42,7 @@
 </div>
 <div class="col">
   <div class="btns">
+    <button (click)="irCalendario()" type="button" class="btn btn-warning">Ver calendario</button>
     <button class="btn btn-agregar" (click)="altaReunion()">AGREGAR <i class="fa-solid fa-circle-plus"></i></button>
     <button (click)="cargarReuniones()" type="button" class="btn btn-warning">MOSTRAR TODAS</button>
   </div>
