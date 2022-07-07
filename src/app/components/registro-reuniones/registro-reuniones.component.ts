@@ -32,6 +32,7 @@ export class RegistroReunionesComponent implements OnInit {
   remitentes!: Array<string>;
   accion: string = "new";
   minDate: any;
+  reunionValida: boolean = true;
 
   constructor(private reunionService: ReunionService, private empleadoServ: EmpleadoService,
     private recursoServ: RecursoService, private notificacionServ: NotificacionService,
@@ -57,6 +58,7 @@ export class RegistroReunionesComponent implements OnInit {
     this.desabilitarFechaAnteriores();
   }
 
+  /* FORMULARIO */
   getTipoReunion(){
     this.tiposReunion = new Array<TipoReunion>();
     this.reunionService.getTiposReunion().subscribe((tR)=> {
@@ -84,8 +86,33 @@ export class RegistroReunionesComponent implements OnInit {
 
   seleccionarParticipante(p: Empleado){
     this.reunion.participantes.push(p);
-    console.log(this.reunion.participantes);
   }
+
+  eliminarParticipante(participante: Empleado){
+    const par = this.reunion.participantes.filter(p => p._id !== participante._id);
+    this.reunion.participantes = par;
+  }
+
+  cargarRecurso(){
+    this.recursoServ.addRecurso(this.recurso).subscribe((r) => {
+      this.recurso = new Recurso();
+    })
+    this.recursoServ.getRecursos().subscribe((rec)=> {
+      var recur = new Recurso();
+      recur = rec[rec.length - 1];
+      this.reunion.recursos.push(recur);
+    })
+  }
+
+  quitarRecurso(recurso : Recurso){
+    const r = this.reunion.recursos.filter(r => r._id !== recurso._id);
+    this.reunion.recursos = r;
+    this.recursoServ.deleteRecurso(recurso).subscribe(rec => {
+      console.log(rec);
+    })
+  }
+
+
 
   cargarReunionOficina(){
     this.reunion.oficina.reuniones.push(this.reunion);
@@ -146,35 +173,28 @@ export class RegistroReunionesComponent implements OnInit {
 
   registrarReunion(){
     this.compararHoras();
-    this.reunionService.addReunion(this.reunion).subscribe((r) => {
-      console.log(r);
-      //this.reunion = new Reunion();
-      this.toastr.success('Reunion creada exitosamente');
-    });
-    this.crearNotificacion();
-    this.buscarReunion();
-    this.crearNotificacionReunion();
-    var url:string="http://localhost:4200/detalle/reunion/" + this.reunion._id;
-    this.generarQR(url);
-    //this.generarPDF();
-    console.log("reunion luego de modificar: ", this.reunion);
-    this.router.navigate(['principal/Administrador/gestionReuniones']);
+    console.log(this.reunionValida);
+    if (this.reunionValida == false){
+      alert("La hora de finalizacion de la reunion tiene que ser mayor que la de inicio");
+    } else{
+      this.reunionService.addReunion(this.reunion).subscribe((r) => {
+        console.log(r);
+        //this.reunion = new Reunion();
+        this.toastr.success('Reunion creada exitosamente');
+      });
+      this.crearNotificacion();
+      this.buscarReunion();
+      this.crearNotificacionReunion();
+      var url:string="http://localhost:4200/detalle/reunion/" + this.reunion._id;
+      this.generarQR(url);
+      //this.generarPDF();
+      console.log("reunion luego de modificar: ", this.reunion);
+      this.router.navigate(['principal/Administrador/gestionReuniones']);
+    }
   }
 
   irDetalle(id: string){
     this.router.navigate(['detalle/reunion', id]);
-  }
-
-  cargarRecurso(){
-    this.recursoServ.addRecurso(this.recurso).subscribe((r) => {
-      console.log(r);
-      this.recurso = new Recurso();
-    })
-    this.recursoServ.getRecursos().subscribe((rec)=> {
-      var recur = new Recurso();
-      recur = rec[rec.length - 1];
-      this.reunion.recursos.push(recur);
-    })
   }
 
   generarQR(url: string){
@@ -211,20 +231,6 @@ export class RegistroReunionesComponent implements OnInit {
       });
     })
   }
-
-  eliminarParticipante(participante: Empleado){
-    const par = this.reunion.participantes.filter(p => p._id !== participante._id);
-    this.reunion.participantes = par;
-  }
-
-  quitarRecurso(recurso : Recurso){
-    const r = this.reunion.recursos.filter(r => r._id !== recurso._id);
-    this.reunion.recursos = r;
-    this.recursoServ.deleteRecurso(recurso).subscribe(rec => {
-      console.log(rec);
-    })
-  }
-
   enviarMail(){
     var asunto = "Nueva Reunion";
     var mensaje = "Se te asigno a la reunion: " + this.reunion.nombre + ". A realizarse: " + this.reunion.fecha;
@@ -268,10 +274,10 @@ export class RegistroReunionesComponent implements OnInit {
   //VALIDACION: que el primer time sea menor que el segundo
   compararHoras(){
     if(this.reunion.horaReunion > this.reunion.horaFinalizacion){
-      alert("La hora de finalizacion de la reunion tiene que ser mayor que la de inicio");
+      this.reunionValida = false;
     }
     if(this.reunion.horaReunion == this.reunion.horaFinalizacion){
-      alert("La hora de finalizacion de la reunion tiene que ser mayor que la de inicio");
+      this.reunionValida = false;
     }
   }
 }
