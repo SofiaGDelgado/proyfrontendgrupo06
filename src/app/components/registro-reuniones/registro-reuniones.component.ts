@@ -145,7 +145,7 @@ export class RegistroReunionesComponent implements OnInit {
   }
 
   registrarReunion(){
-    this.compararTimes();
+    this.compararHoras();
     this.reunionService.addReunion(this.reunion).subscribe((r) => {
       console.log(r);
       //this.reunion = new Reunion();
@@ -250,7 +250,6 @@ export class RegistroReunionesComponent implements OnInit {
     )
   }
   
-
   //VALIDACION: que no se puedan crear reuniones antes del dia de la fecha
   desabilitarFechaAnteriores(){
     var date: any = new Date();
@@ -267,9 +266,12 @@ export class RegistroReunionesComponent implements OnInit {
   }
 
   //VALIDACION: que el primer time sea menor que el segundo
-  
-  compararTimes(){
-    console.log(this.reunion.horaReunion);
-    console.log(this.reunion.horaFinalizacion);
+  compararHoras(){
+    if(this.reunion.horaReunion > this.reunion.horaFinalizacion){
+      alert("La hora de finalizacion de la reunion tiene que ser mayor que la de inicio");
+    }
+    if(this.reunion.horaReunion == this.reunion.horaFinalizacion){
+      alert("La hora de finalizacion de la reunion tiene que ser mayor que la de inicio");
+    }
   }
 }
