@@ -24,7 +24,6 @@ export class GestionReunionesComponent implements OnInit {
   participanteSelected!: string;
   participantes!: Array <Empleado>;
   
-  
   constructor(private reunionService: ReunionService, private modal: NgbModal, private router: Router, private toastr: ToastrService, private empleadoServ: EmpleadoService) { }
 
   ngOnInit(): void {
@@ -66,17 +65,15 @@ export class GestionReunionesComponent implements OnInit {
     var id:string= r._id;
     this.reunionService.deleteReunion(id).subscribe(
       result=>{
-          this.cargarReuniones();
-          this.toastr.success('Operacion exitosa','Exito',{
-            extendedTimeOut:3000});
-
+        this.cargarReuniones();
+        this.toastr.success('Operacion exitosa','Exito', {extendedTimeOut:3000});
       },
       error=>{
-       
-          this.toastr.error('Error');        
+        this.toastr.error('Error');        
       }
-     );
+    );
   }
+
   verDetalle(r: Reunion){
     this.router.navigate(['detalle/reunion', r._id]);
   }
@@ -85,16 +82,14 @@ export class GestionReunionesComponent implements OnInit {
     this.reunionService.getReunionesOficina(this.oficinaSelected).subscribe(
       (result)=>{
         this.reuniones = result;
-        console.log();
       }
     )
   }
 
-busquedaPorParticipantes(){
+  busquedaPorParticipantes(){
     this.reunionService.getReunionesEmpleado(this.participanteSelected).subscribe(
       (result)=>{
         this.reuniones = result;
-        console.log();
       }
     )
   }
@@ -102,14 +97,13 @@ busquedaPorParticipantes(){
   irCalendario(){
     this.router.navigate(['principal/Administrador/calendario']);
   }
+
   getOficinas(){
     this.oficinas = new Array<Oficina>();
     this.reunionService.getOficinas().subscribe((o) => {
       //this.oficinas = o;
-      console.log(o);
       Object.assign(this.oficinas, o);
     })
-    console.log(this.oficinas);
   }
 
   getParticipantes(){

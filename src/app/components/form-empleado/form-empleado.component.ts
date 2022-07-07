@@ -49,12 +49,10 @@ export class FormEmpleadoComponent implements OnInit {
     this.empleadoServ.altaEmpleado(this.empleado).subscribe(
       result=> {
         this.toastr.success('Operacion exitosa');
-    },
-    error=>{
-    
-     this.toastr.error('Operacion invalida');
-    
-    }
+      },
+      error=>{
+        this.toastr.error('Operacion invalida');
+      }
     );
   }
 
@@ -64,30 +62,26 @@ export class FormEmpleadoComponent implements OnInit {
         this.empleado= new Empleado();
         Object.assign(this.empleado, result);
         this.empleado.dependencia= this.dependencias.find((item)=>(item._id == this.empleado.dependencia._id ))!;
-        
       },
-      error=>{
-
-      }
     )
   }
+
   resetForm(form: NgForm){
     form.reset();
   }
+
   cerrar(){
     this.router.navigate(['principal/Administrador/gestionEmpleados']);
   }
+
   actualizarEmpleado(){
     this.empleadoServ.modificarEmpleado(this.empleado).subscribe(
       result=>{
         console.log(result);
         this.toastr.success('Operacion exitosa');
-       
       },
       error=>{
         this.toastr.error('Operacion invalida');
-        
-        
       }
     )
   }

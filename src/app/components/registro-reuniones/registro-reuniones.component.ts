@@ -14,6 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GeneradorQrService } from 'src/app/services/generador-qr.service';
 import { EnviomailService } from 'src/app/services/enviomail.service';
 import { ToastrService } from 'ngx-toastr';
+import { daysToWeeks } from 'date-fns';
 
 @Component({
   selector: 'app-registro-reuniones',
@@ -29,8 +30,8 @@ export class RegistroReunionesComponent implements OnInit {
   recurso!:Recurso;
   notificacion!: Notificacion;
   remitentes!: Array<string>;
-
   accion: string = "new";
+  minDate: any;
 
   constructor(private reunionService: ReunionService, private empleadoServ: EmpleadoService,
     private recursoServ: RecursoService, private notificacionServ: NotificacionService,
@@ -48,13 +49,12 @@ export class RegistroReunionesComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       if (params['id'] == "0"){
         this.accion = "new";
-      
       }else{
         this.accion = "update";
         this.cargarReunion(params['id']);
-      
       }
-    }); 
+    });
+    this.desabilitarFechaAnteriores();
   }
 
   getTipoReunion(){
@@ -102,9 +102,7 @@ export class RegistroReunionesComponent implements OnInit {
         this.remitentes.push(this.reunion.participantes[i].email);
         console.log(this.remitentes);
         this.reunion.participantes[i].notificaciones.push(nots[nots.length - 1]);
-  
         this.modificarEmpleado(this.reunion.participantes[i]);
-  
         console.log("array notificaciones empleado:", this.reunion.participantes[i].notificaciones);
       }
     });
@@ -117,12 +115,10 @@ export class RegistroReunionesComponent implements OnInit {
     this.notificacion.estado = "activa";
     this.notificacion.fecha = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
     this.notificacion.fechaVencimiento = this.reunion.fecha;
-
     this.notificacionServ.addNotificacion(this.notificacion).subscribe((n) => {
       console.log(n);
       this.notificacion = new Notificacion();
     });
-
     this.agregarNotificacionEmpleado();
   }
 
@@ -138,41 +134,31 @@ export class RegistroReunionesComponent implements OnInit {
     this.reunionService.getReuniones().subscribe((reu)=>{
       for(var i=0; i < this.reunion.participantes.length; i++){
         this.reunion.participantes[i].reuniones.push(reu[reu.length - 1]);
-
         this.modificarEmpleado(this.reunion.participantes[i]);
       }
-
       console.log(this.reunion.oficina);
       this.reunion.oficina.reuniones.push(reu[reu.length - 1]);
       this.reunionService.modificarOficina(this.reunion.oficina).subscribe((of) =>{
         console.log(of);
       });
-
       this.reunion = reu[reu.length - 1];
     });
   }
 
   registrarReunion(){
-
     this.reunionService.addReunion(this.reunion).subscribe((r) => {
       console.log(r);
       //this.reunion = new Reunion();
       this.toastr.success('Reunion creada exitosamente');
     });
-
     this.crearNotificacion();
-
     this.buscarReunion();
-
     this.crearNotificacionReunion();
     var url:string="http://localhost:4200/detalle/reunion/" + this.reunion._id;
     this.generarQR(url);
-    
     //this.generarPDF();
     console.log("reunion luego de modificar: ", this.reunion);
-
     this.router.navigate(['principal/Administrador/gestionReuniones']);
-
   }
 
   irDetalle(id: string){
@@ -184,7 +170,6 @@ export class RegistroReunionesComponent implements OnInit {
       console.log(r);
       this.recurso = new Recurso();
     })
-
     this.recursoServ.getRecursos().subscribe((rec)=> {
       var recur = new Recurso();
       recur = rec[rec.length - 1];
@@ -196,12 +181,8 @@ export class RegistroReunionesComponent implements OnInit {
     this.genQR.getQr(url).subscribe((qr)=> {
       this.reunion.codigoQr = qr.qr;
       this.modificarReunion();
-      
       this.enviarMail();
-
       console.log("reunion luego de modificar: ", this.reunion);
-
-
       //this.irDetalle(this.reunion._id);
     });
   }
@@ -226,7 +207,6 @@ export class RegistroReunionesComponent implements OnInit {
       this.reunionService.getReuniones().subscribe((reu)=>{
         this.reunion = reu[reu.length - 1];
         this.toastr.success('Se ha modificado con exito');
-
         //this.router.navigate(['principal/Administrador/gestionReuniones']);
       });
     })
@@ -234,14 +214,12 @@ export class RegistroReunionesComponent implements OnInit {
 
   eliminarParticipante(participante: Empleado){
     const par = this.reunion.participantes.filter(p => p._id !== participante._id);
-
     this.reunion.participantes = par;
   }
 
   quitarRecurso(recurso : Recurso){
     const r = this.reunion.recursos.filter(r => r._id !== recurso._id);
     this.reunion.recursos = r;
-
     this.recursoServ.deleteRecurso(recurso).subscribe(rec => {
       console.log(rec);
     })
@@ -250,7 +228,6 @@ export class RegistroReunionesComponent implements OnInit {
   enviarMail(){
     var asunto = "Nueva Reunion";
     var mensaje = "Se te asigno a la reunion: " + this.reunion.nombre + "A realizarse: " + this.reunion.fecha;
-
     console.log(this.remitentes);
     for(var i=0 ; i < this.remitentes.length; i++){
       this.envioMail.sendMail(this.remitentes[i], asunto, mensaje, this.reunion.codigoQr).subscribe((r)=> {
@@ -273,4 +250,17 @@ export class RegistroReunionesComponent implements OnInit {
     )
   }
   
+  desabilitarFechaAnteriores(){
+    var date: any = new Date();
+    var today: any = date.getDate();
+    var month: any = date.getMonth() + 1;
+    var year: any = date.getFullYear();
+    if(today < 10){
+      today = '0' + today;
+    }
+    if(month < 10){
+      month = '0' + month;
+    }
+    this.minDate = year + "-" + month + "-" + today;
+  }
 }
