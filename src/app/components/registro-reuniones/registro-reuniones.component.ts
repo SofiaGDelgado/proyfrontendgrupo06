@@ -112,7 +112,7 @@ export class RegistroReunionesComponent implements OnInit {
     var date = new Date();
     this.notificacion.titulo = this.reunion.nombre;
     this.notificacion.descripcion = this.reunion.descripcion;
-    this.notificacion.estado = "activa";
+    this.notificacion.estado = this.reunion.estadoReunion;
     this.notificacion.fecha = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
     this.notificacion.fechaVencimiento = this.reunion.fecha;
     this.notificacionServ.addNotificacion(this.notificacion).subscribe((n) => {
@@ -206,7 +206,7 @@ export class RegistroReunionesComponent implements OnInit {
       this.reunion = new Reunion();
       this.reunionService.getReuniones().subscribe((reu)=>{
         this.reunion = reu[reu.length - 1];
-        this.toastr.success('Se ha modificado con exito');
+        //this.toastr.success('Se ha modificado con exito');
         //this.router.navigate(['principal/Administrador/gestionReuniones']);
       });
     })
@@ -227,7 +227,7 @@ export class RegistroReunionesComponent implements OnInit {
 
   enviarMail(){
     var asunto = "Nueva Reunion";
-    var mensaje = "Se te asigno a la reunion: " + this.reunion.nombre + "A realizarse: " + this.reunion.fecha;
+    var mensaje = "Se te asigno a la reunion: " + this.reunion.nombre + ". A realizarse: " + this.reunion.fecha;
     console.log(this.remitentes);
     for(var i=0 ; i < this.remitentes.length; i++){
       this.envioMail.sendMail(this.remitentes[i], asunto, mensaje, this.reunion.codigoQr).subscribe((r)=> {
