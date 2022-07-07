@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg text-light">
     <div class="container-fluid">
-      <a class="navbar-brand"><i class="fa-brands fa-guilded"></i> gathering!</a>
+      <a class="navbar-brand" routerLink="/principal"><i class="fa-brands fa-guilded"></i> gathering!</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -20,7 +20,7 @@
               <strong>{{loginService.userLogged()}}</strong>
             </a>
             <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-              <li><a class="dropdown-item"  *ngIf="loginService.userLoggedIn()" [routerLink]="['login']" (click)="logout()">Cerrar Sesion</a></li>
+              <li><a class="dropdown-item"  *ngIf="loginService.userLoggedIn()" routerLink="['login']" (click)="logout()">Cerrar Sesion</a></li>
             </ul>
           </div>
         </form>
