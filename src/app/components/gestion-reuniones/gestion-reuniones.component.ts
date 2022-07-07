@@ -9,6 +9,9 @@ import { Oficina } from 'src/app/models/oficina';
 import { Recurso } from 'src/app/models/recurso';
 import { Reunion } from 'src/app/models/reunion';
 import { EmpleadoService } from 'src/app/services/empleado.service';
+import { EnviomailService } from 'src/app/services/enviomail.service';
+import { NotificacionService } from 'src/app/services/notificacion.service';
+import { RecursoService } from 'src/app/services/recurso.service';
 import { ReunionService } from 'src/app/services/reunion.service';
 
 @Component({
@@ -23,7 +26,11 @@ export class GestionReunionesComponent implements OnInit {
   oficinas!: Array <Oficina>;
   participanteSelected!: string;
   participantes!: Array <Empleado>;
-  
+  notificacion!: Notificacion;
+  remitentes!: Array<string>;
+
+aux!: Reunion;
+
    //Mensaje de confirmacion
    @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
 
@@ -32,12 +39,15 @@ export class GestionReunionesComponent implements OnInit {
      r: any;
    };
 
-  constructor(private reunionService: ReunionService, private modal: NgbModal, private router: Router, private toastr: ToastrService, private empleadoServ: EmpleadoService) { }
+  constructor(private reunionService: ReunionService, private modal: NgbModal, private router: Router, private toastr: ToastrService, private empleadoServ: EmpleadoService, private recursoService: RecursoService,  private envioMail: EnviomailService, private notificacionServ: NotificacionService) { 
+    this.notificacion = new Notificacion();
+  }
 
   ngOnInit(): void {
     this.cargarReuniones();
     this.getOficinas();
     this.getParticipantes();
+    this.participanteSelected="0";
   }
 
   cargarReuniones(){
@@ -69,28 +79,122 @@ export class GestionReunionesComponent implements OnInit {
   }
 
   borrarReunion(r: Reunion){
+    console.log(r);
     var id:string= r._id;
-    if( r.estadoReunion != "pendiente"){
-      //Se notifica que la reunion fue suspendida
-    }
-   
+    console.log(r._id);
+
+    this.aux= r;
+    
+
+    //Se borra el id de la reunion en cada participante
+    r.participantes.forEach((element:any) =>{
+      
+      var reuniones: Array <any>= new Array<any>();
+      reuniones= element.reuniones.filter((item:any)=> item !== r._id);
+      console.log(reuniones);
+      element.reuniones= reuniones;
+      this.modificarParticipante(element);
+
+    });
+    
+    //Se borra el id de la reunion en la oficina
+    r.oficina.reuniones= r.oficina.reuniones.filter((item:any)=> item !== r._id);
+    console.log(r.oficina.reuniones);
+    this.modificarOficina(r.oficina);
+
+    //Se borran los recursos
+    r.recursos.forEach((element:any)=>{
+      this.borrarRecurso(element);
+    });
+
+    //Se borra la reunion
     this.reunionService.deleteReunion(id).subscribe(
       result=>{
-          this.cargarReuniones();
-          this.toastr.success('La reunion se ha borrado','Operacion exitosa',{
-            extendedTimeOut:3000});
-
+        this.cargarReuniones();
+        this.toastr.success('La reunion se ha borrado','Operacion exitosa',{
+          extendedTimeOut:3000});
+       },
+      error=>{
+        this.toastr.error('Error');        
+      }
+    );
+    this.modal.dismissAll();
+    //Se notifica que la reunion fue suspendida
+    if( r.estadoReunion == "pendiente"){
+      this.crearNotificacion(this.aux);
+      this.enviarMail(this.aux);
+    }
+  }
+  modificarParticipante(empleado: Empleado){
+    this.empleadoServ.modificarEmpleado(empleado).subscribe(
+      result=>{
+        console.log(empleado);
       },
       error=>{
-          this.toastr.error('Error');        
+        
       }
-     );
-  }
-  modificarParticipante(){
-
+    )
   }
   
+  modificarOficina(oficina:Oficina){
+    this.reunionService.modificarOficina(oficina).subscribe(
+      result=>{
+        console.log(oficina);
+      }
+    )
+  }
+  borrarRecurso(recurso : Recurso){
+   this.recursoService.deleteRecurso(recurso).subscribe(
+      result => {
+        console.log(result);
+      }
+    )
+  }
+  enviarMail(reunion: Reunion){
+    var asunto = "Reunion suspendida";
+    var mensaje = "La reunion '" + reunion.nombre + "' a realizarse en la fecha " + reunion.fecha + ", en la oficina "+ reunion.oficina.nombre + "fue suspendida.";
+    console.log(this.remitentes);
+    this.remitentes.forEach((element:any)=>{
+      this.envioMail.sendMail(element, asunto, mensaje, reunion.codigoQr).subscribe((r)=> {
+        console.log("aqui llega");
+        console.log(r);
+      });
+    })
+    // for(var i=0 ; i < this.remitentes.length; i++){
+    //   this.envioMail.sendMail(this.remitentes[i], asunto, mensaje, reunion.codigoQr).subscribe((r)=> {
+    //     console.log("aqui llega");
+    //     console.log(r);
+    //   });
+    // }
+  }
+  agregarNotificacionEmpleado(reunion: Reunion){
+    this.remitentes = new Array<string>();
+    this.notificacionServ.getNotificaciones().subscribe((nots) => {
+      for(var i=0; i < reunion.participantes.length; i++){
+        this.remitentes.push(reunion.participantes[i].email);
+        console.log(this.remitentes);
+        reunion.participantes[i].notificaciones.push(nots[nots.length - 1]);
+        this.modificarParticipante(reunion.participantes[i]);
+        console.log("array notificaciones empleado:", reunion.participantes[i].notificaciones);
+      }
+    });
+  }
+
+  crearNotificacion(reunion: Reunion){
+    var date = new Date();
+    this.notificacion.titulo = reunion.nombre;
+    this.notificacion.descripcion = reunion.descripcion;
+    this.notificacion.estado = "suspendida";
+    this.notificacion.fecha = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
+    this.notificacion.fechaVencimiento = reunion.fecha;
+    this.notificacionServ.addNotificacion(this.notificacion).subscribe((n) => {
+      console.log(n);
+      this.notificacion = new Notificacion();
+    });
+    this.agregarNotificacionEmpleado(reunion);
+  }
   verDetalle(r: Reunion){
+    this.modal.dismissAll();
     this.router.navigate(['detalle/reunion', r._id]);
   }
   
@@ -98,7 +202,6 @@ export class GestionReunionesComponent implements OnInit {
     this.reunionService.getReunionesOficina(this.oficinaSelected).subscribe(
       (result)=>{
         this.reuniones = result;
-        console.log();
       }
     )
   }
@@ -107,17 +210,22 @@ export class GestionReunionesComponent implements OnInit {
     this.reunionService.getReunionesEmpleado(this.participanteSelected).subscribe(
       (result)=>{
         this.reuniones = result;
-        console.log();
       }
     )
+  }
+
+  irCalendario(){
+    this.router.navigate(['principal/Administrador/calendario']);
   }
 
   getOficinas(){
     this.oficinas = new Array<Oficina>();
     this.reunionService.getOficinas().subscribe((o) => {
-      this.oficinas = o;
+      //this.oficinas = o;
+      Object.assign(this.oficinas, o);
     })
   }
+
   getParticipantes(){
     this.participantes = new Array<Empleado>();
     this.empleadoServ.getEmpleados().subscribe((p) => {

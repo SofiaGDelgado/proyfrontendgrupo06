@@ -17,29 +17,32 @@
 <br>
 <div class="col-8">
   <h5><strong>BUSQUEDAS AVANZADAS</strong></h5>
-  <form #oficinasForm="ngForm" (click)="busquedaPorOficina()">
+  <form #oficinasForm="ngForm" >
     <div>
       <div class="form-group">
         <label for="exampleInputOrigen"><strong>Por oficinas:</strong></label>
         <select name="oficinaSelected" id="oficinaSelected" [(ngModel)]="oficinaSelected" class="form-select" aria-label="Default select example">
-          <option *ngFor="let item of oficinas" [value]="item._id" selected>{{item.nombre}}</option>
+          <option *ngFor="let item of oficinas" [value]="item._id" (click)="busquedaPorOficina()" >{{item.nombre}}</option>
         </select>
       </div>
     </div>
+    <button class="btn btn-seleccionar" (click)="busquedaPorParticipantes()">buscar</button>
   </form>
-  <form #participantesForm="ngForm" (click)="busquedaPorParticipantes()">
+  <form #participantesForm="ngForm" >
     <div>
       <div class="form-group">
         <label for="exampleInputOrigen"><strong>Por participantes:</strong></label>
         <select name="participanteSelected" id="participanteSelected" [(ngModel)]="participanteSelected" class="form-select" aria-label="Default select example">
-          <option *ngFor="let item of participantes" [value]="item._id" selected>{{item.nombre}} {{item.apellido}} - {{item.dependencia.nombre}}</option>
+          <option *ngFor="let item of participantes" [value]="item._id"  selected>{{item.nombre}} {{item.apellido}} - {{item.dependencia.nombre}}</option>
         </select>
       </div>
     </div>
+    <button class="btn btn-seleccionar" (click)="busquedaPorParticipantes()">buscar</button>
   </form>
 </div>
 <div class="col">
   <div class="btns">
+    <button (click)="irCalendario()" type="button" class="btn btn-warning">Ver calendario</button>
     <button class="btn btn-agregar" (click)="altaReunion()">AGREGAR <i class="fa-solid fa-circle-plus"></i></button>
     <button (click)="cargarReuniones()" type="button" class="btn btn-warning">MOSTRAR TODAS</button>
   </div>
@@ -54,6 +57,8 @@
             <th>Descripcion</th>
             <th>Fecha</th>
             <th>Hora</th>
+            <th>Oficina</th>
+            <th>Participantes</th>
             <th>Estado</th>
             <th>Detalle</th>
             <th>Acciones</th>
@@ -66,6 +71,12 @@
             <td>{{ r.descripcion }}</td>
             <td>{{ r.fecha | date:'shortDate' }}</td>
             <td>{{ r.horaReunion}} - {{r.horaFinalizacion}}</td>
+            <td>{{ r.oficina.nombre}}</td>
+            <td>
+              <ul>
+                <li *ngFor="let item of r.participantes"> {{item.nombre}} {{item.apellido}}</li>
+              </ul>
+            </td>
             <td>{{r.estadoReunion}}</td>
             <td>
                 <button type="button" class="btn btn-seleccionar" (click)="verDetalle(r)" _blank><i class="fa-solid fa-eye"></i></button>
@@ -89,7 +100,7 @@
     
   </div>
   <div class="modal-footer justify-content-center">
-      <button class="btn btn-seleccionar" (click)="borrarReunion(modalData?.r)">Si</button>
+      <button class="btn btn-seleccionar" type="button"  onclick="close()" (click)="borrarReunion(modalData?.r)">Si</button>
       <button type="button" class="btn btn-borrar" (click)="close()">
         Cancelar
       </button>

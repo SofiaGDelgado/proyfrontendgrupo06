@@ -7,7 +7,7 @@
             <!-- Breadcrumb -->
             <nav class="d-flex">
               <h6 class="mb-0">
-                <a [routerLink]="['principal/Administrador']" class="text-reset">Home</a>
+                <a routerLink="/principal/Administrador" class="text-reset">Home</a>
                 <span>/</span>
                 <a [routerLink]="['principal/Administrador/gestionReuniones/']">Gestion Reuniones</a>
                 <span>/</span>
@@ -41,7 +41,7 @@
                             </div>
                             <div class="col-11 m-auto mb-3" id="item">
                                 <label for="fecha" class="form-label">Ingrese Fecha:</label>
-                                <input type="date" id="fecha" name="fecha" class="form-control" [(ngModel)]="reunion.fecha" required #fecha="ngModel">
+                                <input type="date" id="fecha" name="fecha" class="form-control" min="{{minDate}}" [(ngModel)]="reunion.fecha" required #fecha="ngModel">
                                 <div *ngIf="fecha.invalid && (fecha.touched || fecha.dirty)" class="alert alert-danger">
                                     <div *ngIf="fecha.errors?.['required']">La fecha es requerida.</div>
                                 </div>

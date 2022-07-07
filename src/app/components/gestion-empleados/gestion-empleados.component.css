@@ -81,6 +81,8 @@ p{
 table{
     border: #9e80f1 1px solid;
     border-radius: 10px;
+    width:auto;
+    margin: 10px;
 }
 table th{
     font-family: 'Readex Pro';

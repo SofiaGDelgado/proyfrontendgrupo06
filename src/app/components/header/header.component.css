@@ -40,7 +40,6 @@
   font-size: 15px;
 }
 
-
 .ic{
   font-size: 30px;
   color: gold;
@@ -54,12 +53,6 @@
   border-radius: 80%;
   width: max-content;
 }
-
-.dropdown i{
-  margin-right: 5px;
-}
-
 .dropdown{
   margin-right: 5px;
 }
-

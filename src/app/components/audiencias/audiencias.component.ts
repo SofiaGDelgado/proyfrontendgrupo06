@@ -38,9 +38,10 @@ export class AudienciasComponent implements OnInit {
   }
   getOficinas(){
     this.oficinas = new Array<Oficina>();
-    this.reunionService.getOficinas().subscribe((o) => {
-      this.oficinas = o;
-    })
+    this.reunionService.getOficinas().subscribe(
+      (o) => {
+        this.oficinas = o;
+      })
   }
   cargarReuniones(){
     this.reunionService.getReuniones().subscribe(

@@ -1,4 +1,3 @@
-
 export class Notificacion {
     _id!: string;
     titulo!: string;
@@ -7,8 +6,5 @@ export class Notificacion {
     fecha!:string;
     fechaVencimiento!:string;
 
-    constructor(){
-        
-    }
-
+    constructor(){}
 }

@@ -5,10 +5,10 @@ import { AbstractControl, NG_VALIDATORS } from '@angular/forms';
 function verificarCaracterEspecial(c:AbstractControl){
   if (c.value == null) return null;
   if(/^[a-zA-Z0-9 ]*$/.test(c.value) == false){
-  return {verificarCaracterEspecial: true}
+    return {verificarCaracterEspecial: true}
   }
   return null;
- } 
+} 
 
 @Directive({
   selector: '[verificar-caracter-especial]',
@@ -29,7 +29,7 @@ function verificarPrimeraLetra(c:AbstractControl){
     return {verificarPrimeraLetra: true}
   }
   return null;
- } 
+} 
 
 @Directive({
   selector: '[verificar-primera-letra]',
@@ -42,22 +42,11 @@ export class VerificarPrimeraLetra {
   constructor() {}
 }
 
-/* VERIFICAR COLISICONES ENTRE PARTICIPANTES */
-function verificarParticipantes(c:AbstractControl){
-  if (c.value == null) return null;
-  if(/^[a-zA-Z0-9 ]*$/.test(c.value) == false){
-  return {sinCaracterEspecial: true}
-  }
-  return null;
- } 
-
+/* POR DEFECTO */
 @Directive({
-  selector: '[verificar-participantes]',
-  providers:[
-    {provide: NG_VALIDATORS, multi: true, useValue:verificarCaracterEspecial}
-  ]
+  selector: '[appValidacion]'
 })
 
-export class VerificarParticipantes {
+export class ValidacionDirective {
   constructor() {}
 }
