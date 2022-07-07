@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Empleado } from 'src/app/models/empleado';
 import { Reunion } from 'src/app/models/reunion';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ReunionService } from 'src/app/services/reunion.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-gestion-empleados',
@@ -15,6 +16,8 @@ export class GestionEmpleadosComponent implements OnInit {
 
   empleados!: Array<Empleado>;
   empleado!: Empleado;
+
+ 
 
   constructor(private empleadoServ: EmpleadoService,private router: Router, private toastr: ToastrService, private reunionServ: ReunionService) { 
     
@@ -71,4 +74,6 @@ export class GestionEmpleadosComponent implements OnInit {
   modificarEmpleado(empleado: Empleado){
     this.router.navigate(['principal/Administrador/gestionEmpleados/formEmpleado', empleado._id]);
   }
+
+  
 }

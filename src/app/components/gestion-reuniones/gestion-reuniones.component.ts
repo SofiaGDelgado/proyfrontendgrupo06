@@ -24,7 +24,14 @@ export class GestionReunionesComponent implements OnInit {
   participanteSelected!: string;
   participantes!: Array <Empleado>;
   
-  
+   //Mensaje de confirmacion
+   @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
+
+   modalData!: {
+     nombreReunion: string;
+     r: any;
+   };
+
   constructor(private reunionService: ReunionService, private modal: NgbModal, private router: Router, private toastr: ToastrService, private empleadoServ: EmpleadoService) { }
 
   ngOnInit(): void {
@@ -63,19 +70,26 @@ export class GestionReunionesComponent implements OnInit {
 
   borrarReunion(r: Reunion){
     var id:string= r._id;
+    if( r.estadoReunion != "pendiente"){
+      //Se notifica que la reunion fue suspendida
+    }
+   
     this.reunionService.deleteReunion(id).subscribe(
       result=>{
           this.cargarReuniones();
-          this.toastr.success('Operacion exitosa','Exito',{
+          this.toastr.success('La reunion se ha borrado','Operacion exitosa',{
             extendedTimeOut:3000});
 
       },
       error=>{
-       
           this.toastr.error('Error');        
       }
      );
   }
+  modificarParticipante(){
+
+  }
+  
   verDetalle(r: Reunion){
     this.router.navigate(['detalle/reunion', r._id]);
   }
@@ -113,5 +127,14 @@ export class GestionReunionesComponent implements OnInit {
         }
       }
     })
+  }
+
+  confirmacionBorrar(r: Reunion){
+    this.modalData = {
+      nombreReunion: r.nombre,
+      r: r
+    };
+
+    this.modal.open(this.modalContent, { size: 'md' });
   }
 }
