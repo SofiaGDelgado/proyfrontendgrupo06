@@ -271,8 +271,9 @@ export class RegistroReunionesComponent implements OnInit {
     this.minDate = year + "-" + month + "-" + today;
   }
 
-  //VALIDACION: que el primer time sea menor que el segundo
+  //VALIDACION: que la hora de finalizacion de la reunion sea mayor a la hora de inicio
   compararHoras(){
+    console.log(this.reunion.horaReunion);
     if(this.reunion.horaReunion > this.reunion.horaFinalizacion){
       this.reunionValida = false;
     }
@@ -280,4 +281,6 @@ export class RegistroReunionesComponent implements OnInit {
       this.reunionValida = false;
     }
   }
+
+  //VALIDACION: duracion minima y maxima de las reuniones
 }
