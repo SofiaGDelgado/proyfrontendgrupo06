@@ -61,7 +61,6 @@ export class RegistroReunionesComponent implements OnInit {
     this.tiposReunion = new Array<TipoReunion>();
     this.reunionService.getTiposReunion().subscribe((tR)=> {
       this.tiposReunion = tR;
-      console.log(tR);
     })
   }
 
@@ -146,6 +145,7 @@ export class RegistroReunionesComponent implements OnInit {
   }
 
   registrarReunion(){
+    this.compararTimes();
     this.reunionService.addReunion(this.reunion).subscribe((r) => {
       console.log(r);
       //this.reunion = new Reunion();
@@ -250,6 +250,8 @@ export class RegistroReunionesComponent implements OnInit {
     )
   }
   
+
+  //VALIDACION: que no se puedan crear reuniones antes del dia de la fecha
   desabilitarFechaAnteriores(){
     var date: any = new Date();
     var today: any = date.getDate();
@@ -262,5 +264,12 @@ export class RegistroReunionesComponent implements OnInit {
       month = '0' + month;
     }
     this.minDate = year + "-" + month + "-" + today;
+  }
+
+  //VALIDACION: que el primer time sea menor que el segundo
+  
+  compararTimes(){
+    console.log(this.reunion.horaReunion);
+    console.log(this.reunion.horaFinalizacion);
   }
 }
