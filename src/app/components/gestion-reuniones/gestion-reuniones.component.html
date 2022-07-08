@@ -67,7 +67,7 @@
           <tr *ngFor="let r of reuniones">
             <td>{{ r.nombre }}</td>
             <td>{{ r.descripcion }}</td>
-            <td>{{ r.fecha | date:'shortDate' }}</td>
+            <td>{{ r.fecha }}</td>
             <td>{{ r.horaReunion}} - {{r.horaFinalizacion}}</td>
             <td>{{ r.oficina.nombre}}</td>
             <td>

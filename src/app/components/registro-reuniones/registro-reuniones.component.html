@@ -173,7 +173,7 @@
                 <span class="visually-hidden">Next</span>
             </button>
             <div class="div-btn-agregar">
-                <button  *ngIf="accion=='new'" type="button" id="botonb"(click)="registrarReunion()" class="btn mb-3" [disabled]="form.invalid">REGISTRAR</button> 
+                <button  *ngIf="accion=='new'" type="button" id="botonb"(click)="validacionReunion()" class="btn mb-3" [disabled]="form.invalid">REGISTRAR</button> 
                 <button  *ngIf="accion=='update'" type="button" (click)="modificarReunion()" class="btn btn-modificar mb-3" [disabled]="form.invalid">MODIFICAR</button> 
             </div>
         </div>
