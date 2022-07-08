@@ -27,7 +27,6 @@ export class GestionEmpleadosComponent implements OnInit {
     this.empleados = new Array<Empleado>();
     this.empleadoServ.getEmpleados().subscribe((e) => {
       this.empleados = e;
-      console.log(this.empleados[1].reuniones);
       for(var i=0; i < e.length; i++){
         const reus = new Array<Reunion>();
         for(var r=0; r < e[i].reuniones.length; r++){
@@ -38,7 +37,6 @@ export class GestionEmpleadosComponent implements OnInit {
           });
         }
         this.empleados[i].reuniones = reus;
-        console.log("lista reuniones de " + this.empleados[i].nombre, this.empleados[i].reuniones);
       }
     });
   }
@@ -57,7 +55,7 @@ export class GestionEmpleadosComponent implements OnInit {
         }
       }
       if(pend==true){
-        this.toastr.error('No es posible eliminar este empleado ya que tiene reuniones pendientes');
+        this.toastr.error('No es posible eliminar este empleado ya que tiene reuniones pendientes.');
       }
       else{
         this.empleadoServ.deleteEmpleado(id).subscribe(
@@ -73,7 +71,7 @@ export class GestionEmpleadosComponent implements OnInit {
       }
     }
     else{
-      this.toastr.error('No se puede eliminar administradores');
+      this.toastr.error('No se pueden eliminar administradores.');
     }
   }
 
