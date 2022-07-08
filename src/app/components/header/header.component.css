@@ -30,10 +30,19 @@
 }
 
 .area{
-  width: 300px;
+  width: 400px;
   max-height: 500px;
   font-size: 10px;
   overflow: scroll;
+}
+
+.area strong{
+  color: black;
+  font-size: 15px;
+}
+
+.area p{
+  font-size: 15px;
 }
 
 .lead{

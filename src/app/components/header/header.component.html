@@ -33,15 +33,13 @@
           <ul class="dropdown-menu area dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
               <li *ngIf="!notificacionesActivas.length"><p class="lead text-center">No tienes Notificaciones </p></li>
               <li *ngFor="let n of notificacionesActivas">
-                <div class="card">
-                  <div class="card-header">
-                    <h6>{{n.titulo}}</h6>
+                <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+                  <div class="d-flex w-100 align-items-center justify-content-between">
+                    <strong >{{n.titulo}}</strong>
+                    <p class="text-muted"><i class="bi bi-calendar-event"></i>{{n.fecha}}</p>
                   </div>
-                  <div class="card-body">
-                    <p class="lead">{{n.descripcion}}<br>Estado reunion: {{n.estado}}</p> 
-                    
-                  </div>
-                </div>
+                  <div class="col-10 mb-1 lead">{{n.descripcion}}</div>
+                </a>
               </li>
           </ul>
         </div>

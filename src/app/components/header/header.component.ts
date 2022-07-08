@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { parse } from 'date-fns';
+import { Subject } from 'rxjs';
 import { Empleado } from 'src/app/models/empleado';
 import { Notificacion } from 'src/app/models/notificacion';
 import { EmpleadoService } from 'src/app/services/empleado.service';
@@ -18,13 +19,11 @@ export class HeaderComponent implements OnInit {
   notificacionesActivas!: Array<Notificacion>;
 
   constructor(private router: Router, public loginService: LoginService, private empService: EmpleadoService) {
-    this.empleadoSesion = new Empleado();
-    this.notificacionesActivas = new Array<Notificacion>();
-    this.empleadoEnSesion();
-    
   }
-
-  ngOnInit(): void {}
+  
+  ngOnInit(): void {
+    this.empleadoEnSesion();
+  }
 
   Sesion():void{
     this.router.navigate(['login']);
@@ -37,6 +36,8 @@ export class HeaderComponent implements OnInit {
   }
 
   empleadoEnSesion(){
+    this.empleadoSesion = new Empleado();
+    this.notificacionesActivas = new Array<Notificacion>();
     this.empService.getEmpleados().subscribe((e) => {
       for(var i=0; i < e.length; i++){
         if(e[i].username === this.loginService.userLogged()){
@@ -45,7 +46,6 @@ export class HeaderComponent implements OnInit {
       }
       console.log("en sesion: ", this.empleadoSesion);
 
-      this.notificacionesActivas = new Array<Notificacion>();
     for(var i=0; i < this.empleadoSesion.notificaciones.length; i++){
       
       var fechaNotificacion = this.empleadoSesion.notificaciones[i].fecha.split("-");
@@ -61,12 +61,8 @@ export class HeaderComponent implements OnInit {
           this.notificacionesActivas.push(this.empleadoSesion.notificaciones[i]);
         }
       }
-      
       console.log(this.notificacionesActivas);
     }
-
-      //this.cargarNotificacionesRecientes();
-    });
+    })
   }
-  
 }
