@@ -47,15 +47,17 @@
                                 </div>
                             </div>
                             <div class="col-5 m-auto mb-3" id="item">
-                                <label for="horaReunion" class="form-label">Ingrese Hora Inicio:</label>
-                                <input type="time" id="horaReunion" name="horaReunion" class="form-control" [(ngModel)]="reunion.horaReunion" required #horaReunion="ngModel">
+                                <label for="horaReunion" class="form-label">Ingrese Hora Inicio (08:00 - 20:00): </label><br>
+                                <input id="horaReunion" type="time" name="horaReunion" min="08:00" max="20:00" class="form-control" [(ngModel)]="reunion.horaReunion" required #horaReunion="ngModel">
+                                <span class="validity"></span>
                                 <div *ngIf="horaReunion.invalid && (horaReunion.touched || horaReunion.dirty)" class="alert alert-danger">
                                     <div *ngIf="horaReunion.errors?.['required']">La hora de inicio es requerida.</div>
                                 </div>
                             </div>
                             <div class="col-5 m-auto mb-3" id="item">
-                                <label for="horaFinalizacion" class="form-label">Ingrese Hora Finalizacion: </label>
-                                <input type="time" id="horaFinalizacion" name="horaFinalizacion" class="form-control" [(ngModel)]="reunion.horaFinalizacion" required #horaFinalizacion="ngModel">
+                                <label for="horaFinalizacion" class="form-label">Ingrese Hora Finalizacion (09:00 - 21:00): </label>
+                                <input type="time" id="horaFinalizacion" name="horaFinalizacion" class="form-control" min="09:00" max="21:00" [(ngModel)]="reunion.horaFinalizacion" required #horaFinalizacion="ngModel">
+                                <span class="validity"></span>
                                 <div *ngIf="horaFinalizacion.invalid && (horaFinalizacion.touched || horaFinalizacion.dirty)" class="alert alert-danger">
                                     <div *ngIf="horaFinalizacion.errors?.['required']">La hora de finalizacion es requerida.</div>
                                 </div>
@@ -173,7 +175,7 @@
                 <span class="visually-hidden">Next</span>
             </button>
             <div class="div-btn-agregar">
-                <button  *ngIf="accion=='new'" type="button" id="botonb"(click)="validarColisionOficina()" class="btn mb-3" [disabled]="form.invalid">REGISTRAR</button> 
+                <button  *ngIf="accion=='new'" type="button" id="botonb"(click)="validacionReunion()" class="btn mb-3" [disabled]="form.invalid">REGISTRAR</button> 
                 <button  *ngIf="accion=='update'" type="button" (click)="modificarReunion()" class="btn btn-modificar mb-3" [disabled]="form.invalid">MODIFICAR</button> 
             </div>
         </div>

@@ -110,3 +110,25 @@ form{
     width: 160px;
      background-color: rgb(94, 68, 223);
 }
+
+/* VALIDACIONES DE FECHA */
+
+input[type="number"] {
+    width: 100px;
+  }
+  
+  input + span {
+    padding-right: 30px;
+  }
+  
+  input:invalid+span:after {
+    position: absolute;
+    content: '✖';
+    padding-left: 5px;
+  }
+  
+  input:valid+span:after {
+    position: absolute;
+    content: '✓';
+    padding-left: 5px;
+  }
