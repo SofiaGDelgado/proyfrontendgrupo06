@@ -55,20 +55,36 @@ export class GestionEmpleadosComponent implements OnInit {
   }
 
   borrarEmpleado(empleado: Empleado){
+    var pend = false;
     var id:string= empleado._id;
-    
-    this.empleadoServ.deleteEmpleado(id).subscribe(
-      result=>{
-          this.getEmpleados();
-          this.toastr.success('Operacion exitosa','Exito',{
-            extendedTimeOut:3000});
 
-      },
-      error=>{
-       
-          this.toastr.error('Error');        
+    if(empleado.rol!=='administrador'){
+      for(var i=0; i < empleado.reuniones.length && pend==false; i++){
+        if(empleado.reuniones[i].estadoReunion==='pendiente'){
+          pend=true;
+        }
       }
-     );
+      if(pend==true){
+        this.toastr.error('No es posible eliminar este empleado ya que tiene reuniones pendientes');
+      }
+      else{
+        this.empleadoServ.deleteEmpleado(id).subscribe(
+          result=>{
+              this.getEmpleados();
+              this.toastr.success('Operacion exitosa','Exito',{
+                extendedTimeOut:3000});
+    
+          },
+          error=>{
+           
+              this.toastr.error('Error');        
+          }
+         );
+      }
+    }
+    else{
+      this.toastr.error('No se puede eliminar administradores');
+    }
   }
 
   modificarEmpleado(empleado: Empleado){

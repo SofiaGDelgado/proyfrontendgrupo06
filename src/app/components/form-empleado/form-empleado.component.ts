@@ -46,14 +46,38 @@ export class FormEmpleadoComponent implements OnInit {
   }
 
   altaEmpleado(){
-    this.empleadoServ.altaEmpleado(this.empleado).subscribe(
-      result=> {
-        this.toastr.success('Operacion exitosa');
-      },
-      error=>{
-        this.toastr.error('Operacion invalida');
+    var rep = false;
+    this.empleadoServ.getEmpleados().subscribe((empl)=>{
+      for(var i = 0; i < empl.length && rep==false; i++){
+        if(this.empleado.email === empl[i].email){
+          rep= true;
+          this.toastr.error('Email invalido: Otro empleado se encuentra registrado con' + this.empleado.email);
+        }
+        else{
+          if(this.empleado.legajo === empl[i].legajo){
+            rep=true;
+            this.toastr.error('Legajo Invalido: En uso');
+          }
+          else{
+            if(this.empleado.username === empl[i].username){
+              rep = true;
+              this.toastr.error('Usuario Invalido: En uso');
+            }
+          }
+        }
       }
-    );
+      if(rep !== true){
+        this.empleadoServ.altaEmpleado(this.empleado).subscribe(
+          result=> {
+            this.toastr.success('Operacion exitosa');
+          },
+          error=>{
+            this.toastr.error('Operacion invalida');
+          }
+        );
+      }
+    });
+
   }
 
   cargarEmpleado(id: string){
