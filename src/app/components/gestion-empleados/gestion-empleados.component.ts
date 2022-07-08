@@ -17,23 +17,16 @@ export class GestionEmpleadosComponent implements OnInit {
   empleados!: Array<Empleado>;
   empleado!: Empleado;
 
- 
-
-  constructor(private empleadoServ: EmpleadoService,private router: Router, private toastr: ToastrService, private reunionServ: ReunionService) { 
-    
-  }
+  constructor(private empleadoServ: EmpleadoService,private router: Router, private toastr: ToastrService, private reunionServ: ReunionService) {}
 
   ngOnInit(): void {
     this.getEmpleados();
   }
 
-
   getEmpleados(){
     this.empleados = new Array<Empleado>();
-
     this.empleadoServ.getEmpleados().subscribe((e) => {
       this.empleados = e;
-
       console.log(this.empleados[1].reuniones);
       for(var i=0; i < e.length; i++){
         const reus = new Array<Reunion>();
@@ -57,7 +50,6 @@ export class GestionEmpleadosComponent implements OnInit {
   borrarEmpleado(empleado: Empleado){
     var pend = false;
     var id:string= empleado._id;
-
     if(empleado.rol!=='administrador'){
       for(var i=0; i < empleado.reuniones.length && pend==false; i++){
         if(empleado.reuniones[i].estadoReunion==='pendiente'){
@@ -73,10 +65,8 @@ export class GestionEmpleadosComponent implements OnInit {
               this.getEmpleados();
               this.toastr.success('Operacion exitosa','Exito',{
                 extendedTimeOut:3000});
-    
           },
           error=>{
-           
               this.toastr.error('Error');        
           }
          );
@@ -90,6 +80,4 @@ export class GestionEmpleadosComponent implements OnInit {
   modificarEmpleado(empleado: Empleado){
     this.router.navigate(['principal/Administrador/gestionEmpleados/formEmpleado', empleado._id]);
   }
-
-  
 }
