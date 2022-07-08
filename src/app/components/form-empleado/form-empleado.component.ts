@@ -40,6 +40,7 @@ export class FormEmpleadoComponent implements OnInit {
     });  
   }
 
+  /* DEPENDENCIAS */
   getDependencias(){
     this.dependencias = new Array<Dependencia>();
     this.dependenciaServ.getDependencias().subscribe((dep) =>{
@@ -47,6 +48,7 @@ export class FormEmpleadoComponent implements OnInit {
     })
   }
 
+  /* CRUD EMPLEADOS */
   altaEmpleado(){
     this.empleadoServ.altaEmpleado(this.empleado).subscribe(
       result=> {
@@ -68,14 +70,6 @@ export class FormEmpleadoComponent implements OnInit {
     )
   }
 
-  resetForm(form: NgForm){
-    form.reset();
-  }
-
-  cerrar(){
-    this.router.navigate(['principal/Administrador/gestionEmpleados']);
-  }
-
   actualizarEmpleado(){
     this.empleadoServ.modificarEmpleado(this.empleado).subscribe(
       result=>{
@@ -86,5 +80,13 @@ export class FormEmpleadoComponent implements OnInit {
         this.toastr.error('Operacion invalida');
       }
     )
+  }
+
+  resetForm(form: NgForm){
+    form.reset();
+  }
+
+  cerrar(){
+    this.router.navigate(['principal/Administrador/gestionEmpleados']);
   }
 }
