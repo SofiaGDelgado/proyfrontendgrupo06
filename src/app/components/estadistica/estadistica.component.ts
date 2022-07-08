@@ -9,13 +9,15 @@ import Chart from 'chart.js/auto';
 import { TipoReunion } from 'src/app/models/tipo-reunion';
 
 
+
+
 @Component({
   selector: 'app-estadistica',
   templateUrl: './estadistica.component.html',
   styleUrls: ['./estadistica.component.css']
 })
 export class EstadisticaComponent implements OnInit {
-
+  part!:Array<Empleado>;
   barras!: Chart;
   torta!: Chart;
   oficina!: Oficina;
@@ -36,11 +38,12 @@ export class EstadisticaComponent implements OnInit {
   tiposReu!: Array <TipoReunion>;
   entrada!:string;
   salida!:string;
+  fechas!:Array<Date>;
   constructor(private reunionService: ReunionService, private participanteService: EmpleadoService) { 
    // this.fechasGrafica();
     this.getOficinas();
     this.getReuniones();
-   
+    //this.getParticipantes();
     this.getOficinasReu();
     this.getEmpleados();
     this.getTiposReu();
@@ -51,9 +54,9 @@ export class EstadisticaComponent implements OnInit {
     this.años= new Array<string>();
     this.tiposReu= Array <TipoReunion>();
   this.tipos = new Array<TipoReunion>();
+   this.part= new Array<Empleado>();
+   this.fechas = new Array<Date>();
   
-  
- 
   }
   ngOnInit(): void {
   }
@@ -86,6 +89,7 @@ getEmpleados(){
   this.empleados = new Array<Empleado>();
   this.participanteService.getEmpleados().subscribe((e) => {
     for(var i=0; i < e.length; i++) {
+      
       this.empleados.push(e[i]);
      }
   });
@@ -120,15 +124,22 @@ getTiposReu(){
 
 }
 
-getParticipantes(){
-  this.participantes = new Array<Empleado>();
-  this.reunionService.getReuniones().subscribe((par) => {
-    for(var i=0; i < par.length; i++) {
-      this.participantes.push(par[i].participantes);
-     }
-   });
-   console.log(this.participantes)
- }
+// getParticipantes(){
+//   var  c=0;
+//   this.cantReuniones= new Array<number>();
+//   this.cantReuniones=
+//   this.reunionService.getReuniones().subscribe((r)=>{
+//     for(var i = 0 ; i < r.length; i++){
+//    for(var s = 0; s < r[i].participantes.length; s++){
+//     var t=0;
+//     while(t<this.empleados.length){
+//        if(r[i].participantes[s] === this.empleados[t] ){
+//         this.cantReuniones[t]=this.cantReuniones+c;
+//        }
+// }
+// }
+// }});
+// }
 
 
 
@@ -304,37 +315,31 @@ añoArray(){
 }
 
 
-
 participanteGrafica()
-{this.getParticipantes();
+{//this.getParticipantes();
+  var i=0,c=0, b=0, p=0;
   this.cantReuniones= new Array<number>();
   this.infoReuniones= new Array<string>();
-  console.log(this.participantes);
-  console.log(this.empleados);
-   var i=0,c=0, b=0;
+  var men :Array<Empleado>;
+  console.log(this.participantes[9]);
   this.empleados.forEach((e)=>{
         this.cantReuniones[b]=0;
         this.infoReuniones[b]="Participante: "+e.nombre+" "+e.apellido;
         b++;
    });
-      this.reuniones.forEach((par)=>{
-        par.participantes.forEach((e)=>{
-          console.log(e.legajo)
-          this.empleados.forEach((emp)=>{
-            console.log(  emp._id);
-                if(emp._id==e._id){
-                  c++;
-                  console.log(c);
-                  this.cantReuniones[i]=this.cantReuniones[i]+c;
-            }
-            i++;
-          });
 
-        })
-
-      
-  c=0;i=0;
-  });
+   this.reunionService.getReuniones().subscribe((r)=>{
+    for(var i = 0 ; i < r.length; i++){
+   for(var s = 0; s < r[i].participantes.length; s++){
+    var t=0;
+    while(t<this.empleados.length){
+       if(r[i].participantes[s] === this.empleados[t] ){
+        this.cantReuniones[t]=this.cantReuniones[t]+c;
+       }
+}
+}
+}});
+ 
  console.log(this.cantReuniones,this.infoReuniones);
  this.graficaTorta(this.cantReuniones,this.infoReuniones);
  this.graficaBarra(this.cantReuniones,this.infoReuniones);
@@ -384,78 +389,71 @@ tipoGrafica(){
   
 }
 
-
-
 fechasGrafica(){
+  this.cantReuniones= new Array<number>();
+  this.infoReuniones= new Array<string>();
+  this.cantReuniones=[0,0,0];
+  this.infoReuniones[0] ="Antes de: "+this.entrada ;
+  this.infoReuniones[1] = "Desde: "+this.entrada+ "  Hasta: "+this.salida;
+  this.infoReuniones[2] = "Despues de: "+this.salida  ;
+ // this.infoReuniones[0]="Reuniones entre: "+this.entrada +" y "+ this.salida;
+  var [year, month, day]= this.entrada.split("-");
+  var [yearS, monthS, dayS]= this.salida.split("-");
+  var start= new Date(+year, +month-1, +day);
+  //console.log(start);
+  var end= new Date(+yearS, +monthS-1, +dayS);
+  //console.log(end);
+  var i=0;
+  var c=0;
+  this.reuniones.forEach((reu)=>{
+    //console.log(this.reuniones);
+    var [y, m, d] = reu.fecha.split("-");
+  //  console.log(y, m, d);
+    var fecha =new Date (+y,+m-1,+d);;
+   // console.log(fecha);
+    this.fechas.push(fecha);
+  });
+     this.fechas.forEach((fecha)=>{
 
-  console.log(this.reuniones.length);
-  console.log(this.salida,this.entrada); 
-  var mes:Array<string>;
-  var mes2:Array<string>;
-  var anio:Array<string>;
-  var dias:Array<string>;
-  var posicionE:Array<number>;
-  posicionE=[0,0,0]
-  var posicionS:Array<number>;
-  posicionS=[0,0,0]
-  mes=["01","02","03","04","05","06","07","08","09","10","11","12"];
-  mes2=["Enero: ","Febrero: ","Marzo: ","Abril: ","Mayo: ","Junio: ","Julio: ","Agosto: ","Septiembre: ","Octubre: ","Noviembre: ","Diciembre: "];
-  dias=["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"];
-  anio=["2021","2022","2023","2024","2025"]   
-  this.cantReuniones=[0,0,0,0,0,0,0,0,0,0,0,0];
-  this.infoReuniones=["","","","","","","","","","","",""];
-   //console.log(this.meses);
-    //console.log(this.meses);
-   var f = this.entrada.split("-");
-   //console.log(f);
-   var eAño=f[0];
-   var eMes=f[1];     
-   var eDia=f[2];
-   var t = this.salida.split("-");
-   //console.log(f);
-   var sAño=t[0];
-   var sMes=t[1];
-   var sDia=t[2];
-    
-   for(var i=0; i<anio.length; i++){
-    if(eAño==anio[i]){
-      for(var j=0; j<mes.length; j++){
-        if(eMes==mes[j]){
-          for(var k=0; k<dias.length; k++) {
-            if(eDia==dias[k]){
-                posicionE[0]=i;
-                posicionE[1]=j;
-                posicionE[2]=k;
-            }
-          }
-      }
-    }
+      if(new Date(fecha).getFullYear()<=new Date(start).getFullYear() &&
+       new Date(fecha).getMonth()<=new Date(start).getMonth()&&
+       new Date(fecha).getDate()<=new Date(start).getDate()){
 
-    }
-   }
-   for(var i=0; i<anio.length; i++){
-    if(sAño==anio[i]){
-      for(var j=0; j<mes.length; j++){
-        if(sMes==mes[j]){
-          for(var k=0; k<dias.length; k++) {
-            if(sDia==dias[k]){
-                posicionS[0]=i;
-                posicionS[1]=j;
-                posicionS[2]=k;
-            }
-          }
-      }
-    }
-
-    }
-   }   
+          //   console.log(fecha.getFullYear(),fecha.getMonth(),fecha.getDate())
+           //  console.log(start.getFullYear(),start.getMonth(),start.getDate())
+           //  console.log(end.getFullYear(),end.getMonth(),end.getDate())
+       c++;  this.cantReuniones[0]=this.cantReuniones[0] +c;  i++;    
+     }
+         
       
-  console.log(posicionE,posicionS); 
-   
-   console.log(eAño, eMes, eDia, sAño,sMes,sDia );
+      if((new Date(fecha).getFullYear()>=new Date(start).getFullYear() &&
+         new Date(fecha).getMonth()>=new Date(start).getMonth() &&
+          new Date(fecha).getDate()>=new Date(start).getDate()) && 
+          (new Date(fecha).getFullYear()<=new Date(end).getFullYear() &&
+           new Date(fecha).getMonth()<=new Date(end).getMonth() &&
+            new Date(fecha).getDate()<=new Date(end).getDate())){
 
-  // for(var s=posicionE[0];s<posicionS[0];s++){
-   
+           //   console.log(fecha.getFullYear(),fecha.getMonth(),fecha.getDate())
+            //  console.log(start.getFullYear(),start.getMonth(),start.getDate())
+            //  console.log(end.getFullYear(),end.getMonth(),end.getDate())
+        c++;  this.cantReuniones[1]=this.cantReuniones[1] +c;  i++;    
+      }
+
+      if(new Date(fecha).getFullYear()>=new Date(end).getFullYear() &&
+       new Date(fecha).getMonth()>=new Date(end).getMonth() &&
+        new Date(fecha).getDate()>=new Date(end).getDate()){
+        
+          //   console.log(fecha.getFullYear(),fecha.getMonth(),fecha.getDate())
+            //  console.log(start.getFullYear(),start.getMonth(),start.getDate())
+            //  console.log(end.getFullYear(),end.getMonth(),end.getDate())
+        c++;  this.cantReuniones[2]=this.cantReuniones[2] +c;  i++;    
+      }
+
+      c=0;  
+      i=0;
+    
+    });
+
   console.log(this.cantReuniones);
  this.graficaBarra(this.cantReuniones,this.infoReuniones);
  this.graficaTorta(this.cantReuniones,this.infoReuniones);
