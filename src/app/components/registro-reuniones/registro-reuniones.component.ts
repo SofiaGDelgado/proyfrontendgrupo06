@@ -121,9 +121,8 @@ export class RegistroReunionesComponent implements OnInit {
   registrarReunion(){
     this.compararHoras();
     if (this.reunionValida == false){
-      alert("La hora de finalizacion de la reunion tiene que ser mayor que la de inicio");    
+      this.toastr.error('La hora de finalizacion de la reunion tiene que ser mayor que la de inicio');
     } else{
-      
       this.reunionService.addReunion(this.reunion).subscribe((r) => {
         console.log(r);
         //this.reunion = new Reunion();
@@ -208,7 +207,7 @@ export class RegistroReunionesComponent implements OnInit {
   validacionReunion(){
     this.compararHoras();
     if (this.reunionValida == false ){
-      this.toastr.error('La hora de finalizacion de la reunion tiene que ser mayor que la de inicio');
+      console.log('Error en los horarios.')
     }
     this.validarColisionOficina();
   }

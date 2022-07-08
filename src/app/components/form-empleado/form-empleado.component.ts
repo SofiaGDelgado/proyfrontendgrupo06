@@ -17,6 +17,8 @@ export class FormEmpleadoComponent implements OnInit {
   empleado!: Empleado;
   dependencias!: Array<Dependencia>;
   accion: string = "new";
+  tamMaxTexto: number = 4;
+  tamMinTexto: number = 4;
 
   constructor(private empleadoServ: EmpleadoService, private dependenciaServ: DependenciaService,  private router:Router, private activatedRoute: ActivatedRoute, private toastr: ToastrService) { 
     this.getDependencias();
