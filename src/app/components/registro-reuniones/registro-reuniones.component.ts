@@ -158,9 +158,57 @@ export class RegistroReunionesComponent implements OnInit {
     this.generarQR(url);
     //this.generarPDF();
     console.log("reunion luego de modificar: ", this.reunion);
-    this.router.navigate(['principal/Administrador/gestionReuniones']);
+    //this.router.navigate(['principal/Administrador/gestionReuniones']);
   }
 
+  validarColisionOficina(){
+    //console.log(this.reunion.oficina);
+    var reunionesOficina: Array <Reunion>= new Array <Reunion>();
+    var [añoReunion, mesReunion, diaReunion]= this.reunion.fecha.split('-');
+    var [horaInicio, minutosInicio]= this.reunion.horaReunion.split(':');
+    var [horaFin, minutosFin]= this.reunion.horaFinalizacion.split(':');
+    
+    this.reunionService.getReunionesOficina(this.reunion.oficina._id).subscribe(
+      result=>{
+        Object.assign(reunionesOficina, result);
+        //console.log(reunionesOficina);
+        reunionesOficina.forEach((element:any)=>{
+            //Se comprueba la fecha
+            var [añoReunionOficina, mesReunionOficina, diaReunionOficina]= element.fecha.split('-');
+            if(añoReunion == añoReunionOficina && mesReunion == mesReunionOficina && diaReunion == diaReunionOficina){
+             
+              console.log("Reunion oficina mismo dia");
+
+              var [horaInicioAux, minutosInicioAux]= element.horaReunion.split(':');
+              var [horaFinAux, minutosFinAux]= element.horaFinalizacion.split(':');
+            
+              if((horaInicio >= horaInicioAux && minutosInicio >= minutosInicioAux) && (horaFin <= horaFinAux)){
+                console.log("Horario en rango de horario");
+
+              }else{
+                if((horaInicio <= horaInicioAux || minutosInicio == minutosInicioAux) && (horaFin >= horaFinAux || minutosFin == minutosFinAux)){
+                  console.log("Horario contiene horario oficina");
+                }
+                else{
+                  console.log("Reunion en oficina valida");
+                }
+                
+              }
+              
+                
+            }
+             
+            
+          });
+         
+         
+
+        },
+        error=>{}
+    );
+      
+    
+  }
   irDetalle(id: string){
     this.router.navigate(['detalle/reunion', id]);
   }
