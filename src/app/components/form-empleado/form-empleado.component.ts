@@ -17,6 +17,8 @@ export class FormEmpleadoComponent implements OnInit {
   empleado!: Empleado;
   dependencias!: Array<Dependencia>;
   accion: string = "new";
+  tamMaxTexto: number = 4;
+  tamMinTexto: number = 4;
 
   constructor(private empleadoServ: EmpleadoService, private dependenciaServ: DependenciaService,  private router:Router, private activatedRoute: ActivatedRoute, private toastr: ToastrService) { 
     this.getDependencias();
@@ -38,6 +40,7 @@ export class FormEmpleadoComponent implements OnInit {
     });  
   }
 
+  /* DEPENDENCIAS */
   getDependencias(){
     this.dependencias = new Array<Dependencia>();
     this.dependenciaServ.getDependencias().subscribe((dep) =>{
@@ -45,6 +48,7 @@ export class FormEmpleadoComponent implements OnInit {
     })
   }
 
+  /* CRUD EMPLEADOS */
   altaEmpleado(){
     var rep = false;
     this.empleadoServ.getEmpleados().subscribe((empl)=>{
@@ -90,14 +94,6 @@ export class FormEmpleadoComponent implements OnInit {
     )
   }
 
-  resetForm(form: NgForm){
-    form.reset();
-  }
-
-  cerrar(){
-    this.router.navigate(['principal/Administrador/gestionEmpleados']);
-  }
-
   actualizarEmpleado(){
     this.empleadoServ.modificarEmpleado(this.empleado).subscribe(
       result=>{
@@ -108,5 +104,13 @@ export class FormEmpleadoComponent implements OnInit {
         this.toastr.error('Operacion invalida');
       }
     )
+  }
+
+  resetForm(form: NgForm){
+    form.reset();
+  }
+
+  cerrar(){
+    this.router.navigate(['principal/Administrador/gestionEmpleados']);
   }
 }

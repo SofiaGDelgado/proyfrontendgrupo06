@@ -7,9 +7,9 @@
             <!-- Breadcrumb -->
             <nav class="d-flex">
               <h6 class="mb-0">
-                <a [routerLink]="['principal/Administrador']" class="text-reset">Home</a>
+                <a routerLink="/principal/Administrador" class="text-reset">Home</a>
                 <span>/</span>
-                <a [routerLink]="['principal/Administrador/gestionEmpleados/']">Gestion Empleados</a>
+                <a routerLink="/principal/Administrador/gestionEmpleados">Gestion Empleados</a>
                 <span>/</span>
                 <a href="#">Formulario Empleado</a>
               </h6>
@@ -56,9 +56,10 @@
         </div>
         <div class="col-12" id="item">
             <label for="legajo" class="form-label">Legajo: </label>
-            <input type="text" id="legajo" name="legajo" class="form-control" [(ngModel)]="empleado.legajo" required #legajo="ngModel" [disabled]="accion=='update'">
+            <input type="text" id="legajo" name="legajo" class="form-control" minlength={{tamMinTexto}} maxlength={{tamMaxTexto}} [(ngModel)]="empleado.legajo" required #legajo="ngModel" [disabled]="accion=='update'">
             <div *ngIf="legajo.invalid && (legajo.touched || legajo.dirty)" class="alert alert-danger">
                 <div *ngIf="legajo.errors?.['required']">El legajo es requerido.</div>
+                <div *ngIf="legajo.errors?.['minlength']">El legajo tiene que tener {{legajo.errors?.['minlength'].requiredLength}} caracteres </div>
             </div>
         </div>
         <div class="col-12" id="item">
