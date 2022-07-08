@@ -84,7 +84,8 @@ export class RegistroReunionesComponent implements OnInit {
     })
   }
 
-  seleccionarParticipante(p: Empleado){
+  seleccionarParticipante(p: Empleado, $event: MouseEvent){
+    ($event.target as HTMLButtonElement).disabled = true;
     this.reunion.participantes.push(p);
   }
 
@@ -111,8 +112,6 @@ export class RegistroReunionesComponent implements OnInit {
       console.log(rec);
     })
   }
-
-
 
   cargarReunionOficina(){
     this.reunion.oficina.reuniones.push(this.reunion);
