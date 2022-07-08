@@ -86,7 +86,8 @@ export class RegistroReunionesComponent implements OnInit {
     })
   }
 
-  seleccionarParticipante(p: Empleado){
+  seleccionarParticipante(p: Empleado, $event: MouseEvent){
+    ($event.target as HTMLButtonElement).disabled = true;
     this.reunion.participantes.push(p);
   }
 
@@ -113,8 +114,6 @@ export class RegistroReunionesComponent implements OnInit {
       console.log(rec);
     })
   }
-
-
 
   cargarReunionOficina(){
     this.reunion.oficina.reuniones.push(this.reunion);
@@ -338,7 +337,7 @@ export class RegistroReunionesComponent implements OnInit {
     this.minDate = year + "-" + month + "-" + today;
   }
 
-  //VALIDACION: que el primer time sea menor que el segundo
+  //VALIDACION: que la hora de finalizacion de la reunion sea mayor a la hora de inicio
   compararHoras(){
     this.reunionValida=true;
     if(this.reunion.horaReunion > this.reunion.horaFinalizacion){
@@ -348,4 +347,6 @@ export class RegistroReunionesComponent implements OnInit {
       this.reunionValida = false;
     }
   }
+
+  //VALIDACION: duracion minima y maxima de las reuniones
 }
