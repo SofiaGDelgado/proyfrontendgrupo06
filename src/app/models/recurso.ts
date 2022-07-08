@@ -4,8 +4,5 @@ export class Recurso {
     archivoUrl!: string; 
     tipo!: string;
 
-    constructor(){
-
-    }
-
+    constructor(){}
 }

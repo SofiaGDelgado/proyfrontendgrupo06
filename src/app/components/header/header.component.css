@@ -14,7 +14,7 @@
 .navbar{
   background-color: #6761e2ab;
 }
-.btn{
+.t{
   font-family: 'Readex Pro', sans-serif;
   background-color: #06ffeeb9;
   color: #ffffff;
@@ -27,4 +27,41 @@
   font-family: 'Readex Pro', sans-serif;
   color: #ffffff;
   font-size: 20px;
+}
+
+.area{
+  width: 400px;
+  max-height: 500px;
+  font-size: 10px;
+  overflow: scroll;
+}
+
+.area strong{
+  color: black;
+  font-size: 15px;
+}
+
+.area p{
+  font-size: 15px;
+}
+
+.lead{
+  font-size: 15px;
+}
+
+.ic{
+  font-size: 30px;
+  color: gold;
+}
+
+.ic span{
+  font-size: 12px;
+}
+
+.b{
+  border-radius: 80%;
+  width: max-content;
+}
+.dropdown{
+  margin-right: 5px;
 }

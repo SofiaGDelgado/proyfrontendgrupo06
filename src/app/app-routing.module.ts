@@ -13,13 +13,18 @@ import { AgendaComponent } from './components/agenda/agenda.component';
 import { AudienciasComponent } from './components/audiencias/audiencias.component';
 import { FormEmpleadoComponent } from './components/form-empleado/form-empleado.component';
 import { DetalleReunionComponent } from './components/detalle-reunion/detalle-reunion.component';
+<<<<<<< HEAD
+=======
+import { GestionReunionesComponent } from './components/gestion-reuniones/gestion-reuniones.component';
+>>>>>>> 3390c04bb03262ae5f2f116d492b006f9eab7817
 
 const routes: Routes = [
     {path: 'login', component: LoginComponent, pathMatch: 'full' },
     {path: 'principal', component: PrincipalComponent, pathMatch: 'full' },
     {path: 'detalle/reunion/:id', component: DetalleReunionComponent, pathMatch: 'full'},
     {path: 'principal/Administrador', component: PrincipalAdmiComponent, pathMatch: 'full' },
-    {path: 'principal/Administrador/registroReuniones', component: RegistroReunionesComponent, pathMatch: 'full' },
+    {path: 'principal/Administrador/gestionReuniones/formReunion/:id', component: RegistroReunionesComponent, pathMatch: 'full' },
+    {path: 'principal/Administrador/gestionReuniones', component: GestionReunionesComponent, pathMatch: 'full' },
     {path: 'principal/Administrador/estadistica', component: EstadisticaComponent, pathMatch: 'full' },
     {path: 'principal/Administrador/gestionEmpleados', component: GestionEmpleadosComponent, pathMatch: 'full' },
     {path: 'principal/Administrador/gestionEmpleados/formEmpleado/:id', component: FormEmpleadoComponent, pathMatch:'full'},
@@ -27,9 +32,13 @@ const routes: Routes = [
     {path: 'principal/Participante', component: PrincipalParticipanteComponent, pathMatch: 'full' },
     {path: 'principal/Participante/audiencias', component: AudienciasComponent, pathMatch: 'full' },
     {path: 'principal/Participante/agenda', component: AgendaComponent, pathMatch: 'full' },
+<<<<<<< HEAD
 
   
   {path: '**', pathMatch: 'prefix', redirectTo: 'principal',},
+=======
+    {path: '**', pathMatch: 'prefix', redirectTo: 'principal',},
+>>>>>>> 3390c04bb03262ae5f2f116d492b006f9eab7817
 ];
 
 @NgModule({

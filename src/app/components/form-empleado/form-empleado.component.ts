@@ -17,6 +17,8 @@ export class FormEmpleadoComponent implements OnInit {
   empleado!: Empleado;
   dependencias!: Array<Dependencia>;
   accion: string = "new";
+  tamMaxTexto: number = 4;
+  tamMinTexto: number = 4;
 
   constructor(private empleadoServ: EmpleadoService, private dependenciaServ: DependenciaService,  private router:Router, private activatedRoute: ActivatedRoute, private toastr: ToastrService) { 
     this.getDependencias();
@@ -38,6 +40,7 @@ export class FormEmpleadoComponent implements OnInit {
     });  
   }
 
+  /* DEPENDENCIAS */
   getDependencias(){
     this.dependencias = new Array<Dependencia>();
     this.dependenciaServ.getDependencias().subscribe((dep) =>{
@@ -45,17 +48,40 @@ export class FormEmpleadoComponent implements OnInit {
     })
   }
 
+  /* CRUD EMPLEADOS */
   altaEmpleado(){
-    this.empleadoServ.altaEmpleado(this.empleado).subscribe(
-      result=> {
-        this.toastr.success('Operacion exitosa');
-    },
-    error=>{
-    
-     this.toastr.error('Operacion invalida');
-    
-    }
-    );
+    var rep = false;
+    this.empleadoServ.getEmpleados().subscribe((empl)=>{
+      for(var i = 0; i < empl.length && rep==false; i++){
+        if(this.empleado.email === empl[i].email){
+          rep= true;
+          this.toastr.error('Email invalido: Otro empleado se encuentra registrado con' + this.empleado.email);
+        }
+        else{
+          if(this.empleado.legajo === empl[i].legajo){
+            rep=true;
+            this.toastr.error('Legajo Invalido: En uso');
+          }
+          else{
+            if(this.empleado.username === empl[i].username){
+              rep = true;
+              this.toastr.error('Usuario Invalido: En uso');
+            }
+          }
+        }
+      }
+      if(rep !== true){
+        this.empleadoServ.altaEmpleado(this.empleado).subscribe(
+          result=> {
+            this.toastr.success('Operacion exitosa');
+          },
+          error=>{
+            this.toastr.error('Operacion invalida');
+          }
+        );
+      }
+    });
+
   }
 
   cargarEmpleado(id: string){
@@ -64,31 +90,27 @@ export class FormEmpleadoComponent implements OnInit {
         this.empleado= new Empleado();
         Object.assign(this.empleado, result);
         this.empleado.dependencia= this.dependencias.find((item)=>(item._id == this.empleado.dependencia._id ))!;
-        
       },
-      error=>{
-
-      }
     )
   }
-  resetForm(form: NgForm){
-    form.reset();
-  }
-  cerrar(){
-    this.router.navigate(['principal/Administrador/gestionEmpleados']);
-  }
+
   actualizarEmpleado(){
     this.empleadoServ.modificarEmpleado(this.empleado).subscribe(
       result=>{
         console.log(result);
         this.toastr.success('Operacion exitosa');
-       
       },
       error=>{
         this.toastr.error('Operacion invalida');
-        
-        
       }
     )
+  }
+
+  resetForm(form: NgForm){
+    form.reset();
+  }
+
+  cerrar(){
+    this.router.navigate(['principal/Administrador/gestionEmpleados']);
   }
 }

@@ -16,16 +16,25 @@
 .text-center{
   margin-top: 60px;
 }
+.img-fluid{
+  height: 300px;
+}
 .card{
   margin: 5px;
-  height: 450px;
-  justify-content: center;
+  height: 500px;
+  width: auto;
+ 
   text-align: center;
-  align-items: center;
+ 
 }
 #container-cards{
-  width:fit-content;
+  width:auto;
   height: auto;
+  
+}
+.row{
+  justify-content: center;
+  align-content: center;
 }
 #flecha{
   justify-content: center;

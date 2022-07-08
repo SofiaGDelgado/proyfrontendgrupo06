@@ -10,6 +10,7 @@ import { Reunion } from 'src/app/models/reunion';
 import { ReunionService } from 'src/app/services/reunion.service';
 import { Oficina } from 'src/app/models/oficina';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 //Colores para los eventos
 const colors: any = {
@@ -48,6 +49,7 @@ export class CalendarComponent {
     inicio: Date;
     fin: any;
     codigoQr: string;
+    id:string;
   };
 
   //Variables para la vista
@@ -68,8 +70,10 @@ export class CalendarComponent {
 
   //Aca se agregan los eventos
   events!: CalendarEvent[];
-    
-  constructor(private modal: NgbModal, private reunionService: ReunionService, private toastr: ToastrService) {
+
+  idReunion!: string;
+
+  constructor(private modal: NgbModal, private reunionService: ReunionService, private toastr: ToastrService, private router: Router) {
    
   }
 
@@ -82,7 +86,7 @@ export class CalendarComponent {
   // Cargar reuniones en calendario
   cargarReuniones(): void{
     
-    var reunion: Reunion;
+    //var reunion: Reunion;
 
     this.reunionService.getReuniones().subscribe(
       result=>{
@@ -109,7 +113,7 @@ export class CalendarComponent {
     var[seconds]='00';
     var[seconds1]='00';
     const eventoAux: CalendarEvent={
-       title: reunion.nombre,
+              title: reunion.nombre,
               start: new Date(+year, +month-1, +day, +hours, +minutes, +seconds),
               end: new Date(+year, +month-1, +day, +hours1, +minutes1, +seconds1),
               color:colors.blue,
@@ -143,9 +147,6 @@ export class CalendarComponent {
       }
     );
   }
-aux(){
-  console.log(this.oficina);
-}
   //Metodo cargar select de Oficinas
   cargarOficinas(){
     this.oficinas= new Array <Oficina>();
@@ -206,8 +207,10 @@ aux(){
       nombre: event.title,
       inicio: event.start,
       fin: event.end,
-      codigoQr: event.meta.codigoQr
+      codigoQr: event.meta.reunion.codigoQr,
+      id: event.meta.reunion._id
     };
+    this.idReunion= this.modalData.id;
     this.modal.open(this.modalContent, { size: 'md' });
   }
 
@@ -219,4 +222,8 @@ aux(){
     this.activeDayIsOpen = false;
   }
   
+  verDetalle(){
+    
+    this.router.navigate(['detalle/reunion', this.idReunion]);
+  }
 }

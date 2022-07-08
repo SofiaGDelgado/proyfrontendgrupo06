@@ -30,10 +30,17 @@
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/ngx-toastr/toastr.css"
+<<<<<<< HEAD
           ],
           "scripts": [
+=======
+              
+            ],
+            "scripts": [
+>>>>>>> 3390c04bb03262ae5f2f116d492b006f9eab7817
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-          ]
+              
+            ]
           },
           "configurations": {
             "production": {

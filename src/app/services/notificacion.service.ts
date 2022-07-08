@@ -33,4 +33,14 @@ export class NotificacionService {
 
     return this.http.get(this.urlBase, httpOption);
   }
+
+  getNotificacion(id: string): Observable<any>{
+    const httpOption = {
+      headers: new HttpHeaders({
+        
+      })
+    }
+
+    return this.http.get(this.urlBase + id, httpOption);
+  }
 }

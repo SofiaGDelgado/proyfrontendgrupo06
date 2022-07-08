@@ -6,6 +6,10 @@ import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent,Cale
 import { Reunion } from 'src/app/models/reunion';
 import { ReunionService } from 'src/app/services/reunion.service';
 import { LoginService } from 'src/app/services/login.service';
+<<<<<<< HEAD
+=======
+import { Router } from '@angular/router';
+>>>>>>> 3390c04bb03262ae5f2f116d492b006f9eab7817
 
 const colors: any = {
   red: {
@@ -47,12 +51,17 @@ export class AgendaComponent implements OnInit {
     inicio: Date;
     fin: any;
     codigoQr: string;
+<<<<<<< HEAD
+=======
+    id: string;
+>>>>>>> 3390c04bb03262ae5f2f116d492b006f9eab7817
   };
 
  
   refresh = new Subject<void>();
 
   //Aca se agregan los eventos
+<<<<<<< HEAD
   events: CalendarEvent[]= [
     {
       title: 'Reunion equipo A',
@@ -94,6 +103,33 @@ export class AgendaComponent implements OnInit {
           Object.assign(reunion, element);
           
           this.agregarEvento(reunion);
+=======
+  events!: CalendarEvent[];
+  
+  activeDayIsOpen: boolean = false;
+
+  idEmpleado!: any;
+
+  idReunion!:string;
+
+  constructor(private modal: NgbModal, private reunionService: ReunionService, private loginService: LoginService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.cargarReuniones();
+   
+  }
+
+  cargarReuniones(): void{
+    this.obtenerId();
+    this.reunionService.getReunionesEmpleado(this.idEmpleado).subscribe(
+      result=>{
+        var reunion= new Reunion();
+        this.events=[];
+        result.forEach((element:any) => {
+          Object.assign(reunion, element);
+          this.agregarEvento(reunion);
+          reunion= new Reunion();
+>>>>>>> 3390c04bb03262ae5f2f116d492b006f9eab7817
         });
         console.log(this.events);
         this.refresh.next();
@@ -149,8 +185,16 @@ export class AgendaComponent implements OnInit {
       nombre: event.title,
       inicio: event.start,
       fin: event.end,
+<<<<<<< HEAD
       codigoQr: event.meta.codigoQr
     };
+=======
+      codigoQr: event.meta.reunion.codigoQr,
+      id:event.meta.reunion._id
+    };
+    console.log(this.modalData);
+    this.idReunion= this.modalData.id;
+>>>>>>> 3390c04bb03262ae5f2f116d492b006f9eab7817
     this.modal.open(this.modalContent, { size: 'md' });
   }
 
@@ -163,4 +207,8 @@ export class AgendaComponent implements OnInit {
     this.activeDayIsOpen = false;
   }
   
+  verDetalle(){
+    
+    this.router.navigate(['detalle/reunion', this.idReunion]);
+  }
 }

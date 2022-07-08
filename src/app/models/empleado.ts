@@ -12,10 +12,10 @@ export class Empleado {
     username!: string;
     password !: string;
     rol !:string;
+    estadoEmpleado!: boolean;
     reuniones!: Array<Reunion>;
     notificaciones!: Array <Notificacion> ;
     cantidadReuniones!: number;
-    estadoEmpleado!: boolean;
 
     constructor(){
         this.dependencia = new Dependencia();
@@ -24,5 +24,4 @@ export class Empleado {
         this.notificaciones = new Array<Notificacion>();
         this.reuniones = new Array<Reunion>();
     }
-
 }
